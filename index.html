@@ -474,15 +474,15 @@
                 { year: '2º Ano (2029)', EF1: 326, EF2: 420, EM: 320 }, // 1066
                 { year: '3º Ano (2030)', EF1: 348, EF2: 448, EM: 510 }, // 1306
                 { year: '4º Ano (2031)', EF1: 370, EF2: 476, EM: 540 }, // 1386
-                { year: '5º Ano (2032)', EF1: 410, EF2: 520, EM: 570 }, // Sum = 1500
+                { year: '5º Ano (2032)', EF1: 413, EF2: 532, EM: 570 }, // Sum = 1515
             ];
 
             const limits = { 'Todos': 1595, 'EF1': 435, 'EF2': 560, 'EM': 600 };
             const activeLimit = limits[selectedTab];
 
             const activeTarget = selectedTab === 'Todos' ? 1500 : 
-                                selectedTab === 'EF1' ? 410 : 
-                                selectedTab === 'EF2' ? 520 : 570;
+                                selectedTab === 'EF1' ? 413 : 
+                                selectedTab === 'EF2' ? 532 : 570;
 
             const processedData = baseData.map(item => {
                 let val = selectedTab === 'Todos' ? item.EF1 + item.EF2 + item.EM : item[selectedTab];
@@ -496,62 +496,114 @@
             return (
                 <div className="slide-content flex flex-col h-full fade-in">
                     <IntroParagraph 
-                        title="Projeção de Matrículas & Rampa de Ocupação" 
-                        text="O estudo de viabilidade estipulou uma capacidade máxima instalada de 1.595 alunos. A operação inicia robusta no 1º Ano com 750 matrículas focada nos ciclos fundamentais, completando o alvo operacional em maturidade já no 5º ano via expansão orgânica do Ensino Médio."
-                        highlight="Crescimento Modular Acelerado."
+                        title="Projeção de Matrículas & Mix de Produtos" 
+                        text="O projeto prevê uma capacidade instalada de 1.595 alunos, iniciando em 2028 com 750 matrículas e atingindo maturidade no 5º ano. Para maximizar a captação e adaptação das famílias, a escola adotará uma arquitetura flexível de produtos."
+                        highlight="Crescimento Modular."
                     />
 
-                    <div className="flex flex-wrap gap-2 md:gap-3 mb-6 shrink-0 z-20 relative">
-                        {[
-                            { id: 'Todos', label: 'Visão Geral (1.595)' },
-                            { id: 'EF1', label: 'Fund. I (435)' },
-                            { id: 'EF2', label: 'Fund. II (560)' },
-                            { id: 'EM', label: 'Ensino Médio (600)' }
-                        ].map(tab => (
-                            <button 
-                                key={tab.id} onClick={() => setSelectedTab(tab.id)}
-                                className={`px-4 py-2 rounded-full text-xs md:text-sm font-black transition-all border-2 ${selectedTab === tab.id ? 'bg-sesi-dark border-sesi-dark text-white shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'}`}
-                            >
-                                {tab.label}
-                            </button>
-                        ))}
-                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
+                        
+                        {/* Coluna Esquerda - Gráfico */}
+                        <div className="lg:col-span-7 flex flex-col min-h-0 h-full">
+                            <div className="flex flex-wrap gap-2 md:gap-3 mb-4 shrink-0 z-20 relative">
+                                {[
+                                    { id: 'Todos', label: 'Visão Geral (1.595)' },
+                                    { id: 'EF1', label: 'Fund. I (435)' },
+                                    { id: 'EF2', label: 'Fund. II (560)' },
+                                    { id: 'EM', label: 'Ensino Médio (600)' }
+                                ].map(tab => (
+                                    <button 
+                                        key={tab.id} onClick={() => setSelectedTab(tab.id)}
+                                        className={`px-3 py-1.5 rounded-full text-xs md:text-sm font-black transition-all border-2 ${selectedTab === tab.id ? 'bg-sesi-dark border-sesi-dark text-white shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'}`}
+                                    >
+                                        {tab.label}
+                                    </button>
+                                ))}
+                            </div>
 
-                    <Card delay="0.1s" bg="bg-slate-50" className="flex-grow flex flex-col relative overflow-hidden pt-16 pb-8" key={selectedTab}>
-                        
-                        {/* Linhas de Referência */}
-                        <div className="absolute w-full border-t-[2px] border-dashed border-rose-300 left-0 z-0 transition-all duration-700" style={{ top: '32px' }}>
-                            <span className="absolute -top-3 right-4 text-[10px] lg:text-xs font-black text-white bg-rose-500 px-2 py-0.5 rounded shadow-sm">Instalada: {activeLimit}</span>
-                        </div>
-                        
-                        <div className="absolute w-full border-t-[2px] border-dotted border-emerald-400 left-0 z-0 transition-all duration-700" style={{ top: `calc(32px + ${(1 - (activeTarget / activeLimit)) * (100 - 32)}%)` }}>
-                            <span className="absolute -top-3 right-4 text-[10px] lg:text-[11px] font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded shadow-sm border border-emerald-200">Alvo {selectedTab === 'Todos' ? '(94%)' : ''}: {activeTarget}</span>
-                        </div>
-                        
-                        {/* Área do Gráfico */}
-                        <div className="relative flex-grow flex items-end justify-between px-2 md:px-8 h-full min-h-[250px] z-10 mt-8 border-b border-slate-200">
-                            {processedData.map((item, index) => (
-                                <div key={index} className="flex flex-col items-center justify-end w-1/5 h-full group">
-                                    
-                                    {/* Rótulo e Barra formam um bloco coeso */}
-                                    <div className="w-full flex flex-col items-center justify-end h-full transition-all duration-1000 ease-out" style={{ height: `${item.percentage}%` }}>
-                                        
-                                        <div className="bg-white px-2 lg:px-4 py-1.5 rounded-xl shadow-md border border-slate-200 z-20 flex flex-col items-center mb-2 whitespace-nowrap">
-                                            <span className="text-lg lg:text-2xl font-black text-slate-800 leading-none">{item.students}</span>
-                                        </div>
-                                        
-                                        <div className="w-12 md:w-20 lg:w-28 bg-gradient-to-t from-sesi-dark to-sesi-blue rounded-t-xl shadow-[0_-4px_15px_rgba(0,85,164,0.3)] border border-blue-400/30 border-b-0 w-full h-full"></div>
-                                    </div>
-                                    
-                                    {/* Rótulo do Eixo X - Fixo no chão */}
-                                    <div className="flex flex-col items-center w-full mt-3 h-10 shrink-0">
-                                        <span className="font-bold text-slate-700 text-xs md:text-sm whitespace-nowrap">{item.year}</span>
-                                        {selectedTab === 'Todos' && <span className="text-[9px] text-slate-500 font-bold bg-white px-1.5 py-0.5 rounded-md border border-slate-200 mt-1 whitespace-nowrap">{item.percentage.toFixed(0)}% ocup.</span>}
-                                    </div>
+                            <Card delay="0.1s" bg="bg-slate-50" className="flex-grow flex flex-col relative overflow-hidden pt-12 pb-8" key={selectedTab}>
+                                
+                                {/* Linhas de Referência */}
+                                <div className="absolute w-full border-t-[2px] border-dashed border-rose-300 left-0 z-0 transition-all duration-700" style={{ top: '24px' }}>
+                                    <span className="absolute -top-3 right-4 text-[10px] lg:text-xs font-black text-white bg-rose-500 px-2 py-0.5 rounded shadow-sm">Instalada: {activeLimit}</span>
                                 </div>
-                            ))}
+                                
+                                <div className="absolute w-full border-t-[2px] border-dotted border-emerald-400 left-0 z-0 transition-all duration-700" style={{ top: `calc(24px + ${(1 - (activeTarget / activeLimit)) * (100 - 24)}%)` }}>
+                                    <span className="absolute -top-3 right-4 text-[10px] lg:text-[11px] font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded shadow-sm border border-emerald-200">Alvo {selectedTab === 'Todos' ? '(94%)' : ''}: {activeTarget}</span>
+                                </div>
+                                
+                                {/* Área do Gráfico */}
+                                <div className="relative flex-grow flex items-end justify-between px-2 md:px-8 h-full min-h-[200px] z-10 mt-6 border-b border-slate-200">
+                                    {processedData.map((item, index) => (
+                                        <div key={index} className="flex flex-col items-center justify-end w-1/5 h-full group">
+                                            
+                                            <div className="w-full flex flex-col items-center justify-end h-full transition-all duration-1000 ease-out" style={{ height: `${item.percentage}%` }}>
+                                                
+                                                <div className="bg-white px-2 lg:px-4 py-1 rounded-xl shadow-md border border-slate-200 z-20 flex flex-col items-center mb-1.5 whitespace-nowrap">
+                                                    <span className="text-base lg:text-xl font-black text-slate-800 leading-none">{item.students}</span>
+                                                </div>
+                                                
+                                                <div className="w-10 md:w-16 lg:w-20 bg-gradient-to-t from-sesi-dark to-sesi-blue rounded-t-lg shadow-[0_-4px_15px_rgba(0,85,164,0.3)] border border-blue-400/30 border-b-0 w-full h-full"></div>
+                                            </div>
+                                            
+                                            <div className="flex flex-col items-center w-full mt-2 h-10 shrink-0">
+                                                <span className="font-bold text-slate-700 text-[10px] md:text-xs whitespace-nowrap">{item.year}</span>
+                                                {selectedTab === 'Todos' && <span className="text-[8px] text-slate-500 font-bold bg-white px-1 py-0.5 rounded border border-slate-200 mt-1 whitespace-nowrap">{item.percentage.toFixed(0)}% ocup.</span>}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Card>
                         </div>
-                    </Card>
+
+                        {/* Coluna Direita - Mix de Produtos */}
+                        <div className="lg:col-span-5 flex flex-col gap-4 overflow-y-auto pb-4 pr-2">
+                            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 shrink-0 flex items-center gap-2">
+                                <Icon name="layers" size={16}/> Arquitetura de Oferta
+                            </h3>
+                            
+                            <Card delay="0.2s" bg="bg-sesi-dark" className="border-none text-white shrink-0 p-5 relative overflow-hidden">
+                                <Icon name="sun" size={80} className="absolute -right-4 -bottom-4 text-white opacity-10" />
+                                <div className="flex items-center gap-3 mb-2 relative z-10">
+                                    <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm"><Icon name="infinity" size={20}/></div>
+                                    <h4 className="text-lg font-black text-white">Integral (Imersão)</h4>
+                                </div>
+                                <p className="text-xs text-blue-100 font-medium leading-relaxed relative z-10">
+                                    O formato natural e âncora do projeto. Proporciona vivência integral da metodologia STEAM, cultura Maker e atividades colaborativas ao longo de todo o dia.
+                                </p>
+                                <span className="inline-block mt-3 px-2 py-1 bg-blue-500/30 border border-blue-400/30 rounded text-[9px] font-bold text-blue-200 uppercase tracking-wider">Produto Padrão</span>
+                            </Card>
+
+                            <Card delay="0.3s" className="shrink-0 p-5 border-l-4 border-l-amber-400">
+                                <div className="flex justify-between items-start mb-2">
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-amber-100 p-2 rounded-lg text-amber-600"><Icon name="clock-3" size={20}/></div>
+                                        <h4 className="text-lg font-black text-slate-800">Semi-Integral</h4>
+                                    </div>
+                                    <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-[10px] font-black tracking-wider shadow-sm">-30% OFF</span>
+                                </div>
+                                <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                                    Garante flexibilidade para as rotinas das famílias que não necessitam da carga horária estendida, oferecendo um desconto atrativo de 30% sobre o ticket padrão.
+                                </p>
+                            </Card>
+
+                            <Card delay="0.4s" bg="bg-blue-50" className="shrink-0 p-5 border-2 border-blue-100">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="bg-blue-200 p-2 rounded-lg text-sesi-blue"><Icon name="puzzle" size={20}/></div>
+                                    <h4 className="text-lg font-black text-slate-800">Básico + Módulos</h4>
+                                </div>
+                                <p className="text-xs text-slate-600 font-medium leading-relaxed mb-3">
+                                    Núcleo curricular direcionado para o modelo <strong>Semi-presencial / Híbrido</strong>. Permite às famílias montarem a rotina contratando blocos complementares à la carte.
+                                </p>
+                                <div className="flex flex-wrap gap-1.5">
+                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[9px] font-bold text-slate-600 shadow-sm">🤖 Robótica</span>
+                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[9px] font-bold text-slate-600 shadow-sm">🧠 Inteligência Artificial</span>
+                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[9px] font-bold text-slate-600 shadow-sm">🏃 Ativ. Físicas</span>
+                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[9px] font-bold text-slate-600 shadow-sm">🎸 Música & Dança</span>
+                                </div>
+                            </Card>
+                        </div>
+                    </div>
                     <Source text="Memorial de Cálculos SESI/GO. Início de operação projetado para 2028." />
                 </div>
             );
