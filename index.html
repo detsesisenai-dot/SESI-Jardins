@@ -38,12 +38,10 @@
 
     <style>
         body { background-color: #F8FAFC; color: #0F172A; -webkit-font-smoothing: antialiased; overflow: hidden; }
-        .slide-content::-webkit-scrollbar { width: 6px; height: 6px; }
-        .slide-content::-webkit-scrollbar-track { background: transparent; }
-        .slide-content::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, 0.15); border-radius: 10px; }
-        .slide-content::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, 0.3); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Oculta TODAS as barras de rolagem para um visual clean */
+        * { -ms-overflow-style: none; scrollbar-width: none; }
+        *::-webkit-scrollbar { display: none; }
         
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(15px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
@@ -73,19 +71,19 @@
                 }
             }, [name, size]);
 
-            return <span ref={spanRef} className={`inline-flex items-center justify-center ${className}`}></span>;
+            return <span ref={spanRef} className={`inline-flex items-center justify-center shrink-0 ${className}`}></span>;
         };
 
         const Card = ({ children, className = "", delay = "0s", bg = "bg-white" }) => (
-            <div className={`${bg} rounded-[24px] p-6 shadow-apple hover:shadow-apple-hover transition-all duration-300 fade-in border border-slate-200/70 ${className}`} style={{ animationDelay: delay }}>
+            <div className={`${bg} rounded-[24px] p-5 md:p-6 shadow-apple hover:shadow-apple-hover transition-all duration-300 fade-in border border-slate-200/70 flex flex-col ${className}`} style={{ animationDelay: delay }}>
                 {children}
             </div>
         );
 
         const IntroParagraph = ({ title, text, highlight }) => (
-            <div className="mb-6 fade-in shrink-0">
-                <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-slate-900 tracking-tight">{title}</h2>
-                <p className="text-base md:text-lg text-slate-600 border-l-4 border-sesi-blue pl-4 max-w-4xl leading-relaxed">
+            <div className="mb-4 fade-in shrink-0">
+                <h2 className="text-2xl md:text-3xl font-extrabold mb-2 text-slate-900 tracking-tight">{title}</h2>
+                <p className="text-sm md:text-base text-slate-600 border-l-4 border-sesi-blue pl-4 max-w-5xl leading-relaxed">
                     {highlight && <strong className="text-sesi-dark font-bold mr-1">{highlight}</strong>}
                     {text}
                 </p>
@@ -93,51 +91,49 @@
         );
 
         const Source = ({ text }) => (
-            <p className="text-[10px] text-slate-400 mt-4 uppercase tracking-wider font-bold shrink-0">FONTE: {text}</p>
+            <p className="text-[9px] text-slate-400 mt-3 uppercase tracking-wider font-bold shrink-0">FONTE: {text}</p>
         );
-
-        // --- SLIDES --- //
 
         const Hero = () => (
             <div className="flex flex-col items-center justify-center h-full max-w-6xl mx-auto text-center fade-in relative">
-                <div className="w-full h-48 md:h-64 mb-8 rounded-[32px] overflow-hidden shadow-apple-floating relative group shrink-0">
+                <div className="w-full h-40 md:h-52 mb-6 rounded-[32px] overflow-hidden shadow-apple-floating relative group shrink-0">
                     <img src="https://i.postimg.cc/zXTsp2x1/Chat-GPT-Image-15-de-jul-de-2026-08-42-18-(1).png" alt="Fachada SESI Jardins" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
                     <div className="absolute bottom-4 left-6 text-white text-left">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold mb-2 shadow-sm">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold mb-1 shadow-sm">
                             <Icon name="bar-chart" size={14} /> PROJEÇÃO GERAL - 2026 V2
                         </div>
                     </div>
                 </div>
                 
-                <h1 className="text-4xl lg:text-6xl font-black tracking-tight text-slate-900 mb-4 leading-tight shrink-0">
+                <h1 className="text-3xl lg:text-5xl font-black tracking-tight text-slate-900 mb-3 leading-tight shrink-0">
                     A educação do amanhã, <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-sesi-blue to-cyan-500">construída hoje.</span>
                 </h1>
                 
-                <p className="text-base md:text-lg text-slate-600 max-w-3xl mx-auto font-medium leading-relaxed mb-8 shrink-0">
+                <p className="text-sm md:text-base text-slate-600 max-w-3xl mx-auto font-medium leading-relaxed mb-6 shrink-0">
                     A tese de investimento da Escola SESI Jardins troca aposta por engenharia financeira: maior CAPEX, escala com controle, ramp-up conservador e margem positiva a partir do Ano 2.
                 </p>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mx-auto">
-                    <Card bg="bg-white" className="flex flex-col items-center justify-center py-6">
-                        <Icon name="coins" size={28} className="text-sesi-blue mb-2" />
-                        <p className="text-2xl font-black text-slate-800">R$ 149,5 mi</p>
-                        <p className="text-[10px] font-bold uppercase text-slate-400 mt-1">Investimento Total</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full max-w-4xl mx-auto shrink-0">
+                    <Card bg="bg-white" className="items-center justify-center py-4 md:py-5">
+                        <Icon name="coins" size={24} className="text-sesi-blue mb-2" />
+                        <p className="text-xl md:text-2xl font-black text-slate-800">R$ 149,5 mi</p>
+                        <p className="text-[9px] md:text-[10px] font-bold uppercase text-slate-400 mt-1">Investimento Total</p>
                     </Card>
-                    <Card bg="bg-white" className="flex flex-col items-center justify-center py-6">
-                        <Icon name="users" size={28} className="text-emerald-500 mb-2" />
-                        <p className="text-2xl font-black text-slate-800">1.600</p>
-                        <p className="text-[10px] font-bold uppercase text-slate-400 mt-1">Capacidade Plena</p>
+                    <Card bg="bg-white" className="items-center justify-center py-4 md:py-5">
+                        <Icon name="users" size={24} className="text-emerald-500 mb-2" />
+                        <p className="text-xl md:text-2xl font-black text-slate-800">1.600</p>
+                        <p className="text-[9px] md:text-[10px] font-bold uppercase text-slate-400 mt-1">Capacidade Plena</p>
                     </Card>
-                    <Card bg="bg-white" className="flex flex-col items-center justify-center py-6">
-                        <Icon name="maximize" size={28} className="text-amber-500 mb-2" />
-                        <p className="text-2xl font-black text-slate-800">29.585 m²</p>
-                        <p className="text-[10px] font-bold uppercase text-slate-400 mt-1">Área Total Geral</p>
+                    <Card bg="bg-white" className="items-center justify-center py-4 md:py-5">
+                        <Icon name="maximize" size={24} className="text-amber-500 mb-2" />
+                        <p className="text-xl md:text-2xl font-black text-slate-800">29.585 m²</p>
+                        <p className="text-[9px] md:text-[10px] font-bold uppercase text-slate-400 mt-1">Área Total Geral</p>
                     </Card>
-                    <Card bg="bg-white" className="flex flex-col items-center justify-center py-6">
-                        <Icon name="timer" size={28} className="text-purple-500 mb-2" />
-                        <p className="text-2xl font-black text-slate-800">10a 4m</p>
-                        <p className="text-[10px] font-bold uppercase text-slate-400 mt-1">Payback Projetado</p>
+                    <Card bg="bg-white" className="items-center justify-center py-4 md:py-5">
+                        <Icon name="timer" size={24} className="text-purple-500 mb-2" />
+                        <p className="text-xl md:text-2xl font-black text-slate-800">10a 4m</p>
+                        <p className="text-[9px] md:text-[10px] font-bold uppercase text-slate-400 mt-1">Payback Projetado</p>
                     </Card>
                 </div>
             </div>
@@ -161,185 +157,179 @@
                         text="A Região Leste de Goiânia combina uma base populacional consolidada e expansão imobiliária acelerada. Nossa pesquisa qualitativa confirma: há demanda reprimida por infraestrutura de ponta aliada a um preço competitivo."
                     />
 
-                    <div className="flex flex-wrap gap-2 mb-6 shrink-0 bg-slate-100/70 p-1.5 rounded-2xl w-fit overflow-x-auto no-scrollbar max-w-full">
-                        <button onClick={() => setActiveTab('demography')} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeTab === 'demography' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}>Demografia</button>
-                        <button onClick={() => setActiveTab('realestate')} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeTab === 'realestate' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}>Imobiliário</button>
-                        <button onClick={() => setActiveTab('qualitative')} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'qualitative' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}><Icon name="search" size={16}/> Qualitativa</button>
-                        <button onClick={() => setActiveTab('positioning')} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'positioning' ? 'bg-sesi-dark shadow text-white border border-sesi-dark' : 'text-slate-500 hover:text-slate-800'}`}><Icon name="pie-chart" size={16}/> Posicionamento & Preço</button>
+                    <div className="flex flex-wrap gap-2 mb-4 shrink-0 bg-slate-100/70 p-1.5 rounded-xl w-fit overflow-x-hidden max-w-full">
+                        <button onClick={() => setActiveTab('demography')} className={`whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === 'demography' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}>Demografia</button>
+                        <button onClick={() => setActiveTab('realestate')} className={`whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === 'realestate' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}>Imobiliário</button>
+                        <button onClick={() => setActiveTab('qualitative')} className={`whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${activeTab === 'qualitative' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}><Icon name="search" size={14}/> Qualitativa</button>
+                        <button onClick={() => setActiveTab('positioning')} className={`whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${activeTab === 'positioning' ? 'bg-sesi-dark shadow text-white border border-sesi-dark' : 'text-slate-500 hover:text-slate-800'}`}><Icon name="pie-chart" size={14}/> Posicionamento & Preço</button>
                     </div>
 
-                    <div className="flex-grow min-h-0 relative" key={activeTab}>
+                    <div className="flex-grow min-h-0 relative flex flex-col" key={activeTab}>
                         {activeTab === 'demography' && (
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full fade-in">
-                                <Card delay="0.1s" bg="bg-[#1B2A4A]" className="lg:col-span-5 flex flex-col justify-center text-white border-none p-8 md:p-10">
-                                    <h3 className="text-xs font-bold text-blue-200/80 uppercase tracking-widest mb-10">Público-Alvo Estimado (Leste)</h3>
-                                    <div className="space-y-10">
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-full fade-in flex-grow">
+                                <Card delay="0.1s" bg="bg-[#1B2A4A]" className="lg:col-span-5 justify-center text-white border-none p-6">
+                                    <h3 className="text-xs font-bold text-blue-200/80 uppercase tracking-widest mb-6">Público-Alvo Estimado (Leste)</h3>
+                                    <div className="space-y-6 flex-grow flex flex-col justify-center">
                                         <div>
-                                            <p className="text-sm text-blue-200/90 font-bold mb-2">População Total da Região</p>
-                                            <p className="text-5xl lg:text-6xl font-black tracking-tight">205 a 235k</p>
+                                            <p className="text-xs text-blue-200/90 font-bold mb-1">População Total da Região</p>
+                                            <p className="text-4xl lg:text-5xl font-black tracking-tight">205 a 235k</p>
                                         </div>
                                         <div>
-                                            <p className="text-sm text-blue-200/90 font-bold mb-2">Idade Escolar (4 a 17 anos)</p>
-                                            <p className="text-5xl lg:text-6xl font-black tracking-tight text-emerald-400">32 a 38k</p>
-                                        </div>
-                                        <div className="pt-8 border-t border-white/10 mt-auto">
-                                            <p className="text-[10px] text-blue-200/80 uppercase tracking-widest mb-2">Meta de Captação (Maturidade)</p>
-                                            <p className="text-3xl font-black tracking-tight">1.500 Matrículas</p>
+                                            <p className="text-xs text-blue-200/90 font-bold mb-1">Idade Escolar (4 a 17 anos)</p>
+                                            <p className="text-4xl lg:text-5xl font-black tracking-tight text-emerald-400">32 a 38k</p>
                                         </div>
                                     </div>
+                                    <div className="pt-4 border-t border-white/10 mt-auto shrink-0">
+                                        <p className="text-[9px] text-blue-200/80 uppercase tracking-widest mb-1">Meta de Captação (Maturidade)</p>
+                                        <p className="text-2xl font-black tracking-tight">1.500 Matrículas</p>
+                                    </div>
                                 </Card>
-                                <Card delay="0.2s" className="lg:col-span-7 flex flex-col justify-start border border-slate-200 p-8 md:p-10 overflow-y-auto">
-                                    <h3 className="text-2xl font-bold text-slate-800 mb-6 shrink-0">A Dinâmica do Mercado Local</h3>
-                                    <p className="text-base text-slate-600 mb-10 leading-relaxed shrink-0">
+                                <Card delay="0.2s" className="lg:col-span-7 justify-start border border-slate-200 p-6">
+                                    <h3 className="text-xl font-bold text-slate-800 mb-3 shrink-0">A Dinâmica do Mercado Local</h3>
+                                    <p className="text-sm text-slate-600 mb-6 leading-relaxed shrink-0">
                                         A região abriga desde o Leste Tradicional (adensado) até o Eixo Premium (Alphaville/GO-020). A grande oportunidade reside na <strong>ausência de escolas privadas de ciclo completo com padrão de excelência</strong> nesse corredor.
                                     </p>
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0">
-                                        <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-50">
-                                            <Icon name="map-pin" className="text-sesi-blue mb-4" size={24} />
-                                            <p className="text-sm font-bold text-slate-800 mb-2">Localização Estratégica</p>
-                                            <p className="text-xs text-slate-500 leading-relaxed">Interseção entre o Leste Tradicional e os Condomínios de Alta Renda.</p>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 shrink-0 flex-grow">
+                                        <div className="bg-blue-50/50 p-4 md:p-5 rounded-2xl border border-blue-50 flex flex-col justify-center">
+                                            <Icon name="map-pin" className="text-sesi-blue mb-3" size={20} />
+                                            <p className="text-xs font-bold text-slate-800 mb-1">Localização Estratégica</p>
+                                            <p className="text-[10px] md:text-xs text-slate-500 leading-relaxed">Interseção entre o Leste Tradicional e os Condomínios de Alta Renda.</p>
                                         </div>
-                                        <div className="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-50">
-                                            <Icon name="trending-up" className="text-emerald-600 mb-4" size={24} />
-                                            <p className="text-sm font-bold text-slate-800 mb-2">Crescimento Acelerado</p>
-                                            <p className="text-xs text-slate-500 leading-relaxed">Expansão residencial contínua com forte atração de famílias jovens.</p>
+                                        <div className="bg-emerald-50/50 p-4 md:p-5 rounded-2xl border border-emerald-50 flex flex-col justify-center">
+                                            <Icon name="trending-up" className="text-emerald-600 mb-3" size={20} />
+                                            <p className="text-xs font-bold text-slate-800 mb-1">Crescimento Acelerado</p>
+                                            <p className="text-[10px] md:text-xs text-slate-500 leading-relaxed">Expansão residencial contínua com forte atração de famílias jovens.</p>
                                         </div>
-                                        <div className="bg-amber-50/30 p-6 rounded-2xl border border-amber-50">
-                                            <Icon name="target" className="text-amber-600 mb-4" size={24} />
-                                            <p className="text-sm font-bold text-slate-800 mb-2">Demanda Reprimida</p>
-                                            <p className="text-xs text-slate-500 leading-relaxed">Forte propensão a migrar para um modelo Premium Acessível.</p>
+                                        <div className="bg-amber-50/30 p-4 md:p-5 rounded-2xl border border-amber-50 flex flex-col justify-center">
+                                            <Icon name="target" className="text-amber-600 mb-3" size={20} />
+                                            <p className="text-xs font-bold text-slate-800 mb-1">Demanda Reprimida</p>
+                                            <p className="text-[10px] md:text-xs text-slate-500 leading-relaxed">Forte propensão a migrar para um modelo Premium Acessível.</p>
                                         </div>
                                     </div>
                                 </Card>
                             </div>
                         )}
                         {activeTab === 'realestate' && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full fade-in">
-                                <Card delay="0.1s" className="flex flex-col border-l-[6px] border-l-sesi-blue p-8 md:p-10 overflow-y-auto">
-                                    <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8 text-sesi-blue border border-blue-100 shrink-0">
-                                        <Icon name="briefcase" size={24} />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full fade-in flex-grow">
+                                <Card delay="0.1s" className="border-l-[6px] border-l-sesi-blue p-6 md:p-8">
+                                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-6 text-sesi-blue border border-blue-100 shrink-0">
+                                        <Icon name="briefcase" size={20} />
                                     </div>
-                                    <h3 className="text-2xl font-bold text-slate-800 mb-4 shrink-0">Geração de Emprego Formal</h3>
-                                    <p className="text-slate-500 text-base mb-10 leading-relaxed shrink-0">Goiânia lidera o saldo de empregos formais no estado, sustentando a capacidade de pagamento das famílias para educação privada.</p>
-                                    <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-100 mt-auto shrink-0">
-                                        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Saldo Goiânia (2025)</p>
-                                        <p className="text-4xl font-black text-slate-800 tracking-tight">+14.138 <span className="text-lg text-slate-500 font-semibold tracking-normal">novas vagas</span></p>
-                                        <p className="text-sm text-slate-500 mt-4">Estoque total: 568.900 vínculos (Novo Caged).</p>
+                                    <h3 className="text-xl font-bold text-slate-800 mb-3 shrink-0">Geração de Emprego Formal</h3>
+                                    <p className="text-slate-500 text-sm mb-6 leading-relaxed flex-grow">Goiânia lidera o saldo de empregos formais no estado, sustentando a capacidade de pagamento das famílias para educação privada.</p>
+                                    <div className="bg-slate-50/80 p-5 rounded-xl border border-slate-100 mt-auto shrink-0">
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Saldo Goiânia (2025)</p>
+                                        <p className="text-3xl font-black text-slate-800 tracking-tight">+14.138 <span className="text-sm text-slate-500 font-semibold tracking-normal">novas vagas</span></p>
                                     </div>
                                 </Card>
-                                <Card delay="0.2s" className="flex flex-col border-l-[6px] border-l-emerald-500 p-8 md:p-10 overflow-y-auto">
-                                    <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-8 text-emerald-600 border border-emerald-100 shrink-0">
-                                        <Icon name="home" size={24} />
+                                <Card delay="0.2s" className="border-l-[6px] border-l-emerald-500 p-6 md:p-8">
+                                    <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mb-6 text-emerald-600 border border-emerald-100 shrink-0">
+                                        <Icon name="home" size={20} />
                                     </div>
-                                    <h3 className="text-2xl font-bold text-slate-800 mb-4 shrink-0">Boom Imobiliário (Residencial)</h3>
-                                    <p className="text-slate-500 text-base mb-10 leading-relaxed shrink-0">A expansão dos condomínios horizontais ao longo da GO-020 e Alphaville ancora o público-alvo de alto poder aquisitivo no vetor Leste.</p>
-                                    <div className="grid grid-cols-2 gap-4 mt-auto shrink-0">
-                                        <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-100">
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Vendas 2024</p>
-                                            <p className="text-3xl font-black text-emerald-700 tracking-tight mb-3">R$ 7,7 Bi</p>
-                                            <span className="text-xs font-bold text-emerald-700 bg-emerald-100/80 px-2 py-1 rounded-md inline-block">+35% a.a.</span>
+                                    <h3 className="text-xl font-bold text-slate-800 mb-3 shrink-0">Boom Imobiliário (Residencial)</h3>
+                                    <p className="text-slate-500 text-sm mb-6 leading-relaxed flex-grow">A expansão dos condomínios horizontais ao longo da GO-020 e Alphaville ancora o público-alvo de alto poder aquisitivo no vetor Leste.</p>
+                                    <div className="grid grid-cols-2 gap-3 mt-auto shrink-0">
+                                        <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-100">
+                                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Vendas 2024</p>
+                                            <p className="text-2xl font-black text-emerald-700 tracking-tight mb-2">R$ 7,7 Bi</p>
+                                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded inline-block">+35% a.a.</span>
                                         </div>
-                                        <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-100">
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">1º Sem. 2025</p>
-                                            <p className="text-3xl font-black text-emerald-700 tracking-tight mb-3">R$ 4,1 Bi</p>
-                                            <span className="text-xs font-bold text-emerald-700 bg-emerald-100/80 px-2 py-1 rounded-md inline-block">+21% a.a.</span>
+                                        <div className="bg-slate-50/80 p-4 rounded-xl border border-slate-100">
+                                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">1º Sem. 2025</p>
+                                            <p className="text-2xl font-black text-emerald-700 tracking-tight mb-2">R$ 4,1 Bi</p>
+                                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded inline-block">+21% a.a.</span>
                                         </div>
                                     </div>
                                 </Card>
                             </div>
                         )}
                         {activeTab === 'qualitative' && (
-                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full fade-in overflow-y-auto pb-4">
-                                <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <Card delay="0.1s" className="flex flex-col justify-between border-l-[6px] border-l-sesi-blue p-6 md:p-8">
-                                        <div>
-                                            <div className="flex items-center gap-3 mb-5">
-                                                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-sesi-blue border border-blue-100"><Icon name="building" size={20}/></div>
-                                                <h4 className="font-bold text-slate-800 text-lg">Força da Infraestrutura</h4>
-                                            </div>
-                                            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-                                                A infraestrutura verde e ampla foi vista como um diferencial escasso em Goiânia, gerando alto impacto positivo.
-                                            </p>
+                            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 h-full fade-in flex-grow">
+                                <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+                                    <Card delay="0.1s" className="border-l-[4px] border-l-sesi-blue p-5 justify-center">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-sesi-blue border border-blue-100"><Icon name="building" size={16}/></div>
+                                            <h4 className="font-bold text-slate-800 text-sm">Força da Infraestrutura</h4>
                                         </div>
+                                        <p className="text-xs text-slate-600 leading-relaxed">
+                                            A infraestrutura verde e ampla foi vista como um diferencial escasso, gerando alto impacto positivo.
+                                        </p>
                                     </Card>
 
-                                    <Card delay="0.2s" className="flex flex-col justify-between border-l-[6px] border-l-emerald-500 p-6 md:p-8">
-                                        <div>
-                                            <div className="flex items-center gap-3 mb-5">
-                                                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100"><Icon name="dollar-sign" size={20}/></div>
-                                                <h4 className="font-bold text-slate-800 text-lg">Preço Competitivo</h4>
-                                            </div>
-                                            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-                                                A mensalidade proposta foi considerada atrativa e abaixo do que muitos já pagam, gerando predisposição à migração.
-                                            </p>
+                                    <Card delay="0.2s" className="border-l-[4px] border-l-emerald-500 p-5 justify-center">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100"><Icon name="dollar-sign" size={16}/></div>
+                                            <h4 className="font-bold text-slate-800 text-sm">Preço Competitivo</h4>
                                         </div>
+                                        <p className="text-xs text-slate-600 leading-relaxed">
+                                            A mensalidade proposta foi considerada atrativa, gerando predisposição à migração.
+                                        </p>
                                     </Card>
                                     
-                                    <Card delay="0.3s" className="flex flex-col justify-between border-l-[6px] border-l-amber-400 p-6 md:p-8">
-                                        <div>
-                                            <div className="flex items-center gap-3 mb-5">
-                                                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100"><Icon name="brain" size={20}/></div>
-                                                <h4 className="font-bold text-slate-800 text-lg">Metodologia vs. Tradição</h4>
-                                            </div>
-                                            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-                                                Enquanto muitos buscam inovação, ainda há forte apego ao modelo tradicional focado em vestibulares e Enem.
-                                            </p>
+                                    <Card delay="0.3s" className="border-l-[4px] border-l-amber-400 p-5 justify-center">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100"><Icon name="brain" size={16}/></div>
+                                            <h4 className="font-bold text-slate-800 text-sm">Metodologia vs. Tradição</h4>
                                         </div>
+                                        <p className="text-xs text-slate-600 leading-relaxed">
+                                            Forte apego ao modelo tradicional focado em vestibulares em paralelo à busca por inovação.
+                                        </p>
                                     </Card>
 
-                                    <Card delay="0.4s" className="flex flex-col justify-between border-l-[6px] border-l-purple-500 p-6 md:p-8">
-                                        <div>
-                                            <div className="flex items-center gap-3 mb-5">
-                                                <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 border border-purple-100"><Icon name="map-pin" size={20}/></div>
-                                                <h4 className="font-bold text-slate-800 text-lg">Logística e Localização</h4>
-                                            </div>
-                                            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-                                                A localização na região dos Jardins é um trunfo gigante para quem já mora lá e quer fugir do trânsito.
-                                            </p>
+                                    <Card delay="0.4s" className="border-l-[4px] border-l-purple-500 p-5 justify-center">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600 border border-purple-100"><Icon name="map-pin" size={16}/></div>
+                                            <h4 className="font-bold text-slate-800 text-sm">Logística e Localização</h4>
                                         </div>
+                                        <p className="text-xs text-slate-600 leading-relaxed">
+                                            Localização na região dos Jardins é um trunfo gigante para fugir do trânsito.
+                                        </p>
                                     </Card>
                                 </div>
                                 
-                                <Card delay="0.5s" bg="bg-sesi-dark" className="lg:col-span-4 flex flex-col justify-center text-white border-none relative overflow-hidden p-6 md:p-8">
-                                    <Icon name="shield-check" size={120} className="absolute -right-6 -bottom-6 text-white opacity-5" />
-                                    <h3 className="text-xl font-bold mb-4 relative z-10 shrink-0">O Papel da Marca SESI</h3>
-                                    <p className="text-sm text-blue-100 mb-6 leading-relaxed relative z-10 shrink-0">
+                                <Card delay="0.5s" bg="bg-sesi-dark" className="lg:col-span-4 justify-center text-white border-none relative overflow-hidden p-6">
+                                    <Icon name="shield-check" size={100} className="absolute -right-4 -bottom-4 text-white opacity-5" />
+                                    <h3 className="text-lg font-bold mb-3 relative z-10">O Papel da Marca SESI</h3>
+                                    <p className="text-xs text-blue-100 leading-relaxed relative z-10">
                                         A marca traz credibilidade e associação com tecnologia/robótica. O desafio é mostrar que atende ao perfil de alta renda (Jardins), mantendo a acessibilidade.
                                     </p>
                                 </Card>
                             </div>
                         )}
                         {activeTab === 'positioning' && (
-                            <div className="flex flex-col h-full fade-in">
-                                <Card className="flex-grow flex flex-col p-6 relative bg-slate-50 overflow-hidden border-2 border-slate-200 min-h-[300px]">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-2 shrink-0">Mapeamento de Concorrência & Oceano Azul</h3>
-                                    <p className="text-sm text-slate-500 mb-6 shrink-0">Cruzamento entre ticket médio (mensalidade) e proposta de valor (inovação vs. tradição).</p>
+                            <div className="flex flex-col h-full fade-in flex-grow">
+                                <Card className="flex-grow p-4 md:p-6 relative bg-slate-50 border-2 border-slate-200 justify-start">
+                                    <h3 className="text-lg font-bold text-slate-800 mb-1 shrink-0">Mapeamento de Concorrência & Oceano Azul</h3>
+                                    <p className="text-xs text-slate-500 mb-4 shrink-0">Cruzamento entre ticket médio e proposta de valor.</p>
                                     
-                                    <div className="relative flex-grow border-l-2 border-b-2 border-slate-300 ml-8 mb-8 mt-4 bg-white rounded-tr-xl">
-                                        {/* Eixos */}
-                                        <div className="absolute -left-8 top-1/2 -translate-y-1/2 -rotate-90 text-xs font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Inovação / Infraestrutura</div>
-                                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Preço / Mensalidade</div>
+                                    <div className="relative flex-grow border-l-2 border-b-2 border-slate-300 ml-6 mb-6 mt-2 bg-white rounded-tr-xl">
+                                        <div className="absolute -left-6 top-1/2 -translate-y-1/2 -rotate-90 text-[9px] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Inovação / Infra</div>
+                                        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[9px] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Preço</div>
                                         
-                                        <div className="absolute -bottom-6 left-0 text-[10px] text-slate-400 font-bold">Acessível</div>
-                                        <div className="absolute -bottom-6 right-0 text-[10px] text-slate-400 font-bold">Alto (Premium)</div>
-                                        <div className="absolute bottom-0 -left-6 text-[10px] text-slate-400 font-bold">Padrão</div>
-                                        <div className="absolute top-0 -left-6 text-[10px] text-slate-400 font-bold">Alta</div>
+                                        <div className="absolute -bottom-5 left-0 text-[8px] text-slate-400 font-bold">Acessível</div>
+                                        <div className="absolute -bottom-5 right-0 text-[8px] text-slate-400 font-bold">Premium</div>
+                                        <div className="absolute bottom-0 -left-5 text-[8px] text-slate-400 font-bold">Padrão</div>
+                                        <div className="absolute top-0 -left-5 text-[8px] text-slate-400 font-bold">Alta</div>
 
                                         <div className="absolute left-1/2 top-0 bottom-0 w-px bg-slate-200 border-dashed border-l"></div>
                                         <div className="absolute top-1/2 left-0 right-0 h-px bg-slate-200 border-dashed border-t"></div>
 
-                                        {/* Bolhas */}
                                         {bubbleData.map((bubble, i) => (
                                             <div key={i} className="absolute group" style={{ left: `${bubble.x}%`, bottom: `${bubble.y}%`, transform: 'translate(-50%, 50%)' }}>
-                                                <div className={`flex items-center justify-center rounded-full ${bubble.color} shadow-lg cursor-pointer transition-transform duration-300 group-hover:scale-110 flex-col text-center p-2`} style={{ width: `${bubble.size}px`, height: `${bubble.size}px` }}>
-                                                    <span className={`text-[10px] font-black leading-tight ${bubble.text} opacity-0 group-hover:opacity-100 transition-opacity`}>{bubble.id}</span>
+                                                <div className={`flex items-center justify-center rounded-full ${bubble.color} shadow-lg cursor-pointer transition-transform duration-300 group-hover:scale-110 flex-col text-center p-1`} style={{ width: `${bubble.size * 0.8}px`, height: `${bubble.size * 0.8}px` }}>
+                                                    <span className={`text-[8px] font-black leading-tight ${bubble.text} opacity-0 group-hover:opacity-100 transition-opacity`}>{bubble.id}</span>
                                                 </div>
                                                 
-                                                {/* Tooltip Card */}
-                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 bg-white border border-slate-200 p-4 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
-                                                    <p className={`text-xs font-black uppercase mb-1 ${bubble.color.replace('bg-', 'text-')}`}>{bubble.label}</p>
-                                                    <p className="text-sm font-bold text-slate-800 mb-2">{bubble.price}</p>
-                                                    <p className="text-xs text-slate-500 leading-tight">{bubble.schools}</p>
+                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-white border border-slate-200 p-3 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                                                    <p className={`text-[10px] font-black uppercase mb-1 ${bubble.color.replace('bg-', 'text-')}`}>{bubble.label}</p>
+                                                    <p className="text-xs font-bold text-slate-800 mb-1">{bubble.price}</p>
+                                                    <p className="text-[10px] text-slate-500 leading-tight">{bubble.schools}</p>
+                                                </div>
+
+                                                {/* Rótulos Permanentes Fixos */}
+                                                <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none whitespace-nowrap z-10">
+                                                    <span className="text-[9px] font-bold text-slate-700 bg-white/90 px-1.5 py-0.5 rounded shadow-sm border border-slate-100">{bubble.label}</span>
+                                                    <span className="text-[8px] font-bold text-slate-500 mt-0.5">{bubble.price}</span>
                                                 </div>
                                             </div>
                                         ))}
@@ -348,7 +338,7 @@
                             </div>
                         )}
                     </div>
-                    <Source text={activeTab === 'qualitative' || activeTab === 'positioning' ? "Pesquisa Qualitativa Checon & Procon Goiás (2026)." : "Estudo de Viabilidade 2026. IBGE, Censo Escolar 2025, Novo Caged."} />
+                    <Source text={activeTab === 'qualitative' || activeTab === 'positioning' ? "Pesquisa Qualitativa Checon & Procon Goiás (2026)." : "Estudo de Viabilidade 2026. IBGE, Censo Escolar 2025."} />
                 </div>
             );
         };
@@ -367,44 +357,44 @@
                     <IntroParagraph 
                         title="A Estrutura de Capital" 
                         highlight="O CAPEX em cinco camadas."
-                        text="A obra concentra 83,5% do investimento. O restante materializa a experiência: mobiliário, máquinas, publicidade de implantação e preparação operacional. O CAPEX não está pulverizado, focando fortemente no ativo físico."
+                        text="A obra concentra 83,5% do investimento. O restante materializa a experiência: mobiliário, máquinas, publicidade de implantação e preparação operacional. O CAPEX foca no ativo físico."
                     />
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
-                        <Card delay="0.1s" bg="bg-sesi-dark" className="lg:col-span-5 text-white flex flex-col justify-center border-none relative overflow-hidden">
-                            <Icon name="pie-chart" size={160} className="absolute -right-8 -bottom-8 opacity-5" />
-                            <h3 className="text-sm font-bold text-blue-300 uppercase tracking-widest mb-2 relative z-10 shrink-0">Investimento Total Atualizado</h3>
-                            <p className="text-6xl font-black mb-8 relative z-10 shrink-0">R$ 149,5 <span className="text-2xl text-blue-200">mi</span></p>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow min-h-0">
+                        <Card delay="0.1s" bg="bg-sesi-dark" className="lg:col-span-5 text-white justify-center border-none relative overflow-hidden p-6">
+                            <Icon name="pie-chart" size={120} className="absolute -right-6 -bottom-6 opacity-5" />
+                            <h3 className="text-xs font-bold text-blue-300 uppercase tracking-widest mb-2 relative z-10 shrink-0">Investimento Total Atualizado</h3>
+                            <p className="text-5xl font-black mb-6 relative z-10 shrink-0">R$ 149,5 <span className="text-xl text-blue-200">mi</span></p>
                             
-                            <div className="space-y-4 relative z-10 overflow-y-auto">
-                                <p className="text-sm text-blue-100 leading-relaxed border-l-2 border-blue-400 pl-3">
+                            <div className="relative z-10 shrink-0">
+                                <p className="text-xs text-blue-100 leading-relaxed border-l-2 border-blue-400 pl-3">
                                     O controle rigoroso sobre a rubrica de Construção (R$ 124,8 milhões) é o vetor principal para a manutenção do payback projetado de 10 anos e 4 meses.
                                 </p>
                             </div>
                         </Card>
 
-                        <Card delay="0.2s" className="lg:col-span-7 flex flex-col justify-start overflow-y-auto">
-                            <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2 shrink-0">
-                                <Icon name="list" className="text-sesi-blue" size={20}/>
+                        <Card delay="0.2s" className="lg:col-span-7 justify-center p-6">
+                            <h3 className="text-base font-bold text-slate-800 mb-5 flex items-center gap-2 shrink-0">
+                                <Icon name="list" className="text-sesi-blue" size={18}/>
                                 Composição do CAPEX
                             </h3>
                             
-                            <div className="space-y-6">
+                            <div className="space-y-4 shrink-0 flex-grow flex flex-col justify-center">
                                 {capexData.map((item, idx) => (
-                                    <div key={item.id} className="relative group shrink-0">
-                                        <div className="flex justify-between items-end mb-2">
+                                    <div key={item.id} className="relative group">
+                                        <div className="flex justify-between items-end mb-1.5">
                                             <div className="flex items-center gap-2">
-                                                <div className={`w-8 h-8 rounded-full ${item.color} flex items-center justify-center text-white shadow-sm`}>
-                                                    <Icon name={item.icon} size={14} />
+                                                <div className={`w-7 h-7 rounded-full ${item.color} flex items-center justify-center text-white shadow-sm`}>
+                                                    <Icon name={item.icon} size={12} />
                                                 </div>
-                                                <span className="font-bold text-slate-700">{item.label}</span>
+                                                <span className="text-sm font-bold text-slate-700">{item.label}</span>
                                             </div>
                                             <div className="text-right">
-                                                <span className="font-black text-slate-800">R$ {item.val.toFixed(1).replace('.', ',')} mi</span>
-                                                <span className="text-xs font-bold text-slate-400 ml-2">({item.perc.toFixed(1).replace('.', ',')}%)</span>
+                                                <span className="text-sm font-black text-slate-800">R$ {item.val.toFixed(1).replace('.', ',')} mi</span>
+                                                <span className="text-[10px] font-bold text-slate-400 ml-1.5">({item.perc.toFixed(1).replace('.', ',')}%)</span>
                                             </div>
                                         </div>
-                                        <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
+                                        <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200">
                                             <div className={`${item.color} h-full rounded-full transition-all duration-1000 ease-out`} style={{ width: `${Math.max(item.perc, 2)}%` }}></div>
                                         </div>
                                     </div>
@@ -431,70 +421,70 @@
                     <IntroParagraph 
                         title="Infraestrutura" 
                         highlight="A escola como máquina de aprendizagem."
-                        text="O desenho não é apenas bonito. Ele transforma metros quadrados em experiência. Com 25.342 m² de área construída, a infraestrutura deixa de ser parede e vira metodologia ativa."
+                        text="Com 25.342 m² de área construída, a infraestrutura deixa de ser parede e vira metodologia ativa, transformando metros quadrados em experiência imersiva."
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 shrink-0">
-                        <Card delay="0.1s" className="text-center py-4">
-                            <p className="text-2xl font-black text-slate-800">29.585 m²</p>
-                            <p className="text-xs text-slate-500 font-bold uppercase mt-1">Área Total Geral</p>
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4 shrink-0">
+                        <Card delay="0.1s" className="text-center py-3 md:py-4">
+                            <p className="text-xl font-black text-slate-800">29.585 m²</p>
+                            <p className="text-[9px] text-slate-500 font-bold uppercase mt-1">Área Total Geral</p>
                         </Card>
-                        <Card delay="0.2s" className="text-center py-4">
-                            <p className="text-2xl font-black text-sesi-blue">25.342 m²</p>
-                            <p className="text-xs text-slate-500 font-bold uppercase mt-1">Área Construída</p>
+                        <Card delay="0.2s" className="text-center py-3 md:py-4">
+                            <p className="text-xl font-black text-sesi-blue">25.342 m²</p>
+                            <p className="text-[9px] text-slate-500 font-bold uppercase mt-1">Área Construída</p>
                         </Card>
-                        <Card delay="0.3s" className="text-center py-4">
-                            <p className="text-2xl font-black text-emerald-600">401</p>
-                            <p className="text-xs text-slate-500 font-bold uppercase mt-1">Ambientes</p>
+                        <Card delay="0.3s" className="text-center py-3 md:py-4">
+                            <p className="text-xl font-black text-emerald-600">401</p>
+                            <p className="text-[9px] text-slate-500 font-bold uppercase mt-1">Ambientes</p>
                         </Card>
-                        <Card delay="0.4s" className="text-center py-4">
-                            <p className="text-2xl font-black text-purple-600">STEAM</p>
-                            <p className="text-xs text-slate-500 font-bold uppercase mt-1">Base Pedagógica</p>
+                        <Card delay="0.4s" className="text-center py-3 md:py-4">
+                            <p className="text-xl font-black text-purple-600">STEAM</p>
+                            <p className="text-[9px] text-slate-500 font-bold uppercase mt-1">Base Pedagógica</p>
                         </Card>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
-                        <Card delay="0.5s" className="lg:col-span-6 flex flex-col justify-start overflow-y-auto">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-5 shrink-0">Distribuição da Área (m²)</h3>
-                            <div className="space-y-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow min-h-0">
+                        <Card delay="0.5s" className="lg:col-span-6 justify-center p-5">
+                            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 shrink-0">Distribuição da Área (m²)</h3>
+                            <div className="space-y-3 shrink-0 flex-grow flex flex-col justify-center">
                                 {spaces.map((item, idx) => (
-                                    <div key={idx} className="flex items-center gap-4 shrink-0">
-                                        <div className="w-24 text-right shrink-0">
-                                            <p className="text-sm font-bold text-slate-700">{item.label}</p>
+                                    <div key={idx} className="flex items-center gap-3">
+                                        <div className="w-20 text-right shrink-0">
+                                            <p className="text-xs font-bold text-slate-700">{item.label}</p>
                                         </div>
                                         <div className="flex-grow flex items-center">
-                                            <div className={`h-8 ${item.color} rounded-r-md rounded-l-sm flex items-center px-3 transition-all duration-1000`} style={{ width: `${Math.max(item.perc, 2)}%` }}>
-                                                <span className="text-xs font-bold text-white shadow-sm">{item.perc}%</span>
+                                            <div className={`h-6 ${item.color} rounded-r-md rounded-l-sm flex items-center px-2 transition-all duration-1000`} style={{ width: `${Math.max(item.perc, 2)}%` }}>
+                                                <span className="text-[10px] font-bold text-white">{item.perc}%</span>
                                             </div>
-                                            <span className="text-xs font-bold text-slate-500 ml-3 whitespace-nowrap">{new Intl.NumberFormat('pt-BR').format(item.val)} m²</span>
+                                            <span className="text-[10px] font-bold text-slate-500 ml-2 whitespace-nowrap">{new Intl.NumberFormat('pt-BR').format(item.val)} m²</span>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         </Card>
 
-                        <Card delay="0.6s" bg="bg-slate-50" className="lg:col-span-6 flex flex-col justify-start border-2 border-slate-200 overflow-y-auto">
-                            <h3 className="text-lg font-bold text-slate-800 mb-4 shrink-0">Experiência STEAM & 4.0</h3>
-                            <div className="space-y-4">
-                                <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex gap-4 items-start shrink-0">
-                                    <div className="w-10 h-10 rounded-full bg-blue-50 text-sesi-blue flex items-center justify-center shrink-0"><Icon name="cpu" size={20}/></div>
+                        <Card delay="0.6s" bg="bg-slate-50" className="lg:col-span-6 justify-center border-2 border-slate-200 p-5">
+                            <h3 className="text-base font-bold text-slate-800 mb-3 shrink-0">Experiência STEAM & 4.0</h3>
+                            <div className="space-y-2.5 shrink-0 flex-grow flex flex-col justify-center">
+                                <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex gap-3 items-center">
+                                    <div className="w-8 h-8 rounded-full bg-blue-50 text-sesi-blue flex items-center justify-center shrink-0"><Icon name="cpu" size={16}/></div>
                                     <div>
-                                        <h4 className="font-bold text-slate-800 text-sm">Laboratórios 4.0</h4>
-                                        <p className="text-xs text-slate-500 mt-1">IoT, Cybersecurity, Manufatura Digital e Integrada.</p>
+                                        <h4 className="font-bold text-slate-800 text-xs">Laboratórios 4.0</h4>
+                                        <p className="text-[10px] text-slate-500 mt-0.5">IoT, Cybersecurity, Manufatura Digital e Integrada.</p>
                                     </div>
                                 </div>
-                                <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex gap-4 items-start shrink-0">
-                                    <div className="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center shrink-0"><Icon name="glasses" size={20}/></div>
+                                <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex gap-3 items-center">
+                                    <div className="w-8 h-8 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center shrink-0"><Icon name="glasses" size={16}/></div>
                                     <div>
-                                        <h4 className="font-bold text-slate-800 text-sm">Tecnologias Imersivas</h4>
-                                        <p className="text-xs text-slate-500 mt-1">Realidade mista holográfica, VR/AR e produção de conteúdo digital.</p>
+                                        <h4 className="font-bold text-slate-800 text-xs">Tecnologias Imersivas</h4>
+                                        <p className="text-[10px] text-slate-500 mt-0.5">Realidade mista holográfica, VR/AR e conteúdo digital.</p>
                                     </div>
                                 </div>
-                                <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex gap-4 items-start shrink-0">
-                                    <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0"><Icon name="book-open" size={20}/></div>
+                                <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex gap-3 items-center">
+                                    <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0"><Icon name="book-open" size={16}/></div>
                                     <div>
-                                        <h4 className="font-bold text-slate-800 text-sm">Ambientes de Experiência</h4>
-                                        <p className="text-xs text-slate-500 mt-1">Cozinha experimental, biblioteca, ginásio e áreas de convivência ativas.</p>
+                                        <h4 className="font-bold text-slate-800 text-xs">Ambientes de Experiência</h4>
+                                        <p className="text-[10px] text-slate-500 mt-0.5">Cozinha experimental, biblioteca, ginásio e convivência.</p>
                                     </div>
                                 </div>
                             </div>
@@ -520,43 +510,43 @@
                     <IntroParagraph 
                         title="Matrículas & Arquitetura de Produtos" 
                         highlight="Formatos flexíveis e atrativos."
-                        text="A ocupação sobe de 757 para 1.515 matrículas em cinco anos. A estratégia de conversão apoia-se em três formatos de jornada, permitindo que as famílias adequem a mensalidade à sua realidade."
+                        text="A ocupação sobe de 757 para 1.515 matrículas em cinco anos. A estratégia de conversão apoia-se em três formatos de jornada, permitindo adequação financeira."
                     />
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow min-h-0">
                         {/* Gráfico de Rampa */}
-                        <Card delay="0.1s" className="lg:col-span-8 flex flex-col pt-10 pb-6 relative overflow-hidden">
-                            <div className="absolute top-4 right-6 flex gap-3 text-xs font-bold shrink-0">
-                                <span className="flex items-center gap-1.5 text-sesi-dark"><div className="w-3 h-3 bg-sesi-dark rounded-sm"></div> Pagantes</span>
-                                <span className="flex items-center gap-1.5 text-emerald-500"><div className="w-3 h-3 bg-emerald-500 rounded-sm"></div> Gratuidade</span>
+                        <Card delay="0.1s" className="lg:col-span-8 flex flex-col pt-8 pb-4 relative overflow-hidden">
+                            <div className="absolute top-4 right-6 flex gap-3 text-[10px] font-bold">
+                                <span className="flex items-center gap-1.5 text-sesi-dark"><div className="w-2.5 h-2.5 bg-sesi-dark rounded-sm"></div> Pagantes</span>
+                                <span className="flex items-center gap-1.5 text-emerald-500"><div className="w-2.5 h-2.5 bg-emerald-500 rounded-sm"></div> Gratuidade</span>
                             </div>
 
                             <div className="absolute w-full border-t border-dashed border-slate-300 left-0 z-0 transition-all duration-700" style={{ top: '25%' }}>
-                                <span className="absolute -top-3 left-4 text-[10px] font-black text-slate-400 bg-white px-2">Capacidade: {capacity}</span>
+                                <span className="absolute -top-2.5 left-4 text-[9px] font-black text-slate-400 bg-white px-2">Capacidade: {capacity}</span>
                             </div>
 
-                            <div className="relative flex-grow flex items-end justify-between px-2 md:px-8 z-10 mt-8 min-h-[200px]">
+                            <div className="relative flex-grow flex items-end justify-between px-2 md:px-6 z-10 mt-6">
                                 {rampData.map((item, idx) => (
                                     <div key={idx} className="flex flex-col items-center justify-end w-1/6 h-full group">
                                         <div className="w-full flex flex-col items-center justify-end h-full transition-all duration-1000 ease-out" style={{ height: `${(item.total/capacity)*100}%` }}>
                                             
-                                            <div className="bg-white px-2 py-1 rounded-lg shadow-sm border border-slate-100 mb-2 whitespace-nowrap text-center z-10">
-                                                <span className="text-sm md:text-xl font-black text-slate-800 block">{item.total}</span>
+                                            <div className="bg-white px-1.5 py-0.5 rounded shadow-sm border border-slate-100 mb-1.5 whitespace-nowrap text-center z-10">
+                                                <span className="text-xs md:text-sm font-black text-slate-800 block">{item.total}</span>
                                             </div>
                                             
-                                            <div className="w-12 md:w-20 flex flex-col h-full justify-end rounded-t-xl overflow-hidden shadow-sm">
+                                            <div className="w-10 md:w-16 flex flex-col h-full justify-end rounded-t-lg overflow-hidden shadow-sm">
                                                 <div className="bg-emerald-500 w-full flex items-center justify-center transition-all duration-1000" style={{ height: `${(item.grat/item.total)*100}%` }}>
-                                                    <span className="text-[9px] font-bold text-white">{item.grat}</span>
+                                                    <span className="text-[8px] font-bold text-white">{item.grat}</span>
                                                 </div>
-                                                <div className="bg-sesi-dark w-full flex items-start justify-center pt-2 transition-all duration-1000" style={{ height: `${(item.pag/item.total)*100}%` }}>
-                                                    <span className="text-[10px] font-bold text-white/80">{item.pag}</span>
+                                                <div className="bg-sesi-dark w-full flex items-start justify-center pt-1.5 transition-all duration-1000" style={{ height: `${(item.pag/item.total)*100}%` }}>
+                                                    <span className="text-[9px] font-bold text-white/80">{item.pag}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         
-                                        <div className="flex flex-col items-center w-full mt-3 h-10 shrink-0">
-                                            <span className="font-bold text-slate-700 text-xs md:text-sm">{item.year}</span>
-                                            <span className="text-[10px] text-slate-500 font-semibold">{item.perc.toFixed(1).replace('.',',')}% ocup.</span>
+                                        <div className="flex flex-col items-center w-full mt-2 h-8 shrink-0">
+                                            <span className="font-bold text-slate-700 text-[10px] md:text-xs">{item.year}</span>
+                                            <span className="text-[8px] text-slate-500 font-semibold">{item.perc.toFixed(1).replace('.',',')}% oc.</span>
                                         </div>
                                     </div>
                                 ))}
@@ -564,35 +554,35 @@
                         </Card>
 
                         {/* Cards de Produtos */}
-                        <div className="lg:col-span-4 flex flex-col gap-4 overflow-y-auto pr-2 pb-2">
-                            <Card delay="0.2s" bg="bg-sesi-dark" className="flex flex-col justify-center border-none text-white relative overflow-hidden p-5 shrink-0">
-                                <Icon name="clock" size={80} className="absolute -right-4 -top-4 opacity-10 text-white" />
-                                <h3 className="text-lg font-black mb-1 relative z-10">Jornada Integral</h3>
-                                <p className="text-[10px] text-blue-200 uppercase font-bold tracking-wider mb-2 relative z-10">Padrão da Escola</p>
-                                <p className="text-sm text-blue-50 leading-relaxed font-medium relative z-10">
-                                    Imersão completa com robótica, STEAM e acompanhamento pedagógico estendido.
+                        <div className="lg:col-span-4 flex flex-col gap-2.5">
+                            <Card delay="0.2s" bg="bg-sesi-dark" className="justify-center border-none text-white relative overflow-hidden p-4 shrink-0 flex-1">
+                                <Icon name="clock" size={60} className="absolute -right-3 -top-3 opacity-10 text-white" />
+                                <h3 className="text-base font-black mb-1 relative z-10">Jornada Integral</h3>
+                                <p className="text-[9px] text-blue-200 uppercase font-bold tracking-wider mb-1.5 relative z-10">Padrão da Escola</p>
+                                <p className="text-[11px] text-blue-50 leading-relaxed font-medium relative z-10">
+                                    Imersão completa com robótica, STEAM e acompanhamento estendido.
                                 </p>
                             </Card>
 
-                            <Card delay="0.3s" bg="bg-sesi-blue" className="flex flex-col justify-center border-none text-white relative overflow-hidden p-5 shrink-0">
-                                <Icon name="sun" size={80} className="absolute -right-4 -top-4 opacity-10 text-white" />
+                            <Card delay="0.3s" bg="bg-sesi-blue" className="justify-center border-none text-white relative overflow-hidden p-4 shrink-0 flex-1">
+                                <Icon name="sun" size={60} className="absolute -right-3 -top-3 opacity-10 text-white" />
                                 <div className="flex items-center justify-between mb-1 relative z-10">
-                                    <h3 className="text-lg font-black">Semi-Integral</h3>
-                                    <span className="bg-emerald-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-sm">-30%</span>
+                                    <h3 className="text-base font-black">Semi-Integral</h3>
+                                    <span className="bg-emerald-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm">-30%</span>
                                 </div>
-                                <p className="text-[10px] text-blue-200 uppercase font-bold tracking-wider mb-2 relative z-10">Desconto Estratégico</p>
-                                <p className="text-sm text-blue-50 leading-relaxed font-medium relative z-10">
-                                    Redução da carga horária mantendo a excelência do currículo principal.
+                                <p className="text-[9px] text-blue-200 uppercase font-bold tracking-wider mb-1.5 relative z-10">Desconto Estratégico</p>
+                                <p className="text-[11px] text-blue-50 leading-relaxed font-medium relative z-10">
+                                    Redução da carga horária mantendo a excelência do currículo.
                                 </p>
                             </Card>
 
-                            <Card delay="0.4s" bg="bg-slate-50" className="flex flex-col justify-center border-2 border-slate-200 p-5 shrink-0">
-                                <h3 className="text-lg font-black text-slate-800 mb-1">Básico + Módulos</h3>
-                                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2">Flexível & Sob Demanda</p>
-                                <div className="flex flex-wrap gap-1.5 mt-2">
-                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[10px] font-bold text-slate-600 shadow-sm">Extracurriculares</span>
-                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[10px] font-bold text-slate-600 shadow-sm">Dança & Música</span>
-                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[10px] font-bold text-slate-600 shadow-sm">IA & Robótica</span>
+                            <Card delay="0.4s" bg="bg-slate-50" className="justify-center border-2 border-slate-200 p-4 shrink-0 flex-1">
+                                <h3 className="text-base font-black text-slate-800 mb-1">Básico + Módulos</h3>
+                                <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-1.5">Flexível & Demanda</p>
+                                <div className="flex flex-wrap gap-1 mt-1.5">
+                                    <span className="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[9px] font-bold text-slate-600 shadow-sm">Extracurriculares</span>
+                                    <span className="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[9px] font-bold text-slate-600 shadow-sm">Dança/Música</span>
+                                    <span className="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[9px] font-bold text-slate-600 shadow-sm">IA/Robótica</span>
                                 </div>
                             </Card>
                         </div>
@@ -623,75 +613,75 @@
                     <IntroParagraph 
                         title="Viabilidade Financeira" 
                         highlight="Break-even no Ano 2."
-                        text="A DRE atualizada mostra prejuízo apenas no Ano 1, com virada operacional no Ano 2 e melhoria gradual de margem. O projeto atravessa o início, vira rapidamente e passa a construir margem com crescimento controlado."
+                        text="A DRE mostra prejuízo apenas no Ano 1, com virada operacional rápida no Ano 2 e melhoria gradual de margem sustentável."
                     />
 
-                    <div className="flex flex-wrap gap-2 md:gap-3 mb-6 shrink-0 z-20 relative overflow-x-auto no-scrollbar">
+                    <div className="flex flex-wrap gap-2 mb-4 shrink-0 z-20 relative">
                         {dreData.map((d, i) => (
                             <button 
                                 key={i} onClick={() => setSelectedYear(i)}
-                                className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all border-2 ${selectedYear === i ? 'bg-sesi-dark border-sesi-dark text-white shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'}`}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${selectedYear === i ? 'bg-sesi-dark border-sesi-dark text-white shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'}`}
                             >
                                 {d.ano}
                             </button>
                         ))}
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
-                        <Card delay="0.1s" bg="bg-white" className="lg:col-span-8 flex flex-col p-6 relative overflow-hidden">
-                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-6 shrink-0">Receitas Totais x Despesas Totais (R$ milhões)</h3>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow min-h-0">
+                        <Card delay="0.1s" bg="bg-white" className="lg:col-span-8 flex flex-col p-5 relative overflow-hidden">
+                            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 shrink-0">Receitas Totais x Despesas Totais (R$ mi)</h3>
                             
-                            <div className="absolute top-6 right-6 flex gap-4 text-xs font-bold">
-                                <span className="flex items-center gap-1.5 text-sesi-blue"><div className="w-3 h-3 bg-sesi-blue rounded"></div> Receitas</span>
-                                <span className="flex items-center gap-1.5 text-rose-500"><div className="w-3 h-3 bg-rose-500 rounded"></div> Despesas</span>
+                            <div className="absolute top-5 right-5 flex gap-3 text-[10px] font-bold">
+                                <span className="flex items-center gap-1.5 text-sesi-blue"><div className="w-2.5 h-2.5 bg-sesi-blue rounded-sm"></div> Receitas</span>
+                                <span className="flex items-center gap-1.5 text-rose-500"><div className="w-2.5 h-2.5 bg-rose-500 rounded-sm"></div> Despesas</span>
                             </div>
 
-                            <div className="relative flex-grow flex items-end justify-between px-2 h-full z-10 border-b border-slate-200 pb-2 min-h-[200px]">
+                            <div className="relative flex-grow flex items-end justify-between px-2 h-full z-10 border-b border-slate-200 pb-2">
                                 {dreData.map((d, i) => (
                                     <div key={i} className={`flex flex-col items-center justify-end w-1/6 h-full transition-opacity duration-300 ${selectedYear === i ? 'opacity-100' : 'opacity-40 hover:opacity-70 cursor-pointer'}`} onClick={() => setSelectedYear(i)}>
-                                        <div className="flex items-end justify-center w-full gap-1 lg:gap-2 h-full">
-                                            <div className="w-1/3 max-w-[40px] bg-sesi-blue rounded-t-lg relative flex flex-col justify-start items-center chart-bar" style={{ height: `${(d.rec/maxVal)*100}%` }}>
-                                                {selectedYear === i && <span className="absolute -top-6 text-[10px] font-bold text-sesi-blue bg-blue-50 px-1 rounded shadow-sm">{formatVal(d.rec)}</span>}
+                                        <div className="flex items-end justify-center w-full gap-1 h-full">
+                                            <div className="w-1/3 max-w-[30px] bg-sesi-blue rounded-t relative flex flex-col justify-start items-center chart-bar" style={{ height: `${(d.rec/maxVal)*100}%` }}>
+                                                {selectedYear === i && <span className="absolute -top-5 text-[9px] font-bold text-sesi-blue bg-blue-50 px-1 rounded shadow-sm">{formatVal(d.rec)}</span>}
                                             </div>
-                                            <div className="w-1/3 max-w-[40px] bg-rose-500 rounded-t-lg relative flex flex-col justify-start items-center chart-bar" style={{ height: `${(d.desp/maxVal)*100}%` }}>
-                                                {selectedYear === i && <span className="absolute -top-6 text-[10px] font-bold text-rose-600 bg-rose-50 px-1 rounded shadow-sm">{formatVal(d.desp)}</span>}
+                                            <div className="w-1/3 max-w-[30px] bg-rose-500 rounded-t relative flex flex-col justify-start items-center chart-bar" style={{ height: `${(d.desp/maxVal)*100}%` }}>
+                                                {selectedYear === i && <span className="absolute -top-5 text-[9px] font-bold text-rose-600 bg-rose-50 px-1 rounded shadow-sm">{formatVal(d.desp)}</span>}
                                             </div>
                                         </div>
-                                        <div className="flex flex-col items-center mt-3 h-6 shrink-0">
-                                            <span className={`font-bold text-xs ${selectedYear === i ? 'text-sesi-dark' : 'text-slate-500'}`}>{d.ano}</span>
+                                        <div className="flex flex-col items-center mt-2 h-4 shrink-0">
+                                            <span className={`font-bold text-[10px] ${selectedYear === i ? 'text-sesi-dark' : 'text-slate-500'}`}>{d.ano}</span>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         </Card>
 
-                        <div className="lg:col-span-4 flex flex-col gap-4 overflow-y-auto">
-                            <Card delay="0.2s" bg={current.res > 0 ? 'bg-sesi-dark' : 'bg-rose-900'} className="text-white flex-shrink-0 flex flex-col justify-center border-none transition-colors duration-500 relative overflow-hidden py-8">
-                                <Icon name={current.res > 0 ? "trending-up" : "trending-down"} size={100} className="absolute -right-4 -bottom-4 opacity-10" />
-                                <p className="text-xs font-bold text-white/70 uppercase tracking-wider mb-1 relative z-10">Resultado Líquido ({current.ano})</p>
-                                <p className="text-4xl font-black mb-6 relative z-10">
-                                    {current.res > 0 ? '+ ' : '- '}R$ {Math.abs(current.res).toFixed(2).replace('.',',')} <span className="text-xl font-normal">mi</span>
+                        <div className="lg:col-span-4 flex flex-col gap-4">
+                            <Card delay="0.2s" bg={current.res > 0 ? 'bg-sesi-dark' : 'bg-rose-900'} className="text-white flex-1 justify-center border-none transition-colors duration-500 relative overflow-hidden p-5">
+                                <Icon name={current.res > 0 ? "trending-up" : "trending-down"} size={80} className="absolute -right-3 -bottom-3 opacity-10" />
+                                <p className="text-[10px] font-bold text-white/70 uppercase tracking-wider mb-1 relative z-10">Resultado Líquido ({current.ano})</p>
+                                <p className="text-3xl font-black mb-4 relative z-10">
+                                    {current.res > 0 ? '+ ' : '- '}R$ {Math.abs(current.res).toFixed(2).replace('.',',')} <span className="text-lg font-normal">mi</span>
                                 </p>
-                                <div className="bg-white/10 p-4 rounded-xl backdrop-blur-md border border-white/20 flex justify-between items-center relative z-10">
-                                    <span className="text-sm font-bold text-white/80">Margem Líquida</span>
-                                    <span className={`text-xl font-black px-2 py-1 rounded ${current.margin > 0 ? 'bg-emerald-500/30 text-emerald-300' : 'bg-rose-500/50 text-rose-200'}`}>
+                                <div className="bg-white/10 p-3 rounded-lg backdrop-blur-md border border-white/20 flex justify-between items-center relative z-10 shrink-0">
+                                    <span className="text-xs font-bold text-white/80">Margem Líquida</span>
+                                    <span className={`text-sm font-black px-2 py-1 rounded ${current.margin > 0 ? 'bg-emerald-500/30 text-emerald-300' : 'bg-rose-500/50 text-rose-200'}`}>
                                         {current.margin > 0 ? '+' : ''}{formatVal(current.margin)}%
                                     </span>
                                 </div>
                             </Card>
 
-                            <Card delay="0.3s" bg="bg-slate-50" className="flex-shrink-0 flex flex-col justify-center py-8">
-                                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Perspectiva de Longo Prazo</p>
-                                <div className="flex items-center gap-4 mb-4">
-                                    <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 shrink-0">
-                                        <Icon name="timer" size={20} />
+                            <Card delay="0.3s" bg="bg-slate-50" className="flex-1 justify-center p-5">
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Perspectiva de Longo Prazo</p>
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+                                        <Icon name="timer" size={16} />
                                     </div>
                                     <div>
-                                        <p className="text-xs text-slate-500 font-bold">Payback Projetado</p>
-                                        <p className="text-lg font-black text-slate-800">10 Anos e 4 Meses</p>
+                                        <p className="text-[10px] text-slate-500 font-bold">Payback Projetado</p>
+                                        <p className="text-base font-black text-slate-800">10 Anos e 4 Meses</p>
                                     </div>
                                 </div>
-                                <p className="text-xs text-slate-600 leading-relaxed">
+                                <p className="text-[10px] text-slate-600 leading-relaxed">
                                     A curva de longo prazo estima uma rentabilidade crescente, atingindo <strong className="text-sesi-dark">9,95% no Ano 24</strong>.
                                 </p>
                             </Card>
@@ -706,67 +696,12 @@
             const [activeSignal, setActiveSignal] = useState(0);
 
             const signals = [
-                { 
-                    id: 0, 
-                    title: "AGI (Inteligência Artificial Geral)", 
-                    icon: "brain-circuit", 
-                    desc: "A educação migrará da retenção de dados para a formulação de perguntas complexas e curadoria. O SESI Jardins prepara a cognição para dialogar com algoritmos avançados e IA.",
-                    ods: [
-                        { num: 4, name: "Educação de Qualidade", color: "bg-[#C5192D]" },
-                        { num: 9, name: "Indústria, Inovação e Infraestrutura", color: "bg-[#FD6925]" }
-                    ]
-                },
-                { 
-                    id: 1, 
-                    title: "Computação Quântica", 
-                    icon: "atom", 
-                    desc: "Poder computacional exponencial resolverá dilemas globais. Nossos laboratórios STEAM e espaços maker preparam a lógica de programação para as próximas gerações.",
-                    ods: [
-                        { num: 9, name: "Indústria, Inovação e Infraestrutura", color: "bg-[#FD6925]" }
-                    ]
-                },
-                { 
-                    id: 2, 
-                    title: "Singularidade", 
-                    icon: "infinity", 
-                    desc: "A convergência homem-máquina exigirá ética e humanismo robustos. A escola atua como o reduto da preservação da empatia, pensamento crítico, filosofia e conexões reais.",
-                    ods: [
-                        { num: 3, name: "Saúde e Bem-Estar", color: "bg-[#4C9F38]" },
-                        { num: 10, name: "Redução das Desigualdades", color: "bg-[#DD1367]" },
-                        { num: 16, name: "Paz, Justiça e Instituições Fortes", color: "bg-[#00689D]" }
-                    ]
-                },
-                { 
-                    id: 3, 
-                    title: "Robotização em Massa", 
-                    icon: "bot", 
-                    desc: "A automação de tarefas rotineiras é realidade. O diferencial humano estará na criatividade, gestão de crises e adaptabilidade maker, desenvolvidas desde a base.",
-                    ods: [
-                        { num: 8, name: "Trabalho Decente e Crescimento Econômico", color: "bg-[#A21942]" },
-                        { num: 9, name: "Indústria, Inovação e Infraestrutura", color: "bg-[#FD6925]" }
-                    ]
-                },
-                { 
-                    id: 4, 
-                    title: "Sustentabilidade Radical", 
-                    icon: "leaf", 
-                    desc: "Economia circular, bioengenharia e design regenerativo. Desafios reais de mitigação climática são integrados como projetos centrais de aprendizado ativo.",
-                    ods: [
-                        { num: 11, name: "Cidades e Comunidades Sustentáveis", color: "bg-[#FD9D24]" },
-                        { num: 12, name: "Consumo e Produção Responsáveis", color: "bg-[#BF8B2E]" },
-                        { num: 13, name: "Ação Climática", color: "bg-[#3F7E44]" }
-                    ]
-                },
-                { 
-                    id: 5, 
-                    title: "Hiper-conectividade", 
-                    icon: "network", 
-                    desc: "Cidades verticais e presença ubíqua digital. A mobilidade será reinventada; a flexibilidade cognitiva será a habilidade primária dos nossos estudantes.",
-                    ods: [
-                        { num: 9, name: "Indústria, Inovação e Infraestrutura", color: "bg-[#FD6925]" },
-                        { num: 11, name: "Cidades e Comunidades Sustentáveis", color: "bg-[#FD9D24]" }
-                    ]
-                }
+                { id: 0, title: "AGI (Inteligência Artificial)", icon: "brain-circuit", desc: "A educação migrará da retenção de dados para a curadoria. Preparamos a cognição para dialogar com algoritmos.", ods: [{ num: 4, name: "Educação de Qualidade", color: "bg-[#C5192D]" }, { num: 9, name: "Indústria, Inovação", color: "bg-[#FD6925]" }] },
+                { id: 1, title: "Computação Quântica", icon: "atom", desc: "Poder computacional exponencial. Nossos laboratórios STEAM preparam a lógica de programação para as próximas gerações.", ods: [{ num: 9, name: "Indústria, Inovação", color: "bg-[#FD6925]" }] },
+                { id: 2, title: "Singularidade", icon: "infinity", desc: "A convergência homem-máquina exigirá ética. A escola atua como o reduto da empatia, filosofia e conexões reais.", ods: [{ num: 3, name: "Saúde e Bem-Estar", color: "bg-[#4C9F38]" }, { num: 10, name: "Redução de Desigualdades", color: "bg-[#DD1367]" }] },
+                { id: 3, title: "Robotização em Massa", icon: "bot", desc: "A automação de tarefas é realidade. O diferencial humano estará na criatividade, gestão de crises e adaptabilidade maker.", ods: [{ num: 8, name: "Trabalho Decente", color: "bg-[#A21942]" }, { num: 9, name: "Indústria, Inovação", color: "bg-[#FD6925]" }] },
+                { id: 4, title: "Sustentabilidade Radical", icon: "leaf", desc: "Economia circular, bioengenharia e design regenerativo. Desafios de mitigação climática como projetos centrais.", ods: [{ num: 11, name: "Cidades Sustentáveis", color: "bg-[#FD9D24]" }, { num: 13, name: "Ação Climática", color: "bg-[#3F7E44]" }] },
+                { id: 5, title: "Hiper-conectividade", icon: "network", desc: "Cidades verticais e presença ubíqua digital. A flexibilidade cognitiva será a habilidade primária dos estudantes.", ods: [{ num: 9, name: "Indústria, Inovação", color: "bg-[#FD6925]" }, { num: 11, name: "Cidades Sustentáveis", color: "bg-[#FD9D24]" }] }
             ];
 
             return (
@@ -774,60 +709,53 @@
                     <IntroParagraph 
                         title="O Futuro é o Nosso Currículo" 
                         highlight="Preparando para o Amanhã."
-                        text="A Escola SESI Jardins não foi projetada para o mundo de hoje, mas para forjar os cidadãos que moldarão as próximas décadas. A intersecção entre tecnologia exponencial e resiliência humana é a nossa tese."
+                        text="A Escola não foi projetada para o mundo de hoje, mas para forjar os cidadãos das próximas décadas."
                     />
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0 mb-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow min-h-0 mb-4">
                         {/* Tab List */}
-                        <div className="lg:col-span-5 flex flex-col gap-3 overflow-y-auto pr-2 pb-2">
+                        <div className="lg:col-span-5 flex flex-col gap-2">
                             {signals.map((signal) => (
                                 <button 
-                                    key={signal.id}
-                                    onClick={() => setActiveSignal(signal.id)}
-                                    className={`flex items-center gap-4 w-full p-4 rounded-2xl transition-all duration-300 text-left border shrink-0 ${activeSignal === signal.id ? 'bg-sesi-blue text-white shadow-md border-blue-500 scale-[1.02]' : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:bg-blue-50'}`}
+                                    key={signal.id} onClick={() => setActiveSignal(signal.id)}
+                                    className={`flex items-center gap-3 w-full p-3 rounded-xl transition-all duration-300 text-left border flex-1 ${activeSignal === signal.id ? 'bg-sesi-blue text-white shadow-md border-blue-500 scale-[1.01]' : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:bg-blue-50'}`}
                                 >
-                                    <div className={`flex items-center justify-center w-12 h-12 rounded-xl shrink-0 transition-colors ${activeSignal === signal.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-sesi-dark'}`}>
-                                        <Icon name={signal.icon} size={24} />
+                                    <div className={`flex items-center justify-center w-10 h-10 rounded-lg shrink-0 transition-colors ${activeSignal === signal.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-sesi-dark'}`}>
+                                        <Icon name={signal.icon} size={20} />
                                     </div>
-                                    <span className={`font-black text-sm md:text-base ${activeSignal === signal.id ? 'text-white' : 'text-slate-800'}`}>
+                                    <span className={`font-black text-xs md:text-sm ${activeSignal === signal.id ? 'text-white' : 'text-slate-800'}`}>
                                         {signal.title}
                                     </span>
-                                    <Icon name="chevron-right" size={20} className={`ml-auto transition-transform ${activeSignal === signal.id ? 'translate-x-1 opacity-100' : 'opacity-0'}`} />
                                 </button>
                             ))}
                         </div>
 
-                        {/* Detailed View - Corrigido para não suprimir conteúdo */}
-                        <Card delay="0.1s" bg="bg-slate-50" className="lg:col-span-7 relative overflow-hidden flex flex-col border-2 border-slate-200 p-0">
-                            {/* Background decoration */}
+                        {/* Detailed View */}
+                        <Card delay="0.1s" bg="bg-slate-50" className="lg:col-span-7 relative overflow-hidden flex flex-col justify-between border-2 border-slate-200 p-5 md:p-6">
                             <div className="absolute right-[-5%] bottom-[-10%] opacity-[0.03] text-sesi-dark pointer-events-none transition-all duration-700 transform scale-110">
-                                <Icon name={signals[activeSignal].icon} size={350} />
+                                <Icon name={signals[activeSignal].icon} size={250} />
                             </div>
                             
-                            {/* Inner Scrollable Area para proteger o conteúdo */}
-                            <div className="relative z-10 fade-in flex flex-col h-full p-8 md:p-12 overflow-y-auto" key={activeSignal}>
-                                
-                                {/* Top Content (Flexível) */}
-                                <div className="flex-grow flex flex-col justify-start">
-                                    <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-6 text-sesi-blue shrink-0">
-                                        <Icon name={signals[activeSignal].icon} size={32} />
+                            <div className="relative z-10 fade-in flex flex-col h-full" key={activeSignal}>
+                                <div className="flex-grow flex flex-col justify-center">
+                                    <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-4 text-sesi-blue shrink-0">
+                                        <Icon name={signals[activeSignal].icon} size={24} />
                                     </div>
-                                    <h3 className="text-3xl font-black text-slate-800 mb-6 leading-tight shrink-0">{signals[activeSignal].title}</h3>
-                                    <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
+                                    <h3 className="text-2xl font-black text-slate-800 mb-3 leading-tight">{signals[activeSignal].title}</h3>
+                                    <p className="text-sm text-slate-600 leading-relaxed font-medium">
                                         {signals[activeSignal].desc}
                                     </p>
                                 </div>
 
-                                {/* ODS Badges (Fixo no rodapé ou após o texto) */}
-                                <div className="mt-8 pt-6 border-t border-slate-200/80 shrink-0">
-                                    <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
-                                        <Icon name="globe" size={14} /> Alinhamento Global (Agenda 2030)
+                                <div className="mt-4 pt-4 border-t border-slate-200/80 shrink-0">
+                                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-1.5">
+                                        <Icon name="globe" size={12} /> Alinhamento Global (Agenda 2030)
                                     </p>
                                     <div className="flex flex-wrap gap-2">
                                         {signals[activeSignal].ods.map((ods, i) => (
-                                            <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg ${ods.color} text-white shadow-sm`}>
-                                                <span className="font-black text-[10px] bg-white/20 px-1.5 py-0.5 rounded text-white whitespace-nowrap">ODS {ods.num}</span>
-                                                <span className="text-xs font-bold leading-tight">{ods.name}</span>
+                                            <div key={i} className={`flex items-center gap-1.5 px-2 py-1 rounded ${ods.color} text-white shadow-sm`}>
+                                                <span className="font-black text-[9px] bg-white/20 px-1 py-0.5 rounded text-white">ODS {ods.num}</span>
+                                                <span className="text-[10px] font-bold leading-tight whitespace-nowrap">{ods.name}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -837,36 +765,34 @@
                     </div>
                     
                     {/* Trilha de Inovação */}
-                    <div className="bg-sesi-dark p-6 rounded-[24px] shrink-0 flex flex-col lg:flex-row items-center justify-between text-white shadow-apple-floating border border-blue-400/20 gap-6">
+                    <div className="bg-sesi-dark p-4 md:p-5 rounded-[20px] shrink-0 flex flex-col lg:flex-row items-center justify-between text-white shadow-apple-floating border border-blue-400/20 gap-4">
                         <div className="lg:w-1/3">
-                            <h4 className="text-xl font-black mb-2 flex items-center gap-2"><Icon name="milestone" size={24} className="text-emerald-400"/> Trilha de Inovação Contínua</h4>
-                            <p className="text-xs text-blue-100 font-medium leading-relaxed">
-                                O SESI Jardins atua como a porta de entrada para uma esteira de formação de excelência, conectando talentos precoces às <strong>Faculdades SENAI</strong> e aos centros de pesquisa dos <strong>Institutos SENAI de Tecnologia (IST) e Inovação (ISI)</strong>.
+                            <h4 className="text-base font-black mb-1 flex items-center gap-2"><Icon name="milestone" size={18} className="text-emerald-400"/> Trilha Contínua</h4>
+                            <p className="text-[10px] text-blue-100 font-medium leading-relaxed">
+                                O SESI atua como porta de entrada para a formação de excelência, conectando talentos precoces às <strong>Faculdades SENAI</strong> e centros de pesquisa <strong>(IST e ISI)</strong>.
                             </p>
                         </div>
                         
-                        <div className="lg:w-2/3 w-full flex flex-col sm:flex-row items-center justify-end gap-2 md:gap-4 relative">
-                            <div className="hidden sm:block absolute top-1/2 left-4 right-4 h-0.5 bg-white/10 -z-0 -translate-y-1/2"></div>
+                        <div className="lg:w-2/3 w-full flex flex-col sm:flex-row items-center justify-end gap-2 relative">
+                            <div className="hidden sm:block absolute top-1/2 left-2 right-2 h-0.5 bg-white/10 -z-0 -translate-y-1/2"></div>
                             
-                            <div className="bg-blue-900/80 backdrop-blur border border-blue-400/30 px-4 py-3 rounded-xl text-center shadow-lg z-10 w-full sm:w-auto shrink-0">
-                                <p className="text-[10px] text-blue-200 font-bold uppercase tracking-wider mb-1">Passo 1</p>
-                                <p className="text-xs font-black text-white">Educação Básica (SESI)</p>
+                            <div className="bg-blue-900/80 backdrop-blur border border-blue-400/30 px-3 py-2 rounded-lg text-center shadow-sm z-10 w-full sm:w-auto">
+                                <p className="text-[8px] text-blue-200 font-bold uppercase tracking-wider mb-0.5">Passo 1</p>
+                                <p className="text-[10px] font-black text-white">Básica (SESI)</p>
                             </div>
                             
-                            <Icon name="arrow-right" size={20} className="hidden sm:block text-blue-300 z-10 shrink-0" />
-                            <Icon name="arrow-down" size={20} className="sm:hidden text-blue-300 shrink-0" />
+                            <Icon name="arrow-right" size={16} className="hidden sm:block text-blue-300 z-10 shrink-0" />
                             
-                            <div className="bg-blue-900/80 backdrop-blur border border-blue-400/30 px-4 py-3 rounded-xl text-center shadow-lg z-10 w-full sm:w-auto shrink-0">
-                                <p className="text-[10px] text-blue-200 font-bold uppercase tracking-wider mb-1">Passo 2</p>
-                                <p className="text-xs font-black text-white">Graduação (SENAI)</p>
+                            <div className="bg-blue-900/80 backdrop-blur border border-blue-400/30 px-3 py-2 rounded-lg text-center shadow-sm z-10 w-full sm:w-auto">
+                                <p className="text-[8px] text-blue-200 font-bold uppercase tracking-wider mb-0.5">Passo 2</p>
+                                <p className="text-[10px] font-black text-white">Graduação (SENAI)</p>
                             </div>
                             
-                            <Icon name="arrow-right" size={20} className="hidden sm:block text-emerald-300 z-10 shrink-0" />
-                            <Icon name="arrow-down" size={20} className="sm:hidden text-emerald-300 shrink-0" />
+                            <Icon name="arrow-right" size={16} className="hidden sm:block text-emerald-300 z-10 shrink-0" />
                             
-                            <div className="bg-emerald-900/80 backdrop-blur border border-emerald-400/40 px-4 py-3 rounded-xl text-center shadow-lg z-10 w-full sm:w-auto ring-2 ring-emerald-500/50 shrink-0">
-                                <p className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider mb-1">Passo 3 (Pesquisa)</p>
-                                <p className="text-xs font-black text-white">Inovação Aplicada (IST / ISI)</p>
+                            <div className="bg-emerald-900/80 backdrop-blur border border-emerald-400/40 px-3 py-2 rounded-lg text-center shadow-sm z-10 w-full sm:w-auto ring-1 ring-emerald-500/50">
+                                <p className="text-[8px] text-emerald-300 font-bold uppercase tracking-wider mb-0.5">Passo 3 (Pesquisa)</p>
+                                <p className="text-[10px] font-black text-white">IST / ISI</p>
                             </div>
                         </div>
                     </div>
@@ -890,37 +816,37 @@
             ];
 
             return (
-                <div className="slide-content flex flex-col h-full fade-in overflow-y-auto w-full h-full relative">
+                <div className="slide-content flex flex-col items-center justify-center h-full w-full fade-in p-8">
                     
                     {/* Header Logos text base para replicar a imagem */}
-                    <div className="flex flex-wrap justify-center items-end gap-x-6 gap-y-4 mb-16 shrink-0 opacity-95">
-                        <span className="text-4xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-md">FIEG <span className="text-2xl md:text-3xl">75 <span className="text-xs md:text-sm font-bold tracking-normal not-italic">ANOS</span></span></span>
-                        <span className="text-4xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-md">SESI</span>
-                        <span className="text-4xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-md">SENAI</span>
-                        <span className="text-4xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-md">IEL</span>
+                    <div className="flex flex-wrap justify-center items-end gap-x-6 gap-y-4 mb-12 shrink-0 opacity-100">
+                        <span className="text-5xl md:text-6xl font-black italic tracking-tighter text-white drop-shadow-md">FIEG <span className="text-3xl md:text-4xl">75 <span className="text-sm md:text-base font-bold tracking-normal not-italic">ANOS</span></span></span>
+                        <span className="text-5xl md:text-6xl font-black italic tracking-tighter text-white drop-shadow-md">SESI</span>
+                        <span className="text-5xl md:text-6xl font-black italic tracking-tighter text-white drop-shadow-md">SENAI</span>
+                        <span className="text-5xl md:text-6xl font-black italic tracking-tighter text-white drop-shadow-md">IEL</span>
                     </div>
 
-                    <div className="flex flex-col md:flex-row gap-10 md:gap-20 w-full max-w-5xl mx-auto flex-grow items-start">
+                    <div className="flex flex-col md:flex-row gap-8 md:gap-16 w-full max-w-4xl mx-auto flex-grow items-center justify-center">
                         {/* Coluna Esquerda */}
-                        <div className="flex-1 flex flex-col gap-6 md:gap-8">
+                        <div className="flex-1 flex flex-col gap-6 w-full md:pr-8 text-left md:text-right">
                             {leftCol.map((item, i) => (
                                 <div key={i} className="fade-in" style={{animationDelay: `${i*0.1}s`}}>
-                                    <h4 className="font-bold text-lg md:text-xl leading-tight mb-1 text-white">{item.title}</h4>
-                                    <p className="text-white/80 font-medium text-base md:text-lg">{item.name}</p>
+                                    <h4 className="font-bold text-sm md:text-base leading-tight text-white mb-0.5">{item.title}</h4>
+                                    <p className="text-white/80 font-normal text-sm">{item.name}</p>
                                 </div>
                             ))}
                         </div>
 
                         {/* Linha Divisória */}
-                        <div className="hidden md:block w-px h-3/4 bg-white/20 self-center"></div>
-                        <div className="block md:hidden h-px w-full bg-white/20 my-4 shrink-0"></div>
+                        <div className="hidden md:block w-px h-[60%] bg-white/20 self-center shrink-0"></div>
+                        <div className="block md:hidden h-px w-3/4 bg-white/20 my-2 shrink-0 self-center"></div>
 
                         {/* Coluna Direita */}
-                        <div className="flex-1 flex flex-col gap-6 md:gap-8 md:pt-[10%]">
+                        <div className="flex-1 flex flex-col gap-6 w-full md:pl-8 text-left">
                             {rightCol.map((item, i) => (
                                 <div key={i} className="fade-in" style={{animationDelay: `${(i+5)*0.1}s`}}>
-                                    <h4 className="font-bold text-lg md:text-xl leading-tight mb-1 text-white">{item.title}</h4>
-                                    <p className="text-white/80 font-medium text-base md:text-lg">{item.name}</p>
+                                    <h4 className="font-bold text-sm md:text-base leading-tight text-white mb-0.5">{item.title}</h4>
+                                    <p className="text-white/80 font-normal text-sm">{item.name}</p>
                                 </div>
                             ))}
                         </div>
@@ -942,6 +868,7 @@
 
         const App = () => {
             const [currentSlide, setCurrentSlide] = useState(0);
+            const isCredits = currentSlide === slides.length - 1;
 
             const nextSlide = () => { if (currentSlide < slides.length - 1) setCurrentSlide(curr => curr + 1); };
             const prevSlide = () => { if (currentSlide > 0) setCurrentSlide(curr => curr - 1); };
@@ -958,63 +885,57 @@
             return (
                 <div className="relative w-full h-screen bg-slate-50 flex flex-col items-center justify-center font-sans overflow-hidden">
                     
-                    {/* Header Global Fixo e Responsivo */}
-                    <nav className="absolute top-0 w-full z-50 px-4 md:px-8 py-4 md:py-6 flex flex-col md:flex-row items-center justify-between pointer-events-none gap-4">
-                        
-                        <div className="flex w-full md:w-auto justify-between items-center">
+                    {/* Header Global Fixo */}
+                    <div className="absolute top-0 left-0 w-full z-50 pointer-events-none flex flex-col items-center">
+                        <div className="w-full max-w-[1500px] flex justify-between items-center px-4 md:px-10 py-4 md:py-6 relative">
+                            
                             {/* Título */}
-                            <div className={`flex items-center gap-3 font-black text-lg md:text-xl pointer-events-auto backdrop-blur-lg px-4 md:px-5 py-2 md:py-2.5 rounded-[16px] shadow-sm border transition-colors duration-500 ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 text-white border-white/20' : 'bg-white/90 text-sesi-dark border-slate-200'}`}>
-                                <Icon name="graduation-cap" className={currentSlide === slides.length - 1 ? 'text-white' : 'text-sesi-blue'} size={24} />
+                            <div className={`flex items-center gap-2 md:gap-3 font-black text-base md:text-lg pointer-events-auto backdrop-blur-lg px-5 py-2.5 rounded-xl shadow-sm border transition-colors duration-500 ${isCredits ? 'bg-[#0E285D]/80 text-white border-white/20' : 'bg-white/90 text-sesi-dark border-slate-200'}`}>
+                                <Icon name="graduation-cap" className={isCredits ? 'text-white' : 'text-sesi-blue'} size={24} />
                                 <span className="hidden sm:inline">SESI Jardins</span>
-                                <span className="sm:hidden">SESI</span>
                             </div>
 
-                            {/* Logomarca - Visível no mobile à direita */}
-                            <div className={`md:hidden pointer-events-auto backdrop-blur-lg px-3 py-2 rounded-[16px] shadow-sm border flex items-center justify-center transition-colors duration-500 ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20' : 'bg-white/90 border-slate-200'}`}>
-                                <img src="https://i.postimg.cc/3Jy5sCYP/Fieg-SESI.png" alt="FIEG SESI" className={`h-6 object-contain ${currentSlide === slides.length - 1 ? 'brightness-0 invert' : ''}`} />
+                            {/* Menu de Navegação Central */}
+                            <div className="absolute left-1/2 -translate-x-1/2 top-20 md:top-1/2 md:-translate-y-1/2 pointer-events-auto w-[95%] md:w-auto overflow-x-hidden">
+                                <div className={`flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-1.5 backdrop-blur-lg p-1.5 rounded-xl shadow-sm border min-w-max mx-auto transition-colors duration-500 ${isCredits ? 'bg-[#0E285D]/80 border-white/20' : 'bg-white/90 border-slate-200'}`}>
+                                    {slides.map((slide, idx) => (
+                                        <button 
+                                            key={idx} onClick={() => setCurrentSlide(idx)}
+                                            className={`px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-bold transition-all whitespace-nowrap ${currentSlide === idx ? (isCredits ? 'bg-white text-[#153B82] shadow-md' : 'bg-sesi-blue text-white shadow-md') : (isCredits ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100')}`}
+                                        >
+                                            {slide.title}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Menu Central */}
-                        <div className={`flex-shrink-0 flex flex-wrap justify-center gap-1.5 pointer-events-auto backdrop-blur-lg p-1.5 rounded-[16px] shadow-sm border max-w-full transition-colors duration-500 ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20' : 'bg-white/90 border-slate-200'}`}>
-                            {slides.map((slide, idx) => (
-                                <button 
-                                    key={idx} onClick={() => setCurrentSlide(idx)}
-                                    className={`px-2 md:px-3 py-2 rounded-xl text-[10px] md:text-xs font-bold transition-all whitespace-nowrap ${currentSlide === idx ? (currentSlide === slides.length - 1 ? 'bg-white text-[#153B82] shadow-md' : 'bg-sesi-blue text-white shadow-md') : (currentSlide === slides.length - 1 ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100')}`}
-                                >
-                                    {slide.title}
-                                </button>
-                            ))}
-                        </div>
-
-                        {/* Logomarca - Visível no Desktop à direita */}
-                        <div className="flex-1 flex justify-end hidden md:flex">
-                            <div className={`pointer-events-auto backdrop-blur-lg px-4 py-2.5 rounded-[16px] shadow-sm border flex items-center justify-center transition-colors duration-500 ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20' : 'bg-white/90 border-slate-200'}`}>
-                                <img src="https://i.postimg.cc/3Jy5sCYP/Fieg-SESI.png" alt="FIEG SESI" className={`h-7 object-contain transition-all duration-500 ${currentSlide === slides.length - 1 ? 'brightness-0 invert' : ''}`} />
+                            {/* Logomarca Superior Direita (Fixa em todas as páginas) */}
+                            <div className={`pointer-events-auto backdrop-blur-lg px-4 py-2.5 rounded-xl shadow-sm border flex items-center justify-center transition-colors duration-500 ${isCredits ? 'bg-[#0E285D]/80 border-white/20' : 'bg-white/90 border-slate-200'}`}>
+                                <img src="https://i.postimg.cc/3Jy5sCYP/Fieg-SESI.png" alt="FIEG SESI" className={`h-6 md:h-8 object-contain transition-all duration-500 ${isCredits ? 'brightness-0 invert' : ''}`} />
                             </div>
-                        </div>
 
-                    </nav>
+                        </div>
+                    </div>
 
                     {/* Nav Buttons (Setas laterais) */}
-                    <div className="absolute left-2 md:left-6 z-40">
-                        <button onClick={prevSlide} disabled={currentSlide === 0} className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center backdrop-blur-md shadow-apple-floating border transition-all ${currentSlide === 0 ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 hover:scale-110'} ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20 text-white hover:border-white' : 'bg-white/95 border-slate-200 text-slate-800 hover:border-sesi-blue hover:text-sesi-blue'}`}>
+                    <div className="absolute left-2 md:left-4 z-40">
+                        <button onClick={prevSlide} disabled={currentSlide === 0} className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md shadow-apple-floating border transition-all ${currentSlide === 0 ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 hover:scale-110'} ${isCredits ? 'bg-[#0E285D]/80 border-white/20 text-white hover:border-white' : 'bg-white/95 border-slate-200 text-slate-800 hover:border-sesi-blue hover:text-sesi-blue'}`}>
                             <Icon name="chevron-left" size={24} />
                         </button>
                     </div>
 
-                    <div className="absolute right-2 md:right-6 z-40">
-                        <button onClick={nextSlide} disabled={currentSlide === slides.length - 1} className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center backdrop-blur-md shadow-apple-floating border transition-all ${currentSlide === slides.length - 1 ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-100 hover:scale-110'} ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20 text-white hover:border-white' : 'bg-white/95 border-slate-200 text-slate-800 hover:border-sesi-blue hover:text-sesi-blue'}`}>
+                    <div className="absolute right-2 md:right-4 z-40">
+                        <button onClick={nextSlide} disabled={isCredits} className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md shadow-apple-floating border transition-all ${isCredits ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-100 hover:scale-110 hover:border-sesi-blue hover:text-sesi-blue'} ${isCredits ? 'bg-[#0E285D]/80 border-white/20 text-white hover:border-white' : 'bg-white/95 border-slate-200 text-slate-800'}`}>
                             <Icon name="chevron-right" size={24} />
                         </button>
                     </div>
 
-                    {/* Main Canvas Widescreen */}
-                    <div className="w-full max-w-[1500px] h-[90vh] max-h-[850px] px-2 md:px-14 pt-32 md:pt-28 pb-6 md:pb-10 z-30">
-                        <div className="w-full h-full bg-white rounded-[32px] shadow-apple-floating overflow-hidden border border-slate-200/60 relative">
+                    {/* Main Canvas Widescreen (Altura ajustada para evitar rolagem interna) */}
+                    <div className="w-full max-w-[1500px] h-[92vh] max-h-[900px] px-2 md:px-10 pt-24 md:pt-20 pb-4 md:pb-6 z-30">
+                        <div className="w-full h-full rounded-[32px] shadow-apple-floating overflow-hidden border border-slate-200/60 relative">
                             <div className="flex w-full h-full slide-transition" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                                 {slides.map((slide, idx) => (
-                                    <div key={idx} className={`w-full h-full flex-shrink-0 p-6 md:p-10 lg:p-12 slide-content relative overflow-y-auto transition-colors duration-700 ${slide.bg}`}>
+                                    <div key={idx} className={`w-full h-full flex-shrink-0 p-5 md:p-8 lg:p-10 slide-content relative flex flex-col transition-colors duration-700 ${slide.bg}`}>
                                         {slide.component}
                                     </div>
                                 ))}
