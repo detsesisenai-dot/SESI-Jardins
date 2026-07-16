@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A educação do amanhã, construída hoje - SESI Jardins</title>
+    <title>SESI Jardins - A tese de investimento</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        sesi: { blue: '#0055A4', dark: '#002855', light: '#E6F0FA' }
+                        sesi: { blue: '#0055A4', dark: '#002855', light: '#E6F0FA', green: '#78BE20' }
                     },
                     boxShadow: {
                         'apple': '0 4px 24px rgba(0,0,0,0.04)',
@@ -37,17 +37,18 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body { background-color: #F1F5F9; color: #0F172A; -webkit-font-smoothing: antialiased; overflow: hidden; }
-        .slide-content::-webkit-scrollbar { width: 6px; }
+        body { background-color: #F8FAFC; color: #0F172A; -webkit-font-smoothing: antialiased; overflow: hidden; }
+        .slide-content::-webkit-scrollbar { width: 6px; height: 6px; }
         .slide-content::-webkit-scrollbar-track { background: transparent; }
-        .slide-content::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, 0.2); border-radius: 10px; }
-        .slide-content::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, 0.4); }
+        .slide-content::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, 0.15); border-radius: 10px; }
+        .slide-content::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, 0.3); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(15px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
         .slide-transition { transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1); }
-        input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: currentColor; cursor: pointer; margin-top: -6px; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #E2E8F0; border-radius: 2px; }
+        .chart-bar { transition: height 1s cubic-bezier(0.16, 1, 0.3, 1); }
     </style>
 </head>
 <body>
@@ -56,7 +57,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Wrapper seguro para o Lucide Icons não quebrar a árvore do React Virtual DOM
+        // Wrapper seguro para os ícones Lucide no React Virtual DOM
         const Icon = ({ name, size = 24, className = "" }) => {
             const spanRef = useRef(null);
             
@@ -76,7 +77,7 @@
         };
 
         const Card = ({ children, className = "", delay = "0s", bg = "bg-white" }) => (
-            <div className={`${bg} rounded-3xl p-6 shadow-apple hover:shadow-apple-hover transition-all duration-300 fade-in border border-slate-200/60 ${className}`} style={{ animationDelay: delay }}>
+            <div className={`${bg} rounded-[24px] p-6 shadow-apple hover:shadow-apple-hover transition-all duration-300 fade-in border border-slate-200/70 ${className}`} style={{ animationDelay: delay }}>
                 {children}
             </div>
         );
@@ -84,7 +85,7 @@
         const IntroParagraph = ({ title, text, highlight }) => (
             <div className="mb-6 fade-in shrink-0">
                 <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-slate-900 tracking-tight">{title}</h2>
-                <p className="text-base md:text-lg text-slate-600 border-l-4 border-sesi-blue pl-4 max-w-5xl leading-relaxed">
+                <p className="text-base md:text-lg text-slate-600 border-l-4 border-sesi-blue pl-4 max-w-4xl leading-relaxed">
                     {highlight && <strong className="text-sesi-dark font-bold mr-1">{highlight}</strong>}
                     {text}
                 </p>
@@ -95,28 +96,49 @@
             <p className="text-[10px] text-slate-400 mt-4 uppercase tracking-wider font-bold shrink-0">FONTE: {text}</p>
         );
 
+        // --- SLIDES --- //
+
         const Hero = () => (
-            <div className="flex flex-col items-center justify-center h-full max-w-6xl mx-auto text-center fade-in">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm font-bold text-sesi-blue mb-8 shadow-sm">
-                    <Icon name="file-text" size={16} />
-                    PRO-02812/2025 • Projeto Executivo
+            <div className="flex flex-col items-center justify-center h-full max-w-6xl mx-auto text-center fade-in relative">
+                <div className="w-full h-48 md:h-64 mb-8 rounded-[32px] overflow-hidden shadow-apple-floating relative group shrink-0">
+                    <img src="https://i.postimg.cc/zXTsp2x1/Chat-GPT-Image-15-de-jul-de-2026-08-42-18-(1).png" alt="Fachada SESI Jardins" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+                    <div className="absolute bottom-4 left-6 text-white text-left">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold mb-2 shadow-sm">
+                            <Icon name="bar-chart" size={14} /> PROJEÇÃO GERAL - 2026 V2
+                        </div>
+                    </div>
                 </div>
                 
-                <h1 className="text-5xl lg:text-7xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+                <h1 className="text-4xl lg:text-6xl font-black tracking-tight text-slate-900 mb-4 leading-tight shrink-0">
                     A educação do amanhã, <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-sesi-blue to-cyan-500">construída hoje.</span>
                 </h1>
                 
-                <p className="text-xl text-slate-600 max-w-3xl mx-auto font-medium leading-relaxed mb-10">
-                    Estudo de viabilidade e estruturação técnica para a implantação da Escola SESI Jardins. Um complexo educacional de excelência atendendo à demanda reprimida da Região Leste de Goiânia.
+                <p className="text-base md:text-lg text-slate-600 max-w-3xl mx-auto font-medium leading-relaxed mb-8 shrink-0">
+                    A tese de investimento da Escola SESI Jardins troca aposta por engenharia financeira: maior CAPEX, escala com controle, ramp-up conservador e margem positiva a partir do Ano 2.
                 </p>
 
-                <div className="w-full max-w-4xl mx-auto rounded-[2rem] overflow-hidden shadow-apple-floating relative bg-slate-100 aspect-[21/9] border border-slate-200 group">
-                    <img src="https://i.postimg.cc/zXTsp2x1/Chat-GPT-Image-15-de-jul-de-2026-08-42-18-(1).png" alt="Fachada SESI Jardins" className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
-                    <div className="absolute bottom-6 left-6 text-white text-left">
-                        <p className="text-sm font-bold uppercase tracking-wider opacity-80 mb-1">Capacidade Operacional</p>
-                        <p className="text-3xl font-black">1.500 Estudantes</p>
-                    </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl mx-auto">
+                    <Card bg="bg-white" className="flex flex-col items-center justify-center py-6">
+                        <Icon name="coins" size={28} className="text-sesi-blue mb-2" />
+                        <p className="text-2xl font-black text-slate-800">R$ 149,5 mi</p>
+                        <p className="text-[10px] font-bold uppercase text-slate-400 mt-1">Investimento Total</p>
+                    </Card>
+                    <Card bg="bg-white" className="flex flex-col items-center justify-center py-6">
+                        <Icon name="users" size={28} className="text-emerald-500 mb-2" />
+                        <p className="text-2xl font-black text-slate-800">1.600</p>
+                        <p className="text-[10px] font-bold uppercase text-slate-400 mt-1">Capacidade Plena</p>
+                    </Card>
+                    <Card bg="bg-white" className="flex flex-col items-center justify-center py-6">
+                        <Icon name="maximize" size={28} className="text-amber-500 mb-2" />
+                        <p className="text-2xl font-black text-slate-800">29.585 m²</p>
+                        <p className="text-[10px] font-bold uppercase text-slate-400 mt-1">Área Total Geral</p>
+                    </Card>
+                    <Card bg="bg-white" className="flex flex-col items-center justify-center py-6">
+                        <Icon name="timer" size={28} className="text-purple-500 mb-2" />
+                        <p className="text-2xl font-black text-slate-800">10a 4m</p>
+                        <p className="text-[10px] font-bold uppercase text-slate-400 mt-1">Payback Projetado</p>
+                    </Card>
                 </div>
             </div>
         );
@@ -124,60 +146,68 @@
         const MarketAnalysis = () => {
             const [activeTab, setActiveTab] = useState('demography');
 
+            const bubbleData = [
+                { id: 'bilingue', label: 'Bilíngues Puras', color: 'bg-slate-300', text: 'text-slate-800', x: 85, y: 85, size: 50, price: '> R$ 3.500', schools: 'Maple Bear (Escola Canadense)' },
+                { id: 'premium', label: 'Premium Sul / Tradicional', color: 'bg-sesi-dark', text: 'text-white', x: 80, y: 30, size: 60, price: 'R$ 2.800 a R$ 3.500+', schools: 'Colégio Marista, Colégio WR, Colégio Arena' },
+                { id: 'bairro', label: 'Tradicionais Locais / Bairro', color: 'bg-slate-400', text: 'text-white', x: 25, y: 25, size: 65, price: 'R$ 1.200 a R$ 1.900', schools: 'Colégio Expovest, Princípios, Fractal, Pequeno Príncipe' },
+                { id: 'sesi', label: 'Oceano Azul: SESI Jardins', color: 'bg-emerald-500', text: 'text-white', x: 35, y: 80, size: 80, price: 'R$ 1.950 (Projetado)', schools: 'Escola SESI Jardins (Alta Infraestrutura + Preço Acessível)' },
+            ];
+
             return (
                 <div className="slide-content flex flex-col h-full">
                     <IntroParagraph 
                         title="Mercado, Lacuna & Insights Qualitativos" 
                         highlight="A tempestade perfeita."
-                        text="A Região Leste de Goiânia combina uma base populacional consolidada e expansão imobiliária acelerada. A oferta de educação privada premium, no entanto, ainda se concentra no eixo Sul/Marista. Nossa pesquisa qualitativa confirma: há demanda reprimida por infraestrutura de ponta aliada a um preço competitivo."
+                        text="A Região Leste de Goiânia combina uma base populacional consolidada e expansão imobiliária acelerada. Nossa pesquisa qualitativa confirma: há demanda reprimida por infraestrutura de ponta aliada a um preço competitivo."
                     />
 
-                    <div className="flex flex-wrap gap-2 mb-6 shrink-0 bg-slate-100 p-1 rounded-xl w-fit">
-                        <button onClick={() => setActiveTab('demography')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'demography' ? 'bg-white shadow-sm text-sesi-dark' : 'text-slate-500 hover:text-slate-800'}`}>Demografia & Lacuna</button>
-                        <button onClick={() => setActiveTab('realestate')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'realestate' ? 'bg-white shadow-sm text-sesi-dark' : 'text-slate-500 hover:text-slate-800'}`}>Economia & Imobiliário</button>
-                        <button onClick={() => setActiveTab('qualitative')} className={`px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-1.5 ${activeTab === 'qualitative' ? 'bg-white shadow-sm text-sesi-dark' : 'text-slate-500 hover:text-slate-800'}`}><Icon name="search" size={16}/> Pesquisa (Checon)</button>
+                    <div className="flex flex-wrap gap-2 mb-6 shrink-0 bg-slate-100/70 p-1.5 rounded-2xl w-fit overflow-x-auto no-scrollbar max-w-full">
+                        <button onClick={() => setActiveTab('demography')} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeTab === 'demography' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}>Demografia</button>
+                        <button onClick={() => setActiveTab('realestate')} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all ${activeTab === 'realestate' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}>Imobiliário</button>
+                        <button onClick={() => setActiveTab('qualitative')} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'qualitative' ? 'bg-white shadow text-slate-900 border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}><Icon name="search" size={16}/> Qualitativa</button>
+                        <button onClick={() => setActiveTab('positioning')} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'positioning' ? 'bg-sesi-dark shadow text-white border border-sesi-dark' : 'text-slate-500 hover:text-slate-800'}`}><Icon name="pie-chart" size={16}/> Posicionamento & Preço</button>
                     </div>
 
                     <div className="flex-grow min-h-0 relative" key={activeTab}>
                         {activeTab === 'demography' && (
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full fade-in">
-                                <Card delay="0.1s" bg="bg-sesi-dark" className="lg:col-span-4 flex flex-col justify-center text-white border-none">
-                                    <h3 className="text-sm font-bold text-blue-200 uppercase tracking-wider mb-6">Público-Alvo Estimado (Leste)</h3>
-                                    <div className="space-y-6">
+                                <Card delay="0.1s" bg="bg-[#1B2A4A]" className="lg:col-span-5 flex flex-col justify-center text-white border-none p-8 md:p-10">
+                                    <h3 className="text-xs font-bold text-blue-200/80 uppercase tracking-widest mb-10">Público-Alvo Estimado (Leste)</h3>
+                                    <div className="space-y-10">
                                         <div>
-                                            <p className="text-xs text-blue-300 font-semibold mb-1">População Total da Região</p>
-                                            <p className="text-4xl font-black">205 a 235k</p>
+                                            <p className="text-sm text-blue-200/90 font-bold mb-2">População Total da Região</p>
+                                            <p className="text-5xl lg:text-6xl font-black tracking-tight">205 a 235k</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-blue-300 font-semibold mb-1">Idade Escolar (4 a 17 anos)</p>
-                                            <p className="text-4xl font-black text-emerald-400">32 a 38k</p>
+                                            <p className="text-sm text-blue-200/90 font-bold mb-2">Idade Escolar (4 a 17 anos)</p>
+                                            <p className="text-5xl lg:text-6xl font-black tracking-tight text-emerald-400">32 a 38k</p>
                                         </div>
-                                        <div className="pt-4 border-t border-white/10">
-                                            <p className="text-[10px] text-blue-200 uppercase tracking-wider mb-1">Meta de Captação (Maturidade)</p>
-                                            <p className="text-2xl font-bold">1.500 Matrículas</p>
+                                        <div className="pt-8 border-t border-white/10 mt-auto">
+                                            <p className="text-[10px] text-blue-200/80 uppercase tracking-widest mb-2">Meta de Captação (Maturidade)</p>
+                                            <p className="text-3xl font-black tracking-tight">1.500 Matrículas</p>
                                         </div>
                                     </div>
                                 </Card>
-                                <Card delay="0.2s" className="lg:col-span-8 flex flex-col justify-center border-2 border-slate-100">
-                                    <h3 className="text-xl font-bold text-slate-800 mb-4">A Dinâmica do Mercado Local</h3>
-                                    <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-                                        A região abriga desde o Leste Tradicional (adensado) até o Eixo Premium (Alphaville/GO-020). A grande oportunidade reside na <strong>ausência de escolas privadas de ciclo completo com padrão de excelência</strong> nesse corredor, forçando o deslocamento diário das famílias para a zona Sul.
+                                <Card delay="0.2s" className="lg:col-span-7 flex flex-col justify-start border border-slate-200 p-8 md:p-10 overflow-y-auto">
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-6 shrink-0">A Dinâmica do Mercado Local</h3>
+                                    <p className="text-base text-slate-600 mb-10 leading-relaxed shrink-0">
+                                        A região abriga desde o Leste Tradicional (adensado) até o Eixo Premium (Alphaville/GO-020). A grande oportunidade reside na <strong>ausência de escolas privadas de ciclo completo com padrão de excelência</strong> nesse corredor.
                                     </p>
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                                            <Icon name="map-pin" className="text-sesi-blue mb-2" size={20} />
-                                            <p className="text-sm font-bold text-slate-800">Localização Estratégica</p>
-                                            <p className="text-xs text-slate-600 mt-1">Interseção entre o Leste Tradicional e os Condomínios de Alta Renda.</p>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0">
+                                        <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-50">
+                                            <Icon name="map-pin" className="text-sesi-blue mb-4" size={24} />
+                                            <p className="text-sm font-bold text-slate-800 mb-2">Localização Estratégica</p>
+                                            <p className="text-xs text-slate-500 leading-relaxed">Interseção entre o Leste Tradicional e os Condomínios de Alta Renda.</p>
                                         </div>
-                                        <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-                                            <Icon name="trending-up" className="text-emerald-600 mb-2" size={20} />
-                                            <p className="text-sm font-bold text-slate-800">Crescimento Acelerado</p>
-                                            <p className="text-xs text-slate-600 mt-1">Expansão residencial contínua com forte atração de famílias jovens.</p>
+                                        <div className="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-50">
+                                            <Icon name="trending-up" className="text-emerald-600 mb-4" size={24} />
+                                            <p className="text-sm font-bold text-slate-800 mb-2">Crescimento Acelerado</p>
+                                            <p className="text-xs text-slate-500 leading-relaxed">Expansão residencial contínua com forte atração de famílias jovens.</p>
                                         </div>
-                                        <div className="bg-amber-50 p-4 rounded-xl border border-amber-100">
-                                            <Icon name="target" className="text-amber-600 mb-2" size={20} />
-                                            <p className="text-sm font-bold text-slate-800">Demanda Reprimida</p>
-                                            <p className="text-xs text-slate-600 mt-1">Forte propensão a migrar para um modelo Premium Acessível.</p>
+                                        <div className="bg-amber-50/30 p-6 rounded-2xl border border-amber-50">
+                                            <Icon name="target" className="text-amber-600 mb-4" size={24} />
+                                            <p className="text-sm font-bold text-slate-800 mb-2">Demanda Reprimida</p>
+                                            <p className="text-xs text-slate-500 leading-relaxed">Forte propensão a migrar para um modelo Premium Acessível.</p>
                                         </div>
                                     </div>
                                 </Card>
@@ -185,34 +215,34 @@
                         )}
                         {activeTab === 'realestate' && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full fade-in">
-                                <Card delay="0.1s" className="flex flex-col justify-center border-l-4 border-l-sesi-blue">
-                                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-6 text-sesi-blue">
+                                <Card delay="0.1s" className="flex flex-col border-l-[6px] border-l-sesi-blue p-8 md:p-10 overflow-y-auto">
+                                    <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8 text-sesi-blue border border-blue-100 shrink-0">
                                         <Icon name="briefcase" size={24} />
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-800 mb-2">Geração de Emprego Formal</h3>
-                                    <p className="text-slate-600 text-sm mb-6">Goiânia lidera o saldo de empregos formais no estado, sustentando a capacidade de pagamento das famílias para educação privada.</p>
-                                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Saldo Goiânia (2025)</p>
-                                        <p className="text-3xl font-black text-slate-800">+14.138 <span className="text-lg text-slate-500 font-semibold">novas vagas</span></p>
-                                        <p className="text-xs text-slate-500 mt-2">Estoque total: 568.900 vínculos (Novo Caged).</p>
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-4 shrink-0">Geração de Emprego Formal</h3>
+                                    <p className="text-slate-500 text-base mb-10 leading-relaxed shrink-0">Goiânia lidera o saldo de empregos formais no estado, sustentando a capacidade de pagamento das famílias para educação privada.</p>
+                                    <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-100 mt-auto shrink-0">
+                                        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Saldo Goiânia (2025)</p>
+                                        <p className="text-4xl font-black text-slate-800 tracking-tight">+14.138 <span className="text-lg text-slate-500 font-semibold tracking-normal">novas vagas</span></p>
+                                        <p className="text-sm text-slate-500 mt-4">Estoque total: 568.900 vínculos (Novo Caged).</p>
                                     </div>
                                 </Card>
-                                <Card delay="0.2s" className="flex flex-col justify-center border-l-4 border-l-emerald-500">
-                                    <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mb-6 text-emerald-600">
+                                <Card delay="0.2s" className="flex flex-col border-l-[6px] border-l-emerald-500 p-8 md:p-10 overflow-y-auto">
+                                    <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center mb-8 text-emerald-600 border border-emerald-100 shrink-0">
                                         <Icon name="home" size={24} />
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-800 mb-2">Boom Imobiliário (Residencial)</h3>
-                                    <p className="text-slate-600 text-sm mb-6">A expansão dos condomínios horizontais ao longo da GO-020 e Alphaville ancora o público-alvo de alto poder aquisitivo no vetor Leste.</p>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Vendas 2024</p>
-                                            <p className="text-2xl font-black text-emerald-700">R$ 7,7 Bi</p>
-                                            <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded mt-1 inline-block">+35% a.a.</span>
+                                    <h3 className="text-2xl font-bold text-slate-800 mb-4 shrink-0">Boom Imobiliário (Residencial)</h3>
+                                    <p className="text-slate-500 text-base mb-10 leading-relaxed shrink-0">A expansão dos condomínios horizontais ao longo da GO-020 e Alphaville ancora o público-alvo de alto poder aquisitivo no vetor Leste.</p>
+                                    <div className="grid grid-cols-2 gap-4 mt-auto shrink-0">
+                                        <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-100">
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Vendas 2024</p>
+                                            <p className="text-3xl font-black text-emerald-700 tracking-tight mb-3">R$ 7,7 Bi</p>
+                                            <span className="text-xs font-bold text-emerald-700 bg-emerald-100/80 px-2 py-1 rounded-md inline-block">+35% a.a.</span>
                                         </div>
-                                        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">1º Sem. 2025</p>
-                                            <p className="text-2xl font-black text-emerald-700">R$ 4,1 Bi</p>
-                                            <span className="text-xs font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded mt-1 inline-block">+21% a.a.</span>
+                                        <div className="bg-slate-50/80 p-6 rounded-2xl border border-slate-100">
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">1º Sem. 2025</p>
+                                            <p className="text-3xl font-black text-emerald-700 tracking-tight mb-3">R$ 4,1 Bi</p>
+                                            <span className="text-xs font-bold text-emerald-700 bg-emerald-100/80 px-2 py-1 rounded-md inline-block">+21% a.a.</span>
                                         </div>
                                     </div>
                                 </Card>
@@ -220,705 +250,523 @@
                         )}
                         {activeTab === 'qualitative' && (
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full fade-in overflow-y-auto pb-4">
-                                <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <Card delay="0.1s" className="flex flex-col justify-between border-t-4 border-t-sesi-blue">
+                                <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <Card delay="0.1s" className="flex flex-col justify-between border-l-[6px] border-l-sesi-blue p-6 md:p-8">
                                         <div>
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-sesi-blue"><Icon name="building" size={16}/></div>
-                                                <h4 className="font-bold text-slate-800">Força da Infraestrutura</h4>
+                                            <div className="flex items-center gap-3 mb-5">
+                                                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-sesi-blue border border-blue-100"><Icon name="building" size={20}/></div>
+                                                <h4 className="font-bold text-slate-800 text-lg">Força da Infraestrutura</h4>
                                             </div>
-                                            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                                                O filme da nova escola causou forte impacto positivo. A infraestrutura verde e ampla foi vista como um diferencial escasso em Goiânia.
+                                            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+                                                A infraestrutura verde e ampla foi vista como um diferencial escasso em Goiânia, gerando alto impacto positivo.
                                             </p>
-                                        </div>
-                                        <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs italic text-slate-500">
-                                            "Adorei a proposta. A educação aí o foco é no futuro... Goiânia não tem nada nesse estilo." — Pai (Pesquisa Qualitativa)
                                         </div>
                                     </Card>
 
-                                    <Card delay="0.2s" className="flex flex-col justify-between border-t-4 border-t-emerald-500">
+                                    <Card delay="0.2s" className="flex flex-col justify-between border-l-[6px] border-l-emerald-500 p-6 md:p-8">
                                         <div>
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600"><Icon name="dollar-sign" size={16}/></div>
-                                                <h4 className="font-bold text-slate-800">Preço Competitivo</h4>
+                                            <div className="flex items-center gap-3 mb-5">
+                                                <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100"><Icon name="dollar-sign" size={20}/></div>
+                                                <h4 className="font-bold text-slate-800 text-lg">Preço Competitivo</h4>
                                             </div>
-                                            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                                                A mensalidade proposta (na faixa de R$ 2.000 a R$ 2.500) foi considerada atrativa e abaixo do que muitos já pagam, gerando alta predisposição à migração.
+                                            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+                                                A mensalidade proposta foi considerada atrativa e abaixo do que muitos já pagam, gerando predisposição à migração.
                                             </p>
                                         </div>
-                                        <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs italic text-slate-500">
-                                            "Até quanto pagaria? Ah, até 2.500." — Pai (Pesquisa Qualitativa)
+                                    </Card>
+                                    
+                                    <Card delay="0.3s" className="flex flex-col justify-between border-l-[6px] border-l-amber-400 p-6 md:p-8">
+                                        <div>
+                                            <div className="flex items-center gap-3 mb-5">
+                                                <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 border border-amber-100"><Icon name="brain" size={20}/></div>
+                                                <h4 className="font-bold text-slate-800 text-lg">Metodologia vs. Tradição</h4>
+                                            </div>
+                                            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+                                                Enquanto muitos buscam inovação, ainda há forte apego ao modelo tradicional focado em vestibulares e Enem.
+                                            </p>
                                         </div>
                                     </Card>
 
-                                    <Card delay="0.3s" className="flex flex-col justify-between border-t-4 border-t-amber-500">
+                                    <Card delay="0.4s" className="flex flex-col justify-between border-l-[6px] border-l-purple-500 p-6 md:p-8">
                                         <div>
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600"><Icon name="brain" size={16}/></div>
-                                                <h4 className="font-bold text-slate-800">Metodologia vs. Tradição</h4>
+                                            <div className="flex items-center gap-3 mb-5">
+                                                <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 border border-purple-100"><Icon name="map-pin" size={20}/></div>
+                                                <h4 className="font-bold text-slate-800 text-lg">Logística e Localização</h4>
                                             </div>
-                                            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                                                Há um embate. Enquanto muitos buscam inovação (Empreendedorismo, Liderança), ainda há forte apego ao modelo tradicional focado em vestibulares.
+                                            <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+                                                A localização na região dos Jardins é um trunfo gigante para quem já mora lá e quer fugir do trânsito.
                                             </p>
-                                        </div>
-                                        <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs italic text-slate-500">
-                                            "É preciso vender para além de simulados, mas a aprovação tradicional ainda pesa na decisão." — Especialista
-                                        </div>
-                                    </Card>
-
-                                    <Card delay="0.4s" className="flex flex-col justify-between border-t-4 border-t-purple-500">
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600"><Icon name="map-pin" size={16}/></div>
-                                                <h4 className="font-bold text-slate-800">Logística e Localização</h4>
-                                            </div>
-                                            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                                                A localização na região dos Jardins é vista como um trunfo gigante para quem já mora lá e quer fugir do trânsito rumo ao centro/sul.
-                                            </p>
-                                        </div>
-                                        <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs italic text-slate-500">
-                                            "A comodidade vai atrair um público que já mora próximo. É fugir do trânsito." — Professor
                                         </div>
                                     </Card>
                                 </div>
-
-                                <Card delay="0.5s" bg="bg-sesi-dark" className="lg:col-span-4 flex flex-col justify-center text-white border-none relative overflow-hidden">
+                                
+                                <Card delay="0.5s" bg="bg-sesi-dark" className="lg:col-span-4 flex flex-col justify-center text-white border-none relative overflow-hidden p-6 md:p-8">
                                     <Icon name="shield-check" size={120} className="absolute -right-6 -bottom-6 text-white opacity-5" />
-                                    <h3 className="text-xl font-bold mb-4 relative z-10">O Papel da Marca SESI</h3>
-                                    <p className="text-sm text-blue-100 mb-6 leading-relaxed relative z-10">
-                                        A pesquisa revela que a marca SESI traz **credibilidade e associação positiva com tecnologia e robótica**. O desafio de comunicação será reposicionar a percepção, mostrando que a nova escola atende com excelência o perfil de alta renda (Jardins), mantendo a acessibilidade e o papel social.
+                                    <h3 className="text-xl font-bold mb-4 relative z-10 shrink-0">O Papel da Marca SESI</h3>
+                                    <p className="text-sm text-blue-100 mb-6 leading-relaxed relative z-10 shrink-0">
+                                        A marca traz credibilidade e associação com tecnologia/robótica. O desafio é mostrar que atende ao perfil de alta renda (Jardins), mantendo a acessibilidade.
                                     </p>
-                                    <div className="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/10 relative z-10">
-                                        <p className="text-[10px] uppercase font-bold text-emerald-300 mb-1">Dica Estratégica</p>
-                                        <p className="text-sm font-medium">Focar a campanha de migração nos anos iniciais (Fundamental I), onde os pais estão mais abertos a novas propostas, e aliar o discurso de inovação (STEAM) à segurança de resultados concretos.</p>
+                                </Card>
+                            </div>
+                        )}
+                        {activeTab === 'positioning' && (
+                            <div className="flex flex-col h-full fade-in">
+                                <Card className="flex-grow flex flex-col p-6 relative bg-slate-50 overflow-hidden border-2 border-slate-200 min-h-[300px]">
+                                    <h3 className="text-xl font-bold text-slate-800 mb-2 shrink-0">Mapeamento de Concorrência & Oceano Azul</h3>
+                                    <p className="text-sm text-slate-500 mb-6 shrink-0">Cruzamento entre ticket médio (mensalidade) e proposta de valor (inovação vs. tradição).</p>
+                                    
+                                    <div className="relative flex-grow border-l-2 border-b-2 border-slate-300 ml-8 mb-8 mt-4 bg-white rounded-tr-xl">
+                                        {/* Eixos */}
+                                        <div className="absolute -left-8 top-1/2 -translate-y-1/2 -rotate-90 text-xs font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Inovação / Infraestrutura</div>
+                                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Preço / Mensalidade</div>
+                                        
+                                        <div className="absolute -bottom-6 left-0 text-[10px] text-slate-400 font-bold">Acessível</div>
+                                        <div className="absolute -bottom-6 right-0 text-[10px] text-slate-400 font-bold">Alto (Premium)</div>
+                                        <div className="absolute bottom-0 -left-6 text-[10px] text-slate-400 font-bold">Padrão</div>
+                                        <div className="absolute top-0 -left-6 text-[10px] text-slate-400 font-bold">Alta</div>
+
+                                        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-slate-200 border-dashed border-l"></div>
+                                        <div className="absolute top-1/2 left-0 right-0 h-px bg-slate-200 border-dashed border-t"></div>
+
+                                        {/* Bolhas */}
+                                        {bubbleData.map((bubble, i) => (
+                                            <div key={i} className="absolute group" style={{ left: `${bubble.x}%`, bottom: `${bubble.y}%`, transform: 'translate(-50%, 50%)' }}>
+                                                <div className={`flex items-center justify-center rounded-full ${bubble.color} shadow-lg cursor-pointer transition-transform duration-300 group-hover:scale-110 flex-col text-center p-2`} style={{ width: `${bubble.size}px`, height: `${bubble.size}px` }}>
+                                                    <span className={`text-[10px] font-black leading-tight ${bubble.text} opacity-0 group-hover:opacity-100 transition-opacity`}>{bubble.id}</span>
+                                                </div>
+                                                
+                                                {/* Tooltip Card */}
+                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 bg-white border border-slate-200 p-4 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                                                    <p className={`text-xs font-black uppercase mb-1 ${bubble.color.replace('bg-', 'text-')}`}>{bubble.label}</p>
+                                                    <p className="text-sm font-bold text-slate-800 mb-2">{bubble.price}</p>
+                                                    <p className="text-xs text-slate-500 leading-tight">{bubble.schools}</p>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </Card>
                             </div>
                         )}
                     </div>
-                    <Source text={activeTab === 'qualitative' ? "Pesquisa Qualitativa: Viabilidade Escola Jardins (Checon Pesquisa, Junho/2025)." : "Estudo de Viabilidade 2026. IBGE, Censo Escolar 2025, Novo Caged, ADEMI-GO."} />
+                    <Source text={activeTab === 'qualitative' || activeTab === 'positioning' ? "Pesquisa Qualitativa Checon & Procon Goiás (2026)." : "Estudo de Viabilidade 2026. IBGE, Censo Escolar 2025, Novo Caged."} />
                 </div>
             );
         };
 
-        const PricingBenchmark = () => (
-            <div className="slide-content flex flex-col h-full">
-                <IntroParagraph 
-                    title="Pricing & Posicionamento" 
-                    text="A estratégia não é competir pelo menor preço no Leste Tradicional, nem replicar os tickets extremos das escolas bilíngues de luxo. O modelo SESI oferece integralidade opcional, estrutura de ponta e robótica com valores equivalentes às escolas de 'médio padrão' da Região Sul."
-                    highlight="Premium Acessível."
-                />
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
-                    <Card delay="0.1s" className="lg:col-span-8 flex flex-col relative overflow-hidden">
-                        <h3 className="text-lg font-bold mb-2 text-slate-800 shrink-0">Benchmark de Mensalidades (Goiânia - 2026)</h3>
-                        <p className="text-sm text-slate-500 mb-4 shrink-0">Pesquisa de preços cheios no mercado (sem descontos).</p>
-                        
-                        <div className="flex flex-wrap gap-4 mb-4 justify-center text-sm font-bold shrink-0">
-                            <span className="flex items-center gap-2 text-slate-600"><div className="w-4 h-4 bg-slate-200 rounded-md"></div> Leste/Centro-Oeste</span>
-                            <span className="flex items-center gap-2 text-slate-600"><div className="w-4 h-4 bg-slate-400 rounded-md"></div> Premium (Sul)</span>
-                            <span className="flex items-center gap-2 text-slate-600"><div className="w-4 h-4 bg-emerald-600 rounded-md"></div> Bilíngues Puras</span>
-                        </div>
-
-                        {/* Chart Area */}
-                        <div className="relative flex-grow flex flex-col min-h-[250px] pt-12 pb-6 mt-4 border-b border-slate-100">
-                            
-                            {/* Linhas Alvo SESI */}
-                            <div className="absolute w-full border-t-[3px] border-dotted border-sesi-blue z-0 left-0" style={{ bottom: `calc(${(2850/5500)*100}% + 24px)` }}>
-                                <span className="absolute -top-7 right-0 lg:right-4 text-[10px] lg:text-xs font-black text-white bg-sesi-blue px-2 py-1 rounded-full shadow-md z-30">Alvo SESI (EF): R$ 2.850</span>
-                            </div>
-                            <div className="absolute w-full border-t-[3px] border-dotted border-sesi-dark z-0 left-0" style={{ bottom: `calc(${(3350/5500)*100}% + 24px)` }}>
-                                <span className="absolute -top-7 right-0 lg:right-4 text-[10px] lg:text-xs font-black text-white bg-sesi-dark px-2 py-1 rounded-full shadow-md z-30">Alvo SESI (EM): R$ 3.350</span>
-                            </div>
-
-                            <div className="flex-grow flex items-end justify-around w-full z-10 gap-2 lg:gap-4 h-full relative">
-                                {[
-                                    { stage: 'Ed. Infantil', c1: 1407, c2: 2350, c3: 3085 },
-                                    { stage: 'Fund. I', c1: 1490, c2: 2427, c3: 3030 },
-                                    { stage: 'Fund. II', c1: 1671, c2: 2609, c3: 3332 },
-                                    { stage: 'Ensino Médio', c1: 2158, c2: 3241, c3: 5236 }
-                                ].map((item, idx) => (
-                                    <div key={idx} className="flex flex-col items-center justify-end h-full w-1/4 group">
-                                        <div className="flex items-end justify-center w-full gap-1 lg:gap-2 h-full">
-                                            <div className="w-1/3 max-w-[40px] bg-slate-200 rounded-t-xl relative flex flex-col justify-start items-center transition-all duration-700" style={{ height: `${(item.c1/5500)*100}%` }}>
-                                                 <span className="absolute -top-6 text-[9px] lg:text-[11px] font-black text-slate-600 bg-white/90 px-1 rounded shadow-sm border border-slate-100">{item.c1}</span>
-                                            </div>
-                                            <div className="w-1/3 max-w-[40px] bg-slate-400 rounded-t-xl relative flex flex-col justify-start items-center shadow-sm transition-all duration-700" style={{ height: `${(item.c2/5500)*100}%` }}>
-                                                 <span className="absolute -top-6 text-[9px] lg:text-[11px] font-black text-slate-800 bg-white/90 px-1 rounded shadow-sm border border-slate-200">{item.c2}</span>
-                                            </div>
-                                            <div className="w-1/3 max-w-[40px] bg-emerald-600 rounded-t-xl relative flex flex-col justify-start items-center shadow-md transition-all duration-700" style={{ height: `${(item.c3/5500)*100}%` }}>
-                                                 <span className="absolute -top-6 text-[9px] lg:text-[11px] font-black text-emerald-800 bg-white/90 px-1 rounded shadow-sm border border-emerald-100">{item.c3}</span>
-                                            </div>
-                                        </div>
-                                        <span className="font-bold text-slate-700 text-[10px] lg:text-sm text-center w-full mt-3 h-4 shrink-0">{item.stage}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </Card>
-
-                    <Card delay="0.2s" bg="bg-slate-50" className="lg:col-span-4 flex flex-col justify-center border-2 border-sesi-light">
-                        <h3 className="text-xl font-bold text-sesi-dark mb-6 border-b border-slate-200 pb-4">Proposta SESI Jardins</h3>
-                        
-                        <div className="mb-6">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Fundamental I e II</p>
-                            <p className="text-4xl font-black text-sesi-blue">R$ 2.850<span className="text-lg text-slate-400 font-bold">/mês</span></p>
-                            <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase">Média Bruta Prevista</p>
-                        </div>
-                        <div className="mb-8">
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Ensino Médio</p>
-                            <p className="text-4xl font-black text-sesi-dark">R$ 3.350<span className="text-lg text-slate-400 font-bold">/mês</span></p>
-                            <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase">Média Bruta Prevista</p>
-                        </div>
-
-                        <div className="mt-auto bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm relative overflow-hidden">
-                            <div className="absolute -right-4 -top-4 bg-emerald-50 w-24 h-24 rounded-full opacity-50"></div>
-                            <div className="flex items-center gap-2 text-emerald-700 font-black mb-3 relative z-10 text-lg">
-                                <Icon name="tags" size={20} /> Cota Indústria (20%)
-                            </div>
-                            <p className="text-slate-600 text-sm font-medium leading-relaxed relative z-10">
-                                Desconto de pontualidade vitalício para industriários, garantindo a função social do SESI e mitigando índices de evasão/inadimplência na carteira.
-                            </p>
-                        </div>
-                    </Card>
-                </div>
-                <Source text="Pesquisa PROCON GOIÁS (Ano Letivo 2026). Valores cheios paramétricos para modelagem." />
-            </div>
-        );
-
-        const PedagogyProducts = () => {
-            const spaces = [
-                { label: 'Infraestrutura Geral', value: 12522, perc: 44, color: 'bg-slate-400' },
-                { label: 'Áreas Educacionais', value: 8311, perc: 29, color: 'bg-sesi-blue' },
-                { label: 'Esporte & Lazer', value: 3329, perc: 12, color: 'bg-emerald-500' },
-                { label: 'Circulação & Acessos', value: 3021, perc: 11, color: 'bg-slate-300' },
-                { label: 'Administrativo', value: 1033, perc: 4, color: 'bg-amber-400' },
-                { label: 'Áreas Funcionais', value: 144, perc: 1, color: 'bg-rose-400' },
+        const CapexStructure = () => {
+            const capexData = [
+                { id: 'civil', label: 'Construção', val: 124.78, perc: 83.5, color: 'bg-sesi-blue', icon: 'hard-hat' },
+                { id: 'mob', label: 'Mobiliário', val: 12.0, perc: 8.0, color: 'bg-emerald-500', icon: 'armchair' },
+                { id: 'maq', label: 'Máquinas', val: 5.0, perc: 3.3, color: 'bg-amber-500', icon: 'cpu' },
+                { id: 'dif', label: 'Diferidas', val: 4.5, perc: 3.0, color: 'bg-purple-500', icon: 'trending-up' },
+                { id: 'div', label: 'Diversos', val: 3.2, perc: 2.1, color: 'bg-rose-500', icon: 'layers' },
             ];
-            
-            const formatM2 = (val) => new Intl.NumberFormat('pt-BR').format(val) + ' m²';
 
             return (
                 <div className="slide-content flex flex-col h-full">
                     <IntroParagraph 
-                        title="Infraestrutura como Ferramenta de Ensino" 
-                        highlight="Ambientes Ativos."
-                        text="A arquitetura do SESI Jardins rompe com o modelo fabril de salas isoladas. Com 28,3 mil m² de área total e 272 ambientes integrados, o campus foi desenhado para adotar a fluidez exigida pela Indústria 4.0 e metodologia STEAM."
+                        title="A Estrutura de Capital" 
+                        highlight="O CAPEX em cinco camadas."
+                        text="A obra concentra 83,5% do investimento. O restante materializa a experiência: mobiliário, máquinas, publicidade de implantação e preparação operacional. O CAPEX não está pulverizado, focando fortemente no ativo físico."
                     />
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
-                        <Card delay="0.1s" bg="bg-slate-50" className="lg:col-span-7 flex flex-col overflow-y-auto">
-                            <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                                <Icon name="layout-dashboard" className="text-sesi-blue" />
-                                Distribuição Espacial (Área Construída)
+                        <Card delay="0.1s" bg="bg-sesi-dark" className="lg:col-span-5 text-white flex flex-col justify-center border-none relative overflow-hidden">
+                            <Icon name="pie-chart" size={160} className="absolute -right-8 -bottom-8 opacity-5" />
+                            <h3 className="text-sm font-bold text-blue-300 uppercase tracking-widest mb-2 relative z-10 shrink-0">Investimento Total Atualizado</h3>
+                            <p className="text-6xl font-black mb-8 relative z-10 shrink-0">R$ 149,5 <span className="text-2xl text-blue-200">mi</span></p>
+                            
+                            <div className="space-y-4 relative z-10 overflow-y-auto">
+                                <p className="text-sm text-blue-100 leading-relaxed border-l-2 border-blue-400 pl-3">
+                                    O controle rigoroso sobre a rubrica de Construção (R$ 124,8 milhões) é o vetor principal para a manutenção do payback projetado de 10 anos e 4 meses.
+                                </p>
+                            </div>
+                        </Card>
+
+                        <Card delay="0.2s" className="lg:col-span-7 flex flex-col justify-start overflow-y-auto">
+                            <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2 shrink-0">
+                                <Icon name="list" className="text-sesi-blue" size={20}/>
+                                Composição do CAPEX
                             </h3>
-                            <div className="space-y-5 flex-grow">
-                                {spaces.map((item, idx) => (
-                                    <div key={idx} className="relative group">
-                                        <div className="flex justify-between text-sm font-bold text-slate-700 mb-1.5">
-                                            <span>{item.label}</span>
-                                            <span className="text-slate-500">{formatM2(item.value)}</span>
-                                        </div>
-                                        <div className="w-full bg-white rounded-full h-5 shadow-sm border border-slate-100 relative overflow-hidden">
-                                            <div className={`${item.color} h-full rounded-full transition-all duration-1000 flex items-center px-2`} style={{ width: `${Math.max(item.perc, 5)}%` }}>
-                                                {item.perc >= 5 && <span className="text-[10px] text-white font-black">{item.perc}%</span>}
+                            
+                            <div className="space-y-6">
+                                {capexData.map((item, idx) => (
+                                    <div key={item.id} className="relative group shrink-0">
+                                        <div className="flex justify-between items-end mb-2">
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-8 h-8 rounded-full ${item.color} flex items-center justify-center text-white shadow-sm`}>
+                                                    <Icon name={item.icon} size={14} />
+                                                </div>
+                                                <span className="font-bold text-slate-700">{item.label}</span>
                                             </div>
+                                            <div className="text-right">
+                                                <span className="font-black text-slate-800">R$ {item.val.toFixed(1).replace('.', ',')} mi</span>
+                                                <span className="text-xs font-bold text-slate-400 ml-2">({item.perc.toFixed(1).replace('.', ',')}%)</span>
+                                            </div>
+                                        </div>
+                                        <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
+                                            <div className={`${item.color} h-full rounded-full transition-all duration-1000 ease-out`} style={{ width: `${Math.max(item.perc, 2)}%` }}></div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                            <div className="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-sm font-black text-slate-800">
-                                <span>Total Área do Projeto</span>
-                                <span className="text-xl">28.363 m²</span>
-                            </div>
                         </Card>
-
-                        <div className="lg:col-span-5 flex flex-col gap-6">
-                            <Card delay="0.2s" bg="bg-gradient-to-br from-[#001D3D] to-sesi-blue" className="text-white flex-grow flex flex-col justify-center relative overflow-hidden">
-                                <Icon name="rocket" size={80} className="absolute -right-4 -bottom-4 text-blue-400 opacity-20" />
-                                <h3 className="text-2xl font-black mb-3 relative z-10">Metodologia STEAM</h3>
-                                <p className="text-blue-100 text-sm leading-relaxed mb-6 font-medium relative z-10">
-                                    Integração plena de Ciência, Tecnologia, Engenharia, Artes e Matemática. Estudante como protagonista em 119 ambientes educacionais ativos.
-                                </p>
-                                <div className="flex flex-wrap gap-2 relative z-10">
-                                    <span className="px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs font-bold backdrop-blur-md">Robótica & IA</span>
-                                    <span className="px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs font-bold backdrop-blur-md">Cultura Maker</span>
-                                    <span className="px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs font-bold backdrop-blur-md">Tempo Integral</span>
-                                </div>
-                            </Card>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <Card delay="0.3s" className="flex flex-col justify-center items-center text-center p-4">
-                                    <Icon name="door-open" size={32} className="text-amber-500 mb-2" />
-                                    <p className="text-3xl font-black text-slate-800 leading-none mb-1">272</p>
-                                    <p className="text-[10px] font-bold text-slate-500 uppercase">Ambientes Totais</p>
-                                </Card>
-                                <Card delay="0.4s" className="flex flex-col justify-center items-center text-center p-4">
-                                    <Icon name="users" size={32} className="text-emerald-500 mb-2" />
-                                    <p className="text-3xl font-black text-slate-800 leading-none mb-1">115</p>
-                                    <p className="text-[10px] font-bold text-slate-500 uppercase">Colaboradores / Docentes</p>
-                                </Card>
-                            </div>
-                        </div>
                     </div>
-                    <Source text="Anexo 2 - Relação de Ambientes (Revisão Engenharia). Área Total = Construída (25.341m²) + Circulação Externa/Acessos." />
+                    <Source text="PROJEÇÃO GERAL - 2026 V2, p. 1 e p. 6." />
                 </div>
             );
         };
 
-        const EnrollmentChart = () => {
-            const [selectedTab, setSelectedTab] = useState('Todos');
-            
-            const baseData = [
-                { year: '1º Ano (2028)', EF1: 261, EF2: 336, EM: 153 }, // Sum = 750
-                { year: '2º Ano (2029)', EF1: 326, EF2: 420, EM: 320 }, // 1066
-                { year: '3º Ano (2030)', EF1: 348, EF2: 448, EM: 510 }, // 1306
-                { year: '4º Ano (2031)', EF1: 370, EF2: 476, EM: 540 }, // 1386
-                { year: '5º Ano (2032)', EF1: 413, EF2: 532, EM: 570 }, // Sum = 1515
+        const InfraArchitecture = () => {
+            const spaces = [
+                { label: 'Infraestrutura', val: 12523, perc: 44, color: 'bg-slate-500' },
+                { label: 'Educacional', val: 8312, perc: 29, color: 'bg-sesi-blue' },
+                { label: 'Lazer', val: 3330, perc: 12, color: 'bg-emerald-500' },
+                { label: 'Circulação', val: 3022, perc: 11, color: 'bg-slate-400' },
+                { label: 'Administrativos', val: 1034, perc: 4, color: 'bg-amber-500' },
             ];
 
-            const limits = { 'Todos': 1595, 'EF1': 435, 'EF2': 560, 'EM': 600 };
-            const activeLimit = limits[selectedTab];
+            return (
+                <div className="slide-content flex flex-col h-full">
+                    <IntroParagraph 
+                        title="Infraestrutura" 
+                        highlight="A escola como máquina de aprendizagem."
+                        text="O desenho não é apenas bonito. Ele transforma metros quadrados em experiência. Com 25.342 m² de área construída, a infraestrutura deixa de ser parede e vira metodologia ativa."
+                    />
 
-            const activeTarget = selectedTab === 'Todos' ? 1500 : 
-                                selectedTab === 'EF1' ? 413 : 
-                                selectedTab === 'EF2' ? 532 : 570;
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 shrink-0">
+                        <Card delay="0.1s" className="text-center py-4">
+                            <p className="text-2xl font-black text-slate-800">29.585 m²</p>
+                            <p className="text-xs text-slate-500 font-bold uppercase mt-1">Área Total Geral</p>
+                        </Card>
+                        <Card delay="0.2s" className="text-center py-4">
+                            <p className="text-2xl font-black text-sesi-blue">25.342 m²</p>
+                            <p className="text-xs text-slate-500 font-bold uppercase mt-1">Área Construída</p>
+                        </Card>
+                        <Card delay="0.3s" className="text-center py-4">
+                            <p className="text-2xl font-black text-emerald-600">401</p>
+                            <p className="text-xs text-slate-500 font-bold uppercase mt-1">Ambientes</p>
+                        </Card>
+                        <Card delay="0.4s" className="text-center py-4">
+                            <p className="text-2xl font-black text-purple-600">STEAM</p>
+                            <p className="text-xs text-slate-500 font-bold uppercase mt-1">Base Pedagógica</p>
+                        </Card>
+                    </div>
 
-            const processedData = baseData.map(item => {
-                let val = selectedTab === 'Todos' ? item.EF1 + item.EF2 + item.EM : item[selectedTab];
-                return {
-                    year: item.year.split(' ')[0],
-                    students: val,
-                    percentage: Math.min((val / activeLimit) * 100, 100)
-                };
-            });
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
+                        <Card delay="0.5s" className="lg:col-span-6 flex flex-col justify-start overflow-y-auto">
+                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-5 shrink-0">Distribuição da Área (m²)</h3>
+                            <div className="space-y-4">
+                                {spaces.map((item, idx) => (
+                                    <div key={idx} className="flex items-center gap-4 shrink-0">
+                                        <div className="w-24 text-right shrink-0">
+                                            <p className="text-sm font-bold text-slate-700">{item.label}</p>
+                                        </div>
+                                        <div className="flex-grow flex items-center">
+                                            <div className={`h-8 ${item.color} rounded-r-md rounded-l-sm flex items-center px-3 transition-all duration-1000`} style={{ width: `${Math.max(item.perc, 2)}%` }}>
+                                                <span className="text-xs font-bold text-white shadow-sm">{item.perc}%</span>
+                                            </div>
+                                            <span className="text-xs font-bold text-slate-500 ml-3 whitespace-nowrap">{new Intl.NumberFormat('pt-BR').format(item.val)} m²</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </Card>
+
+                        <Card delay="0.6s" bg="bg-slate-50" className="lg:col-span-6 flex flex-col justify-start border-2 border-slate-200 overflow-y-auto">
+                            <h3 className="text-lg font-bold text-slate-800 mb-4 shrink-0">Experiência STEAM & 4.0</h3>
+                            <div className="space-y-4">
+                                <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex gap-4 items-start shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-blue-50 text-sesi-blue flex items-center justify-center shrink-0"><Icon name="cpu" size={20}/></div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-800 text-sm">Laboratórios 4.0</h4>
+                                        <p className="text-xs text-slate-500 mt-1">IoT, Cybersecurity, Manufatura Digital e Integrada.</p>
+                                    </div>
+                                </div>
+                                <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex gap-4 items-start shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center shrink-0"><Icon name="glasses" size={20}/></div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-800 text-sm">Tecnologias Imersivas</h4>
+                                        <p className="text-xs text-slate-500 mt-1">Realidade mista holográfica, VR/AR e produção de conteúdo digital.</p>
+                                    </div>
+                                </div>
+                                <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex gap-4 items-start shrink-0">
+                                    <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0"><Icon name="book-open" size={20}/></div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-800 text-sm">Ambientes de Experiência</h4>
+                                        <p className="text-xs text-slate-500 mt-1">Cozinha experimental, biblioteca, ginásio e áreas de convivência ativas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
+                    <Source text="PROJEÇÃO GERAL - 2026 V2, p. 2-5 e p. 21-22." />
+                </div>
+            );
+        };
+
+        const EnrollmentRamp = () => {
+            const rampData = [
+                { year: 'Ano 1', total: 757, pag: 639, grat: 118, perc: 47.5 },
+                { year: 'Ano 2', total: 1066, pag: 893, grat: 173, perc: 66.8 },
+                { year: 'Ano 3', total: 1306, pag: 1097, grat: 209, perc: 81.9 },
+                { year: 'Ano 4', total: 1386, pag: 1165, grat: 221, perc: 86.9 },
+                { year: 'Ano 5', total: 1515, pag: 1268, grat: 247, perc: 95.0 },
+            ];
+            const capacity = 1600;
 
             return (
                 <div className="slide-content flex flex-col h-full fade-in">
                     <IntroParagraph 
-                        title="Projeção de Matrículas & Mix de Produtos" 
-                        text="O projeto prevê uma capacidade instalada de 1.595 alunos, iniciando em 2028 com 750 matrículas e atingindo maturidade no 5º ano. Para maximizar a captação e adaptação das famílias, a escola adotará uma arquitetura flexível de produtos."
-                        highlight="Crescimento Modular."
+                        title="Matrículas & Arquitetura de Produtos" 
+                        highlight="Formatos flexíveis e atrativos."
+                        text="A ocupação sobe de 757 para 1.515 matrículas em cinco anos. A estratégia de conversão apoia-se em três formatos de jornada, permitindo que as famílias adequem a mensalidade à sua realidade."
                     />
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
-                        
-                        {/* Coluna Esquerda - Gráfico */}
-                        <div className="lg:col-span-7 flex flex-col min-h-0 h-full">
-                            <div className="flex flex-wrap gap-2 md:gap-3 mb-4 shrink-0 z-20 relative">
-                                {[
-                                    { id: 'Todos', label: 'Visão Geral (1.595)' },
-                                    { id: 'EF1', label: 'Fund. I (435)' },
-                                    { id: 'EF2', label: 'Fund. II (560)' },
-                                    { id: 'EM', label: 'Ensino Médio (600)' }
-                                ].map(tab => (
-                                    <button 
-                                        key={tab.id} onClick={() => setSelectedTab(tab.id)}
-                                        className={`px-3 py-1.5 rounded-full text-xs md:text-sm font-black transition-all border-2 ${selectedTab === tab.id ? 'bg-sesi-dark border-sesi-dark text-white shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'}`}
-                                    >
-                                        {tab.label}
-                                    </button>
-                                ))}
+                        {/* Gráfico de Rampa */}
+                        <Card delay="0.1s" className="lg:col-span-8 flex flex-col pt-10 pb-6 relative overflow-hidden">
+                            <div className="absolute top-4 right-6 flex gap-3 text-xs font-bold shrink-0">
+                                <span className="flex items-center gap-1.5 text-sesi-dark"><div className="w-3 h-3 bg-sesi-dark rounded-sm"></div> Pagantes</span>
+                                <span className="flex items-center gap-1.5 text-emerald-500"><div className="w-3 h-3 bg-emerald-500 rounded-sm"></div> Gratuidade</span>
                             </div>
 
-                            <Card delay="0.1s" bg="bg-slate-50" className="flex-grow flex flex-col relative overflow-hidden pt-12 pb-8" key={selectedTab}>
-                                
-                                {/* Linhas de Referência */}
-                                <div className="absolute w-full border-t-[2px] border-dashed border-rose-300 left-0 z-0 transition-all duration-700" style={{ top: '24px' }}>
-                                    <span className="absolute -top-3 right-4 text-[10px] lg:text-xs font-black text-white bg-rose-500 px-2 py-0.5 rounded shadow-sm">Instalada: {activeLimit}</span>
-                                </div>
-                                
-                                <div className="absolute w-full border-t-[2px] border-dotted border-emerald-400 left-0 z-0 transition-all duration-700" style={{ top: `calc(24px + ${(1 - (activeTarget / activeLimit)) * (100 - 24)}%)` }}>
-                                    <span className="absolute -top-3 right-4 text-[10px] lg:text-[11px] font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded shadow-sm border border-emerald-200">Alvo {selectedTab === 'Todos' ? '(94%)' : ''}: {activeTarget}</span>
-                                </div>
-                                
-                                {/* Área do Gráfico */}
-                                <div className="relative flex-grow flex items-end justify-between px-2 md:px-8 h-full min-h-[200px] z-10 mt-6 border-b border-slate-200">
-                                    {processedData.map((item, index) => (
-                                        <div key={index} className="flex flex-col items-center justify-end w-1/5 h-full group">
+                            <div className="absolute w-full border-t border-dashed border-slate-300 left-0 z-0 transition-all duration-700" style={{ top: '25%' }}>
+                                <span className="absolute -top-3 left-4 text-[10px] font-black text-slate-400 bg-white px-2">Capacidade: {capacity}</span>
+                            </div>
+
+                            <div className="relative flex-grow flex items-end justify-between px-2 md:px-8 z-10 mt-8 min-h-[200px]">
+                                {rampData.map((item, idx) => (
+                                    <div key={idx} className="flex flex-col items-center justify-end w-1/6 h-full group">
+                                        <div className="w-full flex flex-col items-center justify-end h-full transition-all duration-1000 ease-out" style={{ height: `${(item.total/capacity)*100}%` }}>
                                             
-                                            <div className="w-full flex flex-col items-center justify-end h-full transition-all duration-1000 ease-out" style={{ height: `${item.percentage}%` }}>
-                                                
-                                                <div className="bg-white px-2 lg:px-4 py-1 rounded-xl shadow-md border border-slate-200 z-20 flex flex-col items-center mb-1.5 whitespace-nowrap">
-                                                    <span className="text-base lg:text-xl font-black text-slate-800 leading-none">{item.students}</span>
-                                                </div>
-                                                
-                                                <div className="w-10 md:w-16 lg:w-20 bg-gradient-to-t from-sesi-dark to-sesi-blue rounded-t-lg shadow-[0_-4px_15px_rgba(0,85,164,0.3)] border border-blue-400/30 border-b-0 w-full h-full"></div>
+                                            <div className="bg-white px-2 py-1 rounded-lg shadow-sm border border-slate-100 mb-2 whitespace-nowrap text-center z-10">
+                                                <span className="text-sm md:text-xl font-black text-slate-800 block">{item.total}</span>
                                             </div>
                                             
-                                            <div className="flex flex-col items-center w-full mt-2 h-10 shrink-0">
-                                                <span className="font-bold text-slate-700 text-[10px] md:text-xs whitespace-nowrap">{item.year}</span>
-                                                {selectedTab === 'Todos' && <span className="text-[8px] text-slate-500 font-bold bg-white px-1 py-0.5 rounded border border-slate-200 mt-1 whitespace-nowrap">{item.percentage.toFixed(0)}% ocup.</span>}
+                                            <div className="w-12 md:w-20 flex flex-col h-full justify-end rounded-t-xl overflow-hidden shadow-sm">
+                                                <div className="bg-emerald-500 w-full flex items-center justify-center transition-all duration-1000" style={{ height: `${(item.grat/item.total)*100}%` }}>
+                                                    <span className="text-[9px] font-bold text-white">{item.grat}</span>
+                                                </div>
+                                                <div className="bg-sesi-dark w-full flex items-start justify-center pt-2 transition-all duration-1000" style={{ height: `${(item.pag/item.total)*100}%` }}>
+                                                    <span className="text-[10px] font-bold text-white/80">{item.pag}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
-                            </Card>
-                        </div>
-
-                        {/* Coluna Direita - Mix de Produtos */}
-                        <div className="lg:col-span-5 flex flex-col gap-4 overflow-y-auto pb-4 pr-2">
-                            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 shrink-0 flex items-center gap-2">
-                                <Icon name="layers" size={16}/> Arquitetura de Oferta
-                            </h3>
-                            
-                            <Card delay="0.2s" bg="bg-sesi-dark" className="border-none text-white shrink-0 p-5 relative overflow-hidden">
-                                <Icon name="sun" size={80} className="absolute -right-4 -bottom-4 text-white opacity-10" />
-                                <div className="flex items-center gap-3 mb-2 relative z-10">
-                                    <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm"><Icon name="infinity" size={20}/></div>
-                                    <h4 className="text-lg font-black text-white">Integral (Imersão)</h4>
-                                </div>
-                                <p className="text-xs text-blue-100 font-medium leading-relaxed relative z-10">
-                                    O formato natural e âncora do projeto. Proporciona vivência integral da metodologia STEAM, cultura Maker e atividades colaborativas ao longo de todo o dia.
-                                </p>
-                                <span className="inline-block mt-3 px-2 py-1 bg-blue-500/30 border border-blue-400/30 rounded text-[9px] font-bold text-blue-200 uppercase tracking-wider">Produto Padrão</span>
-                            </Card>
-
-                            <Card delay="0.3s" className="shrink-0 p-5 border-l-4 border-l-amber-400">
-                                <div className="flex justify-between items-start mb-2">
-                                    <div className="flex items-center gap-3">
-                                        <div className="bg-amber-100 p-2 rounded-lg text-amber-600"><Icon name="clock-3" size={20}/></div>
-                                        <h4 className="text-lg font-black text-slate-800">Semi-Integral</h4>
+                                        
+                                        <div className="flex flex-col items-center w-full mt-3 h-10 shrink-0">
+                                            <span className="font-bold text-slate-700 text-xs md:text-sm">{item.year}</span>
+                                            <span className="text-[10px] text-slate-500 font-semibold">{item.perc.toFixed(1).replace('.',',')}% ocup.</span>
+                                        </div>
                                     </div>
-                                    <span className="px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-[10px] font-black tracking-wider shadow-sm">-30% OFF</span>
-                                </div>
-                                <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                                    Garante flexibilidade para as rotinas das famílias que não necessitam da carga horária estendida, oferecendo um desconto atrativo de 30% sobre o ticket padrão.
+                                ))}
+                            </div>
+                        </Card>
+
+                        {/* Cards de Produtos */}
+                        <div className="lg:col-span-4 flex flex-col gap-4 overflow-y-auto pr-2 pb-2">
+                            <Card delay="0.2s" bg="bg-sesi-dark" className="flex flex-col justify-center border-none text-white relative overflow-hidden p-5 shrink-0">
+                                <Icon name="clock" size={80} className="absolute -right-4 -top-4 opacity-10 text-white" />
+                                <h3 className="text-lg font-black mb-1 relative z-10">Jornada Integral</h3>
+                                <p className="text-[10px] text-blue-200 uppercase font-bold tracking-wider mb-2 relative z-10">Padrão da Escola</p>
+                                <p className="text-sm text-blue-50 leading-relaxed font-medium relative z-10">
+                                    Imersão completa com robótica, STEAM e acompanhamento pedagógico estendido.
                                 </p>
                             </Card>
 
-                            <Card delay="0.4s" bg="bg-blue-50" className="shrink-0 p-5 border-2 border-blue-100">
-                                <div className="flex items-center gap-3 mb-2">
-                                    <div className="bg-blue-200 p-2 rounded-lg text-sesi-blue"><Icon name="puzzle" size={20}/></div>
-                                    <h4 className="text-lg font-black text-slate-800">Básico + Módulos</h4>
+                            <Card delay="0.3s" bg="bg-sesi-blue" className="flex flex-col justify-center border-none text-white relative overflow-hidden p-5 shrink-0">
+                                <Icon name="sun" size={80} className="absolute -right-4 -top-4 opacity-10 text-white" />
+                                <div className="flex items-center justify-between mb-1 relative z-10">
+                                    <h3 className="text-lg font-black">Semi-Integral</h3>
+                                    <span className="bg-emerald-500 text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow-sm">-30%</span>
                                 </div>
-                                <p className="text-xs text-slate-600 font-medium leading-relaxed mb-3">
-                                    Núcleo curricular direcionado para o modelo <strong>Semi-presencial / Híbrido</strong>. Permite às famílias montarem a rotina contratando blocos complementares à la carte.
+                                <p className="text-[10px] text-blue-200 uppercase font-bold tracking-wider mb-2 relative z-10">Desconto Estratégico</p>
+                                <p className="text-sm text-blue-50 leading-relaxed font-medium relative z-10">
+                                    Redução da carga horária mantendo a excelência do currículo principal.
                                 </p>
-                                <div className="flex flex-wrap gap-1.5">
-                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[9px] font-bold text-slate-600 shadow-sm">🤖 Robótica</span>
-                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[9px] font-bold text-slate-600 shadow-sm">🧠 Inteligência Artificial</span>
-                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[9px] font-bold text-slate-600 shadow-sm">🏃 Ativ. Físicas</span>
-                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[9px] font-bold text-slate-600 shadow-sm">🎸 Música & Dança</span>
+                            </Card>
+
+                            <Card delay="0.4s" bg="bg-slate-50" className="flex flex-col justify-center border-2 border-slate-200 p-5 shrink-0">
+                                <h3 className="text-lg font-black text-slate-800 mb-1">Básico + Módulos</h3>
+                                <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-2">Flexível & Sob Demanda</p>
+                                <div className="flex flex-wrap gap-1.5 mt-2">
+                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[10px] font-bold text-slate-600 shadow-sm">Extracurriculares</span>
+                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[10px] font-bold text-slate-600 shadow-sm">Dança & Música</span>
+                                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-md text-[10px] font-bold text-slate-600 shadow-sm">IA & Robótica</span>
                                 </div>
                             </Card>
                         </div>
                     </div>
-                    <Source text="Memorial de Cálculos SESI/GO. Início de operação projetado para 2028." />
+                    <Source text="PROJEÇÃO GERAL - 2026 V2, p. 12, 14-16." />
                 </div>
             );
         };
 
-        const ViabilityCapital = () => {
-            const [capexDn, setCapexDn] = useState(100000000);
-            const [obras, setObras] = useState(124782701);
-            const [mobiliario, setMobiliario] = useState(12000000);
-            const [maquinas, setMaquinas] = useState(5000000);
-            const [diferidas, setDiferidas] = useState(4500000);
-            const [diversos, setDiversos] = useState(3200000);
-
-            const totalProject = obras + mobiliario + maquinas + diferidas + diversos;
-            const drCapex = Math.max(0, totalProject - capexDn);
-
-            const items = [
-                { id: 1, label: "Construção de Obras (Engenharia Civil/TI/SPDA)", val: obras, color: "bg-sesi-blue", setter: setObras },
-                { id: 2, label: "Mobiliário e Pré-Operação", val: mobiliario, color: "bg-emerald-500", setter: setMobiliario },
-                { id: 3, label: "Máquinas e Equip. (Laboratórios Maker/IA)", val: maquinas, color: "bg-amber-500", setter: setMaquinas },
-                { id: 4, label: "Despesas Diferidas (Publicidade)", val: diferidas, color: "bg-purple-500", setter: setDiferidas },
-                { id: 5, label: "Projetos, Gestão e Diversos", val: diversos, color: "bg-rose-500", setter: setDiversos },
+        const FinancialDRE = () => {
+            const [selectedYear, setSelectedYear] = useState(1);
+            
+            const dreData = [
+                { ano: 'Ano 1', rec: 20.24, desp: 21.73, res: -1.49, margin: -7.39 },
+                { ano: 'Ano 2', rec: 29.97, desp: 29.90, res: 0.07, margin: 0.23 },
+                { ano: 'Ano 3', rec: 38.54, desp: 37.63, res: 0.91, margin: 2.37 },
+                { ano: 'Ano 4', rec: 40.88, desp: 39.24, res: 1.63, margin: 3.99 },
+                { ano: 'Ano 5', rec: 44.37, desp: 41.88, res: 2.50, margin: 5.63 },
+                { ano: 'Ano 6', rec: 46.15, desp: 43.43, res: 2.72, margin: 5.90 },
             ];
 
-            const maxVal = Math.max(...items.map(i => i.val));
-            const formatMi = (v) => (v / 1000000).toFixed(1) + ' Mi';
-            const formatCur = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
+            const current = dreData[selectedYear];
+            const maxVal = 50; 
+            const formatVal = (v) => new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 2 }).format(v);
 
             return (
-                <div className="slide-content flex flex-col h-full">
+                <div className="slide-content flex flex-col h-full fade-in">
                     <IntroParagraph 
-                        title="Viabilidade: Estrutura de CAPEX" 
-                        highlight="Blindagem Patrimonial."
-                        text="Um projeto intensivo em capital com forte contrapartida regional. A Lei Municipal 11.352/2025 assegurou a blindagem jurídica através do direito de retenção e indenização por benfeitorias na área pública concedida."
+                        title="Viabilidade Financeira" 
+                        highlight="Break-even no Ano 2."
+                        text="A DRE atualizada mostra prejuízo apenas no Ano 1, com virada operacional no Ano 2 e melhoria gradual de margem. O projeto atravessa o início, vira rapidamente e passa a construir margem com crescimento controlado."
                     />
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 flex-grow min-h-0">
-                        {/* Painel de Controles Editáveis */}
-                        <Card delay="0.1s" bg="bg-slate-50" className="lg:col-span-5 flex flex-col border-2 border-slate-200 overflow-y-auto p-4 lg:p-6 pb-6">
-                            <h3 className="text-sm lg:text-base font-bold text-slate-800 mb-4 shrink-0 flex items-center gap-2"><Icon name="settings-2" size={18}/> Simulador de Investimentos</h3>
+                    <div className="flex flex-wrap gap-2 md:gap-3 mb-6 shrink-0 z-20 relative overflow-x-auto no-scrollbar">
+                        {dreData.map((d, i) => (
+                            <button 
+                                key={i} onClick={() => setSelectedYear(i)}
+                                className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs font-bold transition-all border-2 ${selectedYear === i ? 'bg-sesi-dark border-sesi-dark text-white shadow-md' : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'}`}
+                            >
+                                {d.ano}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
+                        <Card delay="0.1s" bg="bg-white" className="lg:col-span-8 flex flex-col p-6 relative overflow-hidden">
+                            <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-6 shrink-0">Receitas Totais x Despesas Totais (R$ milhões)</h3>
                             
-                            <div className="space-y-4 shrink-0 pb-2 border-b border-slate-200 mb-4">
-                                {items.map(item => (
-                                    <div key={item.id}>
-                                        <label className="flex justify-between text-[10px] lg:text-xs font-bold text-slate-700 mb-1">
-                                            <span className="truncate pr-2">{item.label}</span>
-                                        </label>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-xs font-bold text-slate-400">R$</span>
-                                            <input 
-                                                type="number" 
-                                                value={item.val} 
-                                                onChange={(e)=>item.setter(Number(e.target.value))} 
-                                                className={`w-full px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg border text-xs lg:text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-opacity-50`}
-                                                style={{ focusRingColor: item.color.replace('bg-', '') }}
-                                            />
+                            <div className="absolute top-6 right-6 flex gap-4 text-xs font-bold">
+                                <span className="flex items-center gap-1.5 text-sesi-blue"><div className="w-3 h-3 bg-sesi-blue rounded"></div> Receitas</span>
+                                <span className="flex items-center gap-1.5 text-rose-500"><div className="w-3 h-3 bg-rose-500 rounded"></div> Despesas</span>
+                            </div>
+
+                            <div className="relative flex-grow flex items-end justify-between px-2 h-full z-10 border-b border-slate-200 pb-2 min-h-[200px]">
+                                {dreData.map((d, i) => (
+                                    <div key={i} className={`flex flex-col items-center justify-end w-1/6 h-full transition-opacity duration-300 ${selectedYear === i ? 'opacity-100' : 'opacity-40 hover:opacity-70 cursor-pointer'}`} onClick={() => setSelectedYear(i)}>
+                                        <div className="flex items-end justify-center w-full gap-1 lg:gap-2 h-full">
+                                            <div className="w-1/3 max-w-[40px] bg-sesi-blue rounded-t-lg relative flex flex-col justify-start items-center chart-bar" style={{ height: `${(d.rec/maxVal)*100}%` }}>
+                                                {selectedYear === i && <span className="absolute -top-6 text-[10px] font-bold text-sesi-blue bg-blue-50 px-1 rounded shadow-sm">{formatVal(d.rec)}</span>}
+                                            </div>
+                                            <div className="w-1/3 max-w-[40px] bg-rose-500 rounded-t-lg relative flex flex-col justify-start items-center chart-bar" style={{ height: `${(d.desp/maxVal)*100}%` }}>
+                                                {selectedYear === i && <span className="absolute -top-6 text-[10px] font-bold text-rose-600 bg-rose-50 px-1 rounded shadow-sm">{formatVal(d.desp)}</span>}
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col items-center mt-3 h-6 shrink-0">
+                                            <span className={`font-bold text-xs ${selectedYear === i ? 'text-sesi-dark' : 'text-slate-500'}`}>{d.ano}</span>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-
-                            <div className="mt-auto shrink-0 bg-blue-50/50 p-3 rounded-xl border border-blue-100">
-                                <label className="flex justify-between text-xs lg:text-sm font-black text-slate-800 mb-2">
-                                    <span>Aporte Nacional (DN)</span>
-                                </label>
-                                <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-xs lg:text-sm font-bold text-blue-600">R$</span>
-                                    <input 
-                                        type="number" 
-                                        value={capexDn} 
-                                        onChange={(e)=>setCapexDn(Number(e.target.value))} 
-                                        className="w-full px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg border-2 border-blue-200 text-sm lg:text-lg font-black text-blue-700 focus:outline-none focus:border-blue-500 bg-white"
-                                    />
-                                </div>
-                                <input type="range" min="50000000" max="150000000" step="1000000" value={capexDn} onChange={(e)=>setCapexDn(Number(e.target.value))} className="w-full accent-blue-600"/>
-                            </div>
                         </Card>
 
-                        {/* Visão de Resultados */}
-                        <div className="lg:col-span-7 flex flex-col gap-4 lg:gap-6 min-h-0">
-                            <Card delay="0.2s" bg="bg-sesi-dark" className="text-white border-none flex flex-col justify-center relative overflow-hidden p-6 lg:p-8 shrink-0">
-                                <Icon name="wallet" size={100} className="absolute -right-4 -bottom-4 text-white opacity-5" />
-                                <p className="text-xs lg:text-sm font-bold text-blue-300 uppercase tracking-widest mb-1 lg:mb-2 relative z-10">CAPEX Total do Projeto</p>
-                                <p className="text-4xl lg:text-5xl xl:text-6xl font-black mb-4 lg:mb-6 relative z-10">{formatCur(totalProject)}</p>
-                                
-                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white/10 p-3 lg:p-4 rounded-2xl backdrop-blur-sm relative z-10 border border-white/10 gap-2 sm:gap-0">
-                                    <div className="w-full sm:w-auto">
-                                        <p className="text-[10px] lg:text-xs text-blue-200 font-bold uppercase mb-0.5 lg:mb-1">Aporte DN ({(capexDn/totalProject*100).toFixed(0)}%)</p>
-                                        <p className="text-xl lg:text-2xl font-bold text-blue-100">{formatCur(capexDn)}</p>
-                                    </div>
-                                    <div className="hidden sm:block h-10 w-px bg-white/20"></div>
-                                    <div className="w-full sm:w-auto sm:text-right border-t sm:border-t-0 border-white/10 pt-2 sm:pt-0">
-                                        <p className="text-[10px] lg:text-xs text-emerald-300 font-bold uppercase mb-0.5 lg:mb-1">Contrapartida Regional ({(drCapex/totalProject*100).toFixed(0)}%)</p>
-                                        <p className="text-xl lg:text-2xl font-bold text-emerald-100">{formatCur(drCapex)}</p>
-                                    </div>
+                        <div className="lg:col-span-4 flex flex-col gap-4 overflow-y-auto">
+                            <Card delay="0.2s" bg={current.res > 0 ? 'bg-sesi-dark' : 'bg-rose-900'} className="text-white flex-shrink-0 flex flex-col justify-center border-none transition-colors duration-500 relative overflow-hidden py-8">
+                                <Icon name={current.res > 0 ? "trending-up" : "trending-down"} size={100} className="absolute -right-4 -bottom-4 opacity-10" />
+                                <p className="text-xs font-bold text-white/70 uppercase tracking-wider mb-1 relative z-10">Resultado Líquido ({current.ano})</p>
+                                <p className="text-4xl font-black mb-6 relative z-10">
+                                    {current.res > 0 ? '+ ' : '- '}R$ {Math.abs(current.res).toFixed(2).replace('.',',')} <span className="text-xl font-normal">mi</span>
+                                </p>
+                                <div className="bg-white/10 p-4 rounded-xl backdrop-blur-md border border-white/20 flex justify-between items-center relative z-10">
+                                    <span className="text-sm font-bold text-white/80">Margem Líquida</span>
+                                    <span className={`text-xl font-black px-2 py-1 rounded ${current.margin > 0 ? 'bg-emerald-500/30 text-emerald-300' : 'bg-rose-500/50 text-rose-200'}`}>
+                                        {current.margin > 0 ? '+' : ''}{formatVal(current.margin)}%
+                                    </span>
                                 </div>
                             </Card>
 
-                            <Card delay="0.3s" className="flex-grow flex flex-col justify-center p-4 lg:p-8 overflow-y-auto">
-                                <h3 className="text-xs lg:text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 lg:mb-6 shrink-0">Detalhamento Visual (Natureza)</h3>
-                                <div className="space-y-4 lg:space-y-6">
-                                    {items.map((item) => (
-                                        <div key={item.id} className="relative group shrink-0">
-                                            <div className="flex justify-between text-xs lg:text-sm font-bold text-slate-800 mb-1 lg:mb-2">
-                                                <span className="truncate pr-2">{item.label}</span>
-                                                <span className="text-slate-500 whitespace-nowrap">{formatMi(item.val)}</span>
-                                            </div>
-                                            <div className="w-full bg-slate-100 rounded-full h-3 lg:h-4 overflow-hidden border border-slate-200">
-                                                <div className={`${item.color} h-full rounded-full transition-all duration-700`} style={{ width: `${Math.max((item.val / maxVal) * 100, 2)}%` }}></div>
-                                            </div>
-                                        </div>
-                                    ))}
+                            <Card delay="0.3s" bg="bg-slate-50" className="flex-shrink-0 flex flex-col justify-center py-8">
+                                <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Perspectiva de Longo Prazo</p>
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 shrink-0">
+                                        <Icon name="timer" size={20} />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-slate-500 font-bold">Payback Projetado</p>
+                                        <p className="text-lg font-black text-slate-800">10 Anos e 4 Meses</p>
+                                    </div>
                                 </div>
+                                <p className="text-xs text-slate-600 leading-relaxed">
+                                    A curva de longo prazo estima uma rentabilidade crescente, atingindo <strong className="text-sesi-dark">9,95% no Ano 24</strong>.
+                                </p>
                             </Card>
                         </div>
                     </div>
-                    <Source text="Ofício 152/2025. Valores e estrutura editáveis para simulação gerencial de orçamento." />
-                </div>
-            );
-        };
-
-        const SimulatorDRE = () => {
-            const [enrollment, setEnrollment] = useState(1500);
-            const [ticketBruto, setTicketBruto] = useState(2850); 
-            const [custoDireto, setCustoDireto] = useState(1200); 
-            const [custoFixo, setCustoFixo] = useState(14000000); 
-            const [capex, setCapex] = useState(149482701); 
-            const [txPerdas, setTxPerdas] = useState(12); 
-            
-            const receitaBruta = enrollment * ticketBruto * 12;
-            const perdasAbsolutas = receitaBruta * (txPerdas / 100);
-            const receitaLiquida = receitaBruta - perdasAbsolutas;
-            
-            const totalCustoDireto = enrollment * custoDireto * 12;
-            const totalCustos = totalCustoDireto + custoFixo;
-            
-            const ebitda = receitaLiquida - totalCustos;
-            const margin = receitaLiquida > 0 ? (ebitda / receitaLiquida) * 100 : 0;
-            const payback = ebitda > 0 ? capex / ebitda : 0;
-            
-            const unitCMLiquida = (ticketBruto * 12 * (1 - txPerdas/100)) - (custoDireto * 12);
-            const bepStudents = unitCMLiquida > 0 ? Math.ceil(custoFixo / unitCMLiquida) : Infinity;
-
-            const formatCur = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
-
-            const chartYears = Array.from({length: 26}, (_, i) => i); 
-            const dataPoints = chartYears.map(y => -capex + y * ebitda);
-            const maxY = Math.max(0, ...dataPoints);
-            const minY = Math.min(0, ...dataPoints);
-            const range = (maxY - minY) || 1;
-            const zeroY = ((maxY - 0) / range) * 100;
-
-            return (
-                <div className="slide-content flex flex-col h-full">
-                    <IntroParagraph 
-                        title="Simulador Operacional (DRE) & Payback" 
-                        highlight="Gatilhos de Viabilidade."
-                        text="A sustentabilidade exige disciplina. Com 1.500 alunos, ticket líquido médio deflacionado pelas bolsas e custo fixo otimizado, a margem de EBITDA alcança a meta projetada, garantindo o retorno sobre o capital imobilizado."
-                    />
-
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0">
-                        {/* Controles do Simulador */}
-                        <Card delay="0.1s" bg="bg-slate-50" className="lg:col-span-4 border-2 border-slate-200 flex flex-col overflow-y-auto p-6">
-                            <h3 className="text-base font-bold text-slate-800 mb-5 flex items-center gap-2"><Icon name="sliders" size={18} className="text-sesi-blue"/> Variáveis de Maturidade (Ano 5)</h3>
-                            
-                            <div className="space-y-5">
-                                <div>
-                                    <label className="flex justify-between text-xs font-bold text-slate-700 mb-1">
-                                        <span>Matrículas Ativas</span>
-                                        <span className="text-sesi-blue">{enrollment} alunos</span>
-                                    </label>
-                                    <input type="range" min="600" max="1595" step="10" value={enrollment} onChange={(e)=>setEnrollment(Number(e.target.value))} className="w-full accent-sesi-blue"/>
-                                </div>
-                                <div>
-                                    <label className="flex justify-between text-xs font-bold text-slate-700 mb-1">
-                                        <span>Ticket Médio Bruto</span>
-                                        <span className="text-emerald-600">R$ {ticketBruto}/mês</span>
-                                    </label>
-                                    <input type="range" min="1500" max="4000" step="50" value={ticketBruto} onChange={(e)=>setTicketBruto(Number(e.target.value))} className="w-full accent-emerald-500"/>
-                                </div>
-                                <div>
-                                    <label className="flex justify-between text-xs font-bold text-slate-700 mb-1">
-                                        <span>Custo Direto por Aluno</span>
-                                        <span className="text-rose-500">R$ {custoDireto}/mês</span>
-                                    </label>
-                                    <input type="range" min="800" max="2500" step="50" value={custoDireto} onChange={(e)=>setCustoDireto(Number(e.target.value))} className="w-full accent-rose-400"/>
-                                </div>
-                                <div>
-                                    <label className="flex justify-between text-xs font-bold text-slate-700 mb-1">
-                                        <span>Bolsas/Descontos/Inadimp.</span>
-                                        <span className="text-amber-600">{txPerdas}% da Receita</span>
-                                    </label>
-                                    <input type="range" min="0" max="40" step="1" value={txPerdas} onChange={(e)=>setTxPerdas(Number(e.target.value))} className="w-full accent-amber-500"/>
-                                </div>
-                                <div className="pt-4 border-t border-slate-200">
-                                    <label className="flex justify-between text-xs font-bold text-slate-700 mb-2">
-                                        <span>Investimento Avaliado (CAPEX)</span>
-                                    </label>
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <span className="text-sm font-bold text-purple-600">R$</span>
-                                        <input type="number" value={capex} onChange={(e)=>setCapex(Number(e.target.value))} className="w-full px-2 py-1.5 rounded border border-purple-200 text-sm font-black text-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-500 bg-purple-50"/>
-                                    </div>
-                                    <input type="range" min="50000000" max="200000000" step="1000000" value={capex} onChange={(e)=>setCapex(Number(e.target.value))} className="w-full accent-purple-500"/>
-                                </div>
-                            </div>
-                            
-                            <div className="mt-auto pt-5">
-                                <div className={`p-4 rounded-xl border ${bepStudents <= enrollment ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'} transition-colors`}>
-                                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Ponto de Equilíbrio Operacional</p>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-xs font-bold text-slate-700">Volume Mínimo:</span>
-                                        <span className={`text-lg font-black ${bepStudents <= enrollment ? 'text-emerald-700' : 'text-rose-700'}`}>
-                                            {unitCMLiquida > 0 ? `${bepStudents} Alunos` : 'Inatingível'}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-
-                        {/* Dashboards Visuais */}
-                        <Card 
-                            delay="0.2s" 
-                            bg={ebitda > 0 ? 'bg-gradient-to-br from-sesi-dark to-slate-900' : 'bg-gradient-to-br from-rose-950 to-rose-900'} 
-                            className="lg:col-span-8 text-white transition-colors duration-500 flex flex-col p-8 relative overflow-hidden"
-                        >
-                            <Icon name={ebitda > 0 ? 'bar-chart-3' : 'alert-triangle'} size={180} className="absolute -right-10 -top-10 opacity-5" />
-
-                            <div className="mb-8 z-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                                <div>
-                                    <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-2">Payback Simples (Retorno do CAPEX)</p>
-                                    <h3 className="text-5xl lg:text-6xl font-black tracking-tight text-white drop-shadow-md">
-                                        {payback > 0 ? (
-                                            <span>{Math.floor(payback)} Anos, {Math.round((payback % 1)*12)} <span className="text-3xl">Mês.</span></span>
-                                        ) : 'Déficit'}
-                                    </h3>
-                                </div>
-                                <div className="bg-white/10 px-6 py-3 rounded-2xl backdrop-blur-md border border-white/10 text-right">
-                                     <p className="text-[10px] text-blue-200 uppercase font-bold mb-1">Margem EBITDA (Ano 5)</p>
-                                     <p className="text-3xl font-black text-white">{margin.toFixed(1)}%</p>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 z-10">
-                                 <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                     <p className="text-[10px] text-slate-400 uppercase font-bold mb-1">Receita Líquida Anual</p>
-                                     <p className="text-xl font-bold text-emerald-400">{formatCur(receitaLiquida)}</p>
-                                 </div>
-                                 <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                                     <p className="text-[10px] text-slate-400 uppercase font-bold mb-1">Custos Totais (Fixo + Var)</p>
-                                     <p className="text-xl font-bold text-rose-300">{formatCur(totalCustos)}</p>
-                                 </div>
-                                 <div className="bg-white/10 p-4 rounded-xl border border-white/20 shadow-inner">
-                                     <p className="text-[10px] text-blue-200 uppercase font-bold mb-1">EBITDA Gerado ao Ano</p>
-                                     <p className="text-xl font-black text-white">{formatCur(ebitda)}</p>
-                                 </div>
-                            </div>
-
-                            {/* Gráfico SVG de Fluxo de Caixa */}
-                            <div className="mt-auto pt-6 border-t border-white/10 relative flex-grow flex flex-col z-10 min-h-[200px]">
-                                <div className="flex justify-between items-center mb-4">
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Fluxo de Caixa Acumulado (25 Anos)</p>
-                                    {payback > 0 && payback <= 25 && (
-                                        <span className="text-[10px] font-bold text-amber-400 flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-amber-400"></div> Ponto de Virada</span>
-                                    )}
-                                </div>
-                                
-                                <div className="relative flex-grow w-full">
-                                    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full overflow-visible">
-                                        <line x1="0" y1={zeroY} x2="100" y2={zeroY} stroke="#94a3b8" strokeOpacity="0.5" strokeDasharray="2" strokeWidth="0.5" />
-                                        
-                                        <polygon 
-                                            fill={ebitda > 0 ? "rgba(52, 211, 153, 0.15)" : "rgba(244, 63, 94, 0.15)"}
-                                            points={`0,${zeroY} ${dataPoints.map((val, i) => `${(i / (chartYears.length - 1)) * 100},${((maxY - val) / range) * 100}`).join(' ')} 100,${zeroY}`}
-                                        />
-                                        
-                                        <polyline
-                                            fill="none"
-                                            stroke={ebitda > 0 ? "#34d399" : "#f43f5e"}
-                                            strokeWidth="2.5"
-                                            strokeLinejoin="round"
-                                            points={dataPoints.map((val, i) => `${(i / (chartYears.length - 1)) * 100},${((maxY - val) / range) * 100}`).join(' ')}
-                                        />
-
-                                        {payback > 0 && payback <= 25 && (
-                                            <g transform={`translate(${(payback / 25) * 100}, ${zeroY})`}>
-                                                <circle r="3" fill="#fbbf24" stroke="#0f172a" strokeWidth="1.5" className="animate-pulse" />
-                                                <text y="-8" textAnchor={payback > 22 ? "end" : "middle"} fill="#fbbf24" fontSize="4.5" fontWeight="bold" className="drop-shadow-md">Payback</text>
-                                            </g>
-                                        )}
-                                    </svg>
-                                    
-                                    <div className="absolute -bottom-5 w-full flex justify-between text-[9px] font-bold text-slate-500">
-                                        <span>Ano 0</span>
-                                        <span>5</span>
-                                        <span>10</span>
-                                        <span>15</span>
-                                        <span>20</span>
-                                        <span>25</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    </div>
+                    <Source text="PROJEÇÃO GERAL - 2026 V2, p. 17-20." />
                 </div>
             );
         };
 
         const FutureSignals = () => {
+            const [activeSignal, setActiveSignal] = useState(0);
+
             const signals = [
-                { id: 1, title: "AGI (Inteligência Artificial Geral)", icon: "brain-circuit", desc: "A educação migrará da retenção de dados para a formulação de perguntas complexas e curadoria crítica de algoritmos cognitivos." },
-                { id: 2, title: "Computação Quântica", icon: "atom", desc: "Poder computacional exponencial resolverá dilemas globais. Laboratórios STEAM preparam a lógica para as próximas gerações." },
-                { id: 3, title: "Singularidade", icon: "infinity", desc: "A convergência homem-máquina exigirá ética e humanismo robustos. A escola será o reduto da preservação da empatia e filosofia." },
-                { id: 4, title: "Robotização em Massa", icon: "bot", desc: "A automação de tarefas rotineiras é realidade. O diferencial humano estará na criatividade, gestão de crises e adaptabilidade maker." },
-                { id: 5, title: "Sustentabilidade Radical", icon: "leaf", desc: "Economia circular, bioengenharia e design regenerativo. Desafios reais de mitigação climática como projetos centrais de aprendizado." },
-                { id: 6, title: "Hiper-conectividade & eVTOLs", icon: "network", desc: "Cidades verticais e presença ubíqua digital. A mobilidade será reinventada; a flexibilidade cognitiva será a habilidade primária." }
+                { 
+                    id: 0, 
+                    title: "AGI (Inteligência Artificial Geral)", 
+                    icon: "brain-circuit", 
+                    desc: "A educação migrará da retenção de dados para a formulação de perguntas complexas e curadoria. O SESI Jardins prepara a cognição para dialogar com algoritmos avançados e IA.",
+                    ods: [
+                        { num: 4, name: "Educação de Qualidade", color: "bg-[#C5192D]" },
+                        { num: 9, name: "Indústria, Inovação e Infraestrutura", color: "bg-[#FD6925]" }
+                    ]
+                },
+                { 
+                    id: 1, 
+                    title: "Computação Quântica", 
+                    icon: "atom", 
+                    desc: "Poder computacional exponencial resolverá dilemas globais. Nossos laboratórios STEAM e espaços maker preparam a lógica de programação para as próximas gerações.",
+                    ods: [
+                        { num: 9, name: "Indústria, Inovação e Infraestrutura", color: "bg-[#FD6925]" }
+                    ]
+                },
+                { 
+                    id: 2, 
+                    title: "Singularidade", 
+                    icon: "infinity", 
+                    desc: "A convergência homem-máquina exigirá ética e humanismo robustos. A escola atua como o reduto da preservação da empatia, pensamento crítico, filosofia e conexões reais.",
+                    ods: [
+                        { num: 3, name: "Saúde e Bem-Estar", color: "bg-[#4C9F38]" },
+                        { num: 10, name: "Redução das Desigualdades", color: "bg-[#DD1367]" },
+                        { num: 16, name: "Paz, Justiça e Instituições Fortes", color: "bg-[#00689D]" }
+                    ]
+                },
+                { 
+                    id: 3, 
+                    title: "Robotização em Massa", 
+                    icon: "bot", 
+                    desc: "A automação de tarefas rotineiras é realidade. O diferencial humano estará na criatividade, gestão de crises e adaptabilidade maker, desenvolvidas desde a base.",
+                    ods: [
+                        { num: 8, name: "Trabalho Decente e Crescimento Econômico", color: "bg-[#A21942]" },
+                        { num: 9, name: "Indústria, Inovação e Infraestrutura", color: "bg-[#FD6925]" }
+                    ]
+                },
+                { 
+                    id: 4, 
+                    title: "Sustentabilidade Radical", 
+                    icon: "leaf", 
+                    desc: "Economia circular, bioengenharia e design regenerativo. Desafios reais de mitigação climática são integrados como projetos centrais de aprendizado ativo.",
+                    ods: [
+                        { num: 11, name: "Cidades e Comunidades Sustentáveis", color: "bg-[#FD9D24]" },
+                        { num: 12, name: "Consumo e Produção Responsáveis", color: "bg-[#BF8B2E]" },
+                        { num: 13, name: "Ação Climática", color: "bg-[#3F7E44]" }
+                    ]
+                },
+                { 
+                    id: 5, 
+                    title: "Hiper-conectividade", 
+                    icon: "network", 
+                    desc: "Cidades verticais e presença ubíqua digital. A mobilidade será reinventada; a flexibilidade cognitiva será a habilidade primária dos nossos estudantes.",
+                    ods: [
+                        { num: 9, name: "Indústria, Inovação e Infraestrutura", color: "bg-[#FD6925]" },
+                        { num: 11, name: "Cidades e Comunidades Sustentáveis", color: "bg-[#FD9D24]" }
+                    ]
+                }
             ];
 
             return (
@@ -929,68 +777,96 @@
                         text="A Escola SESI Jardins não foi projetada para o mundo de hoje, mas para forjar os cidadãos que moldarão as próximas décadas. A intersecção entre tecnologia exponencial e resiliência humana é a nossa tese."
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-grow min-h-0 overflow-y-auto pb-4 pr-2">
-                        {signals.map((signal, idx) => (
-                            <Card key={signal.id} delay={`${idx * 0.1}s`} className="flex flex-col h-full hover:-translate-y-2 transition-transform duration-500">
-                                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 bg-slate-100 text-sesi-dark">
-                                    <Icon name={signal.icon} size={24} />
-                                </div>
-                                <h3 className="text-lg font-black text-slate-800 mb-3">{signal.title}</h3>
-                                <p className="text-sm text-slate-500 leading-relaxed font-medium flex-grow">
-                                    {signal.desc}
-                                </p>
-                            </Card>
-                        ))}
-                    </div>
-                    
-                    <div className="mt-6 bg-gradient-to-r from-slate-900 via-sesi-dark to-slate-900 p-6 rounded-[2rem] shrink-0 flex flex-col lg:flex-row items-center justify-between text-white shadow-apple-floating gap-8 relative overflow-hidden border border-slate-700">
-                        <Icon name="git-merge" size={140} className="absolute -left-10 -bottom-10 text-white opacity-5" />
-                        
-                        <div className="lg:w-1/3 relative z-10">
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-[10px] font-bold text-blue-300 mb-3 uppercase tracking-wider">
-                                <Icon name="link" size={12} /> Ecossistema FIEG
-                            </div>
-                            <h4 className="text-2xl font-black mb-2 text-white">Trilha de Inovação Contínua</h4>
-                            <p className="text-sm text-slate-300 font-medium leading-relaxed">
-                                A jornada rumo ao futuro não termina no Ensino Médio. O SESI Jardins atua como a porta de entrada para uma esteira de formação de excelência, conectando talentos precoces às <strong className="text-cyan-400">Faculdades SENAI</strong> e aos centros de pesquisa aplicada dos <strong className="text-emerald-400">Institutos SENAI de Inovação (ISI)</strong>.
-                            </p>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow min-h-0 mb-6">
+                        {/* Tab List */}
+                        <div className="lg:col-span-5 flex flex-col gap-3 overflow-y-auto pr-2 pb-2">
+                            {signals.map((signal) => (
+                                <button 
+                                    key={signal.id}
+                                    onClick={() => setActiveSignal(signal.id)}
+                                    className={`flex items-center gap-4 w-full p-4 rounded-2xl transition-all duration-300 text-left border shrink-0 ${activeSignal === signal.id ? 'bg-sesi-blue text-white shadow-md border-blue-500 scale-[1.02]' : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300 hover:bg-blue-50'}`}
+                                >
+                                    <div className={`flex items-center justify-center w-12 h-12 rounded-xl shrink-0 transition-colors ${activeSignal === signal.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-sesi-dark'}`}>
+                                        <Icon name={signal.icon} size={24} />
+                                    </div>
+                                    <span className={`font-black text-sm md:text-base ${activeSignal === signal.id ? 'text-white' : 'text-slate-800'}`}>
+                                        {signal.title}
+                                    </span>
+                                    <Icon name="chevron-right" size={20} className={`ml-auto transition-transform ${activeSignal === signal.id ? 'translate-x-1 opacity-100' : 'opacity-0'}`} />
+                                </button>
+                            ))}
                         </div>
 
-                        <div className="lg:w-2/3 flex flex-col sm:flex-row items-center w-full gap-3 relative z-10">
-                            {/* Linha conectora de fundo (só visível no desktop) */}
-                            <div className="hidden sm:block absolute top-1/2 left-10 right-10 h-0.5 bg-gradient-to-r from-blue-500 via-cyan-500 to-emerald-500 opacity-30 -translate-y-1/2 z-0"></div>
-
-                            {/* Passo 1: SESI */}
-                            <div className="bg-slate-800/80 border border-slate-600 p-4 rounded-2xl w-full sm:w-1/3 relative z-10 backdrop-blur-md flex flex-col items-center text-center">
-                                <div className="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(59,130,246,0.4)] text-white">
-                                    <Icon name="layout-template" size={20}/>
-                                </div>
-                                <h5 className="font-black text-sm text-white mb-1">SESI Jardins</h5>
-                                <p className="text-[10px] text-slate-400 font-medium">Básica, Maker & STEAM</p>
+                        {/* Detailed View - Corrigido para não suprimir conteúdo */}
+                        <Card delay="0.1s" bg="bg-slate-50" className="lg:col-span-7 relative overflow-hidden flex flex-col border-2 border-slate-200 p-0">
+                            {/* Background decoration */}
+                            <div className="absolute right-[-5%] bottom-[-10%] opacity-[0.03] text-sesi-dark pointer-events-none transition-all duration-700 transform scale-110">
+                                <Icon name={signals[activeSignal].icon} size={350} />
                             </div>
-
-                            <Icon name="arrow-right" className="hidden sm:block text-slate-500 z-10 shrink-0" size={20} />
-                            <Icon name="arrow-down" className="block sm:hidden text-slate-500 my-1 z-10 shrink-0" size={20} />
-
-                            {/* Passo 2: Faculdades SENAI */}
-                            <div className="bg-slate-800/80 border border-cyan-500/30 p-4 rounded-2xl w-full sm:w-1/3 relative z-10 backdrop-blur-md flex flex-col items-center text-center">
-                                <div className="bg-cyan-500 w-12 h-12 rounded-full flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(6,182,212,0.4)] text-slate-900">
-                                    <Icon name="graduation-cap" size={20}/>
+                            
+                            {/* Inner Scrollable Area para proteger o conteúdo */}
+                            <div className="relative z-10 fade-in flex flex-col h-full p-8 md:p-12 overflow-y-auto" key={activeSignal}>
+                                
+                                {/* Top Content (Flexível) */}
+                                <div className="flex-grow flex flex-col justify-start">
+                                    <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-6 text-sesi-blue shrink-0">
+                                        <Icon name={signals[activeSignal].icon} size={32} />
+                                    </div>
+                                    <h3 className="text-3xl font-black text-slate-800 mb-6 leading-tight shrink-0">{signals[activeSignal].title}</h3>
+                                    <p className="text-base md:text-lg text-slate-600 leading-relaxed font-medium">
+                                        {signals[activeSignal].desc}
+                                    </p>
                                 </div>
-                                <h5 className="font-black text-sm text-cyan-50 mb-1">Faculdades SENAI</h5>
-                                <p className="text-[10px] text-slate-400 font-medium">Graduação & Engenharias</p>
+
+                                {/* ODS Badges (Fixo no rodapé ou após o texto) */}
+                                <div className="mt-8 pt-6 border-t border-slate-200/80 shrink-0">
+                                    <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+                                        <Icon name="globe" size={14} /> Alinhamento Global (Agenda 2030)
+                                    </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {signals[activeSignal].ods.map((ods, i) => (
+                                            <div key={i} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg ${ods.color} text-white shadow-sm`}>
+                                                <span className="font-black text-[10px] bg-white/20 px-1.5 py-0.5 rounded text-white whitespace-nowrap">ODS {ods.num}</span>
+                                                <span className="text-xs font-bold leading-tight">{ods.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
-
-                            <Icon name="arrow-right" className="hidden sm:block text-slate-500 z-10 shrink-0" size={20} />
-                            <Icon name="arrow-down" className="block sm:hidden text-slate-500 my-1 z-10 shrink-0" size={20} />
-
-                            {/* Passo 3: ISI */}
-                            <div className="bg-slate-800/80 border border-emerald-500/40 p-4 rounded-2xl w-full sm:w-1/3 relative z-10 backdrop-blur-md flex flex-col items-center text-center">
-                                <div className="bg-emerald-500 w-12 h-12 rounded-full flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(16,185,129,0.4)] text-slate-900">
-                                    <Icon name="flask-conical" size={20}/>
-                                </div>
-                                <h5 className="font-black text-sm text-emerald-50 mb-1">Institutos (ISI)</h5>
-                                <p className="text-[10px] text-slate-400 font-medium">Inovação & Pesquisa Aplicada</p>
+                        </Card>
+                    </div>
+                    
+                    {/* Trilha de Inovação */}
+                    <div className="bg-sesi-dark p-6 rounded-[24px] shrink-0 flex flex-col lg:flex-row items-center justify-between text-white shadow-apple-floating border border-blue-400/20 gap-6">
+                        <div className="lg:w-1/3">
+                            <h4 className="text-xl font-black mb-2 flex items-center gap-2"><Icon name="milestone" size={24} className="text-emerald-400"/> Trilha de Inovação Contínua</h4>
+                            <p className="text-xs text-blue-100 font-medium leading-relaxed">
+                                O SESI Jardins atua como a porta de entrada para uma esteira de formação de excelência, conectando talentos precoces às <strong>Faculdades SENAI</strong> e aos centros de pesquisa dos <strong>Institutos SENAI de Tecnologia (IST) e Inovação (ISI)</strong>.
+                            </p>
+                        </div>
+                        
+                        <div className="lg:w-2/3 w-full flex flex-col sm:flex-row items-center justify-end gap-2 md:gap-4 relative">
+                            <div className="hidden sm:block absolute top-1/2 left-4 right-4 h-0.5 bg-white/10 -z-0 -translate-y-1/2"></div>
+                            
+                            <div className="bg-blue-900/80 backdrop-blur border border-blue-400/30 px-4 py-3 rounded-xl text-center shadow-lg z-10 w-full sm:w-auto shrink-0">
+                                <p className="text-[10px] text-blue-200 font-bold uppercase tracking-wider mb-1">Passo 1</p>
+                                <p className="text-xs font-black text-white">Educação Básica (SESI)</p>
+                            </div>
+                            
+                            <Icon name="arrow-right" size={20} className="hidden sm:block text-blue-300 z-10 shrink-0" />
+                            <Icon name="arrow-down" size={20} className="sm:hidden text-blue-300 shrink-0" />
+                            
+                            <div className="bg-blue-900/80 backdrop-blur border border-blue-400/30 px-4 py-3 rounded-xl text-center shadow-lg z-10 w-full sm:w-auto shrink-0">
+                                <p className="text-[10px] text-blue-200 font-bold uppercase tracking-wider mb-1">Passo 2</p>
+                                <p className="text-xs font-black text-white">Graduação (SENAI)</p>
+                            </div>
+                            
+                            <Icon name="arrow-right" size={20} className="hidden sm:block text-emerald-300 z-10 shrink-0" />
+                            <Icon name="arrow-down" size={20} className="sm:hidden text-emerald-300 shrink-0" />
+                            
+                            <div className="bg-emerald-900/80 backdrop-blur border border-emerald-400/40 px-4 py-3 rounded-xl text-center shadow-lg z-10 w-full sm:w-auto ring-2 ring-emerald-500/50 shrink-0">
+                                <p className="text-[10px] text-emerald-300 font-bold uppercase tracking-wider mb-1">Passo 3 (Pesquisa)</p>
+                                <p className="text-xs font-black text-white">Inovação Aplicada (IST / ISI)</p>
                             </div>
                         </div>
                     </div>
@@ -998,15 +874,70 @@
             );
         };
 
+        const CreditsSlide = () => {
+            const leftCol = [
+                { title: "Presidente FIEG", name: "André Luiz Baptista Lins Rocha" },
+                { title: "Diretor Regional SENAI / Superintendente SESI", name: "Claudemir Bonatto" },
+                { title: "Diretor de Educação e Tecnologia SESI SENAI", name: "Claudemir Bonatto" },
+                { title: "Superintendente da FIEG", name: "Lenner Rocha" },
+                { title: "Superintendente do IEL Goiás", name: "Humberto Rodrigues" },
+            ];
+            const rightCol = [
+                { title: "Gerente de Educação Profissional do SENAI", name: "Osvair Almeida Matos" },
+                { title: "Gerente de Educação Básica do SESI", name: "Diego Freire Vieira" },
+                { title: "Gerente de Tecnologia e Inovação do SENAI", name: "Rolando Vargas Vallejos" },
+                { title: "Gerente de Inovação e Soluções Digitais IEL", name: "Joel Matos" },
+            ];
+
+            return (
+                <div className="slide-content flex flex-col h-full fade-in overflow-y-auto w-full h-full relative">
+                    
+                    {/* Header Logos text base para replicar a imagem */}
+                    <div className="flex flex-wrap justify-center items-end gap-x-6 gap-y-4 mb-16 shrink-0 opacity-95">
+                        <span className="text-4xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-md">FIEG <span className="text-2xl md:text-3xl">75 <span className="text-xs md:text-sm font-bold tracking-normal not-italic">ANOS</span></span></span>
+                        <span className="text-4xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-md">SESI</span>
+                        <span className="text-4xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-md">SENAI</span>
+                        <span className="text-4xl md:text-5xl font-black italic tracking-tighter text-white drop-shadow-md">IEL</span>
+                    </div>
+
+                    <div className="flex flex-col md:flex-row gap-10 md:gap-20 w-full max-w-5xl mx-auto flex-grow items-start">
+                        {/* Coluna Esquerda */}
+                        <div className="flex-1 flex flex-col gap-6 md:gap-8">
+                            {leftCol.map((item, i) => (
+                                <div key={i} className="fade-in" style={{animationDelay: `${i*0.1}s`}}>
+                                    <h4 className="font-bold text-lg md:text-xl leading-tight mb-1 text-white">{item.title}</h4>
+                                    <p className="text-white/80 font-medium text-base md:text-lg">{item.name}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Linha Divisória */}
+                        <div className="hidden md:block w-px h-3/4 bg-white/20 self-center"></div>
+                        <div className="block md:hidden h-px w-full bg-white/20 my-4 shrink-0"></div>
+
+                        {/* Coluna Direita */}
+                        <div className="flex-1 flex flex-col gap-6 md:gap-8 md:pt-[10%]">
+                            {rightCol.map((item, i) => (
+                                <div key={i} className="fade-in" style={{animationDelay: `${(i+5)*0.1}s`}}>
+                                    <h4 className="font-bold text-lg md:text-xl leading-tight mb-1 text-white">{item.title}</h4>
+                                    <p className="text-white/80 font-medium text-base md:text-lg">{item.name}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
         const slides = [
-            { id: 'hero', title: "Início", component: <Hero /> },
-            { id: 'market', title: "Mercado & Lacuna", component: <MarketAnalysis /> },
-            { id: 'pricing', title: "Pricing", component: <PricingBenchmark /> },
-            { id: 'pedagogy', title: "Infra & Pedagógico", component: <PedagogyProducts /> },
-            { id: 'chart', title: "Matrículas", component: <EnrollmentChart /> },
-            { id: 'capex', title: "CAPEX", component: <ViabilityCapital /> },
-            { id: 'simulator', title: "Simulador DRE", component: <SimulatorDRE /> },
-            { id: 'future', title: "Sinais de Futuro", component: <FutureSignals /> },
+            { id: 'hero', title: "Início", component: <Hero />, bg: 'bg-white' },
+            { id: 'market', title: "Mercado & Lacuna", component: <MarketAnalysis />, bg: 'bg-white' },
+            { id: 'capex', title: "Investimento & CAPEX", component: <CapexStructure />, bg: 'bg-white' },
+            { id: 'infra', title: "Infraestrutura", component: <InfraArchitecture />, bg: 'bg-white' },
+            { id: 'ramp', title: "Matrículas & Formatos", component: <EnrollmentRamp />, bg: 'bg-white' },
+            { id: 'dre', title: "Análise Financeira", component: <FinancialDRE />, bg: 'bg-white' },
+            { id: 'future', title: "O Futuro & ODS", component: <FutureSignals />, bg: 'bg-white' },
+            { id: 'credits', title: "Expediente", component: <CreditsSlide />, bg: 'bg-[#153B82]' },
         ];
 
         const App = () => {
@@ -1025,62 +956,71 @@
             }, [currentSlide]);
 
             return (
-                <div className="relative w-full h-screen bg-slate-100 flex flex-col items-center justify-center font-sans overflow-hidden">
+                <div className="relative w-full h-screen bg-slate-50 flex flex-col items-center justify-center font-sans overflow-hidden">
                     
-                    {/* Header Menu */}
+                    {/* Header Global Fixo e Responsivo */}
                     <nav className="absolute top-0 w-full z-50 px-4 md:px-8 py-4 md:py-6 flex flex-col md:flex-row items-center justify-between pointer-events-none gap-4">
-                        <div className="flex items-center gap-3 font-black text-xl text-sesi-dark pointer-events-auto bg-white/90 backdrop-blur-lg px-5 py-2.5 rounded-2xl shadow-sm border border-white/50">
-                            <Icon name="graduation-cap" className="text-sesi-blue" size={24} />
-                            SESI Jardins
+                        
+                        <div className="flex w-full md:w-auto justify-between items-center">
+                            {/* Título */}
+                            <div className={`flex items-center gap-3 font-black text-lg md:text-xl pointer-events-auto backdrop-blur-lg px-4 md:px-5 py-2 md:py-2.5 rounded-[16px] shadow-sm border transition-colors duration-500 ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 text-white border-white/20' : 'bg-white/90 text-sesi-dark border-slate-200'}`}>
+                                <Icon name="graduation-cap" className={currentSlide === slides.length - 1 ? 'text-white' : 'text-sesi-blue'} size={24} />
+                                <span className="hidden sm:inline">SESI Jardins</span>
+                                <span className="sm:hidden">SESI</span>
+                            </div>
+
+                            {/* Logomarca - Visível no mobile à direita */}
+                            <div className={`md:hidden pointer-events-auto backdrop-blur-lg px-3 py-2 rounded-[16px] shadow-sm border flex items-center justify-center transition-colors duration-500 ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20' : 'bg-white/90 border-slate-200'}`}>
+                                <img src="https://i.postimg.cc/3Jy5sCYP/Fieg-SESI.png" alt="FIEG SESI" className={`h-6 object-contain ${currentSlide === slides.length - 1 ? 'brightness-0 invert' : ''}`} />
+                            </div>
                         </div>
-                        <div className="flex flex-wrap justify-center md:justify-end gap-1.5 pointer-events-auto bg-white/90 backdrop-blur-lg p-1.5 rounded-2xl shadow-sm border border-white/50 max-w-full">
+
+                        {/* Menu Central */}
+                        <div className={`flex-shrink-0 flex flex-wrap justify-center gap-1.5 pointer-events-auto backdrop-blur-lg p-1.5 rounded-[16px] shadow-sm border max-w-full transition-colors duration-500 ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20' : 'bg-white/90 border-slate-200'}`}>
                             {slides.map((slide, idx) => (
                                 <button 
                                     key={idx} onClick={() => setCurrentSlide(idx)}
-                                    className={`px-3 md:px-4 py-2 rounded-xl text-[10px] md:text-xs font-bold transition-all whitespace-nowrap ${currentSlide === idx ? 'bg-sesi-blue text-white shadow-md scale-105' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'}`}
+                                    className={`px-2 md:px-3 py-2 rounded-xl text-[10px] md:text-xs font-bold transition-all whitespace-nowrap ${currentSlide === idx ? (currentSlide === slides.length - 1 ? 'bg-white text-[#153B82] shadow-md' : 'bg-sesi-blue text-white shadow-md') : (currentSlide === slides.length - 1 ? 'text-white/70 hover:text-white hover:bg-white/10' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100')}`}
                                 >
                                     {slide.title}
                                 </button>
                             ))}
                         </div>
+
+                        {/* Logomarca - Visível no Desktop à direita */}
+                        <div className="flex-1 flex justify-end hidden md:flex">
+                            <div className={`pointer-events-auto backdrop-blur-lg px-4 py-2.5 rounded-[16px] shadow-sm border flex items-center justify-center transition-colors duration-500 ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20' : 'bg-white/90 border-slate-200'}`}>
+                                <img src="https://i.postimg.cc/3Jy5sCYP/Fieg-SESI.png" alt="FIEG SESI" className={`h-7 object-contain transition-all duration-500 ${currentSlide === slides.length - 1 ? 'brightness-0 invert' : ''}`} />
+                            </div>
+                        </div>
+
                     </nav>
 
-                    {/* Nav Buttons */}
-                    <div className="absolute left-4 md:left-8 z-40">
-                        <button onClick={prevSlide} disabled={currentSlide === 0} className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center bg-white/95 backdrop-blur-md shadow-apple-floating border border-slate-200 text-slate-800 transition-all ${currentSlide === 0 ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 hover:scale-110 hover:border-sesi-blue hover:text-sesi-blue'}`}>
-                            <Icon name="chevron-left" size={28} />
+                    {/* Nav Buttons (Setas laterais) */}
+                    <div className="absolute left-2 md:left-6 z-40">
+                        <button onClick={prevSlide} disabled={currentSlide === 0} className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center backdrop-blur-md shadow-apple-floating border transition-all ${currentSlide === 0 ? 'opacity-0 translate-x-4 pointer-events-none' : 'opacity-100 hover:scale-110'} ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20 text-white hover:border-white' : 'bg-white/95 border-slate-200 text-slate-800 hover:border-sesi-blue hover:text-sesi-blue'}`}>
+                            <Icon name="chevron-left" size={24} />
                         </button>
                     </div>
 
-                    <div className="absolute right-4 md:right-8 z-40">
-                        <button onClick={nextSlide} disabled={currentSlide === slides.length - 1} className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center bg-white/95 backdrop-blur-md shadow-apple-floating border border-slate-200 text-slate-800 transition-all ${currentSlide === slides.length - 1 ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-100 hover:scale-110 hover:border-sesi-blue hover:text-sesi-blue'}`}>
-                            <Icon name="chevron-right" size={28} />
+                    <div className="absolute right-2 md:right-6 z-40">
+                        <button onClick={nextSlide} disabled={currentSlide === slides.length - 1} className={`w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center backdrop-blur-md shadow-apple-floating border transition-all ${currentSlide === slides.length - 1 ? 'opacity-0 -translate-x-4 pointer-events-none' : 'opacity-100 hover:scale-110'} ${currentSlide === slides.length - 1 ? 'bg-[#0E285D]/80 border-white/20 text-white hover:border-white' : 'bg-white/95 border-slate-200 text-slate-800 hover:border-sesi-blue hover:text-sesi-blue'}`}>
+                            <Icon name="chevron-right" size={24} />
                         </button>
                     </div>
 
                     {/* Main Canvas Widescreen */}
-                    <div className="w-full max-w-[1600px] h-[90vh] max-h-[900px] px-2 md:px-16 pt-24 md:pt-28 pb-6 md:pb-12 z-30">
-                        <div className="w-full h-full bg-white rounded-[2.5rem] shadow-apple-floating overflow-hidden border border-slate-200/50 relative">
+                    <div className="w-full max-w-[1500px] h-[90vh] max-h-[850px] px-2 md:px-14 pt-32 md:pt-28 pb-6 md:pb-10 z-30">
+                        <div className="w-full h-full bg-white rounded-[32px] shadow-apple-floating overflow-hidden border border-slate-200/60 relative">
                             <div className="flex w-full h-full slide-transition" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                                 {slides.map((slide, idx) => (
-                                    <div key={idx} className="w-full h-full flex-shrink-0 p-6 md:p-10 lg:p-12 slide-content bg-white relative">
+                                    <div key={idx} className={`w-full h-full flex-shrink-0 p-6 md:p-10 lg:p-12 slide-content relative overflow-y-auto transition-colors duration-700 ${slide.bg}`}>
                                         {slide.component}
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </div>
-
-                    {/* Progress Dots */}
-                    <div className="absolute bottom-6 md:bottom-8 z-50 flex gap-2.5 pointer-events-auto bg-white/90 backdrop-blur-lg px-4 py-2.5 rounded-full shadow-sm border border-slate-200">
-                        {slides.map((_, idx) => (
-                            <button 
-                                key={idx} onClick={() => setCurrentSlide(idx)}
-                                className={`h-2.5 rounded-full transition-all duration-500 ${currentSlide === idx ? 'bg-sesi-blue w-8' : 'bg-slate-300 w-2.5 hover:bg-slate-400'}`}
-                            />
-                        ))}
-                    </div>
-
                 </div>
             );
         };
