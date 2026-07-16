@@ -135,10 +135,10 @@
             const [activeTab, setActiveTab] = useState('demography');
 
             const bubbleData = [
-                { id: 'bilingue', label: 'Bilíngues Puras', color: 'bg-slate-300', text: 'text-slate-800', x: 85, y: 85, size: 50, price: '> R$ 3.500', schools: 'Maple Bear (Escola Canadense)' },
-                { id: 'premium', label: 'Premium Sul / Tradicional', color: 'bg-sesi-dark', text: 'text-white', x: 80, y: 30, size: 60, price: 'R$ 2.800 a R$ 3.500+', schools: 'Colégio Marista, Colégio WR, Colégio Arena' },
-                { id: 'bairro', label: 'Tradicionais Locais / Bairro', color: 'bg-slate-400', text: 'text-white', x: 25, y: 25, size: 65, price: 'R$ 1.200 a R$ 1.900', schools: 'Colégio Expovest, Princípios, Fractal, Pequeno Príncipe' },
-                { id: 'sesi', label: 'Oceano Azul: SESI Jardins', color: 'bg-emerald-500', text: 'text-white', x: 35, y: 80, size: 80, price: 'EF1 e EF2: R$ 1.950 | EM: R$ 3.250', schools: 'Escola SESI Jardins (Alta Infraestrutura + Preço Acessível)' },
+                { id: 'bilingue', label: 'Bilíngues Puras', color: 'bg-slate-300', text: 'text-slate-800', x: 85, y: 85, size: 50, price: 'R$ 2.850 a R$ 3.284', schools: 'Maple Bear: R$ 3.284\nWinsford: R$ 3.125\nInterschool: R$ 2.850' },
+                { id: 'premium', label: 'Premium Sul / Tradicional', color: 'bg-sesi-dark', text: 'text-white', x: 80, y: 30, size: 60, price: 'R$ 2.205 a R$ 4.015', schools: 'Arena: R$ 3.032 a R$ 4.015\nWR: R$ 2.850\nPeq. Príncipe: R$ 2.571 a R$ 2.835\nEthos: R$ 2.630\nMarista: R$ 2.205 a R$ 2.810' },
+                { id: 'bairro', label: 'Tradicionais Locais / Bairro', color: 'bg-slate-400', text: 'text-white', x: 25, y: 25, size: 65, price: 'R$ 1.194 a R$ 2.237', schools: 'Princípios: R$ 1.973 a R$ 2.237\nFractal: R$ 1.458 a R$ 1.868\nExpovest: R$ 1.194' },
+                { id: 'sesi', label: 'Oceano Azul: SESI Jardins', color: 'bg-emerald-500', text: 'text-white', x: 35, y: 80, size: 80, price: 'EF1 e EF2: R$ 1.950 | EM: R$ 3.250', schools: 'Escola SESI Jardins\n(Alta Infraestrutura + Preço Acessível)' },
             ];
 
             return (
@@ -341,7 +341,7 @@
                                                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-48 md:w-64 bg-white border border-slate-200 p-3 rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
                                                     <p className={`text-[10px] font-black uppercase mb-1 ${bubble.color.replace('bg-', 'text-')}`}>{bubble.label}</p>
                                                     <p className="text-xs font-bold text-slate-800 mb-1">{bubble.price}</p>
-                                                    <p className="text-[10px] text-slate-500 leading-tight">{bubble.schools}</p>
+                                                    <p className="text-[10px] text-slate-500 leading-tight whitespace-pre-wrap">{bubble.schools}</p>
                                                 </div>
                                             </div>
                                         ))}
